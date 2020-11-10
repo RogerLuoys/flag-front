@@ -28,47 +28,46 @@
 </template>
 
 <script>
-  import axios from 'axios'
+import axios from 'axios'
 
-  export default {
-    data() {
-      return {
-        user: {
-          username: 'tester',
-          password: '123456'
-        },
-        pageControl: {
-          remember: true
-        }
-      }
-    },
-    methods: {
-      doLogin() {
-        const _username = this.user.username;
-        const _passwd = this.user.password;
-        const _this = this;
-        axios.get('api/login/login', {
-          params: {
-            accountId: _username,
-            passwd: _passwd
-          }
-        }).then(function (response) {
-          console.log(response.data);
-          // this.$router.push('/');
-          _this.$router.push('/');
-          // debugger;
-        })
-
+export default {
+  data () {
+    return {
+      user: {
+        username: 'tester',
+        password: '123456'
+      },
+      pageControl: {
+        remember: true
       }
     }
+  },
+  methods: {
+    doLogin () {
+      const _username = this.user.username
+      const _passwd = this.user.password
+      const _this = this
+      axios.get('api/login/login', {
+        params: {
+          accountId: _username,
+          passwd: _passwd
+        }
+      }).then(function (response) {
+        console.log(response.data)
+        // this.$router.push('/');
+        _this.$router.push('/')
+        // debugger;
+      })
+    }
   }
+}
 </script>
 
 <style scoped>
-  .el-row {
-    margin-bottom: 20px;
-  &:last-child {
-     margin-bottom: 0;
-   }
-  }
+  /*.el-row {*/
+    /*margin-bottom: 20px;*/
+  /*&:last-child {*/
+     /*margin-bottom: 0;*/
+   /*}*/
+  /*}*/
 </style>

@@ -56,143 +56,137 @@
     </el-pagination>
   </div>
 
-
-
-
-
 </template>
 
 <script>
-  import axios from 'axios'
+import axios from 'axios'
 
-  export default {
-    data() {
-      return {
-        pageData: [{
-          flagId: '2',
-          flagName: '--',
-          description: '--',
-          witnessID: '--',
-          witnessName: '--',
-          type: '--',
-          priority: '--',
-          endDate: '--',
-          status: '--'
-        }],
-        pageControl: {
-          visible: false,
-          name: '',
-          search: {
-            type: '',
-            name: ''
-          },
+export default {
+  data () {
+    return {
+      pageData: [{
+        flagId: '2',
+        flagName: '--',
+        description: '--',
+        witnessID: '--',
+        witnessName: '--',
+        type: '--',
+        priority: '--',
+        endDate: '--',
+        status: '--'
+      }],
+      pageControl: {
+        visible: false,
+        name: '',
+        search: {
+          type: '',
+          name: ''
         }
-      }
-
-    },
-    created: function() {
-      this.getFlags();
-    },
-    methods: {
-      handleClick(row) {
-        console.log(row);
-      },
-      queryDetail(row) {
-        const id = row.flagId;
-        const _this = this;
-        _this.$router.push({path: '/flagdetail/${id}',});
-        // console.log(row);
-      },
-      complete(row) {
-        console.log(row);
-        this.$confirm('确认已完成？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      },
-      newFlag() {
-        console.log(this.pageControl.name);
-        const _this = this;
-        axios.post('api/api/flag/addFlag',{
-          flagName: _this.pageControl.name
-        }).then(function (response) {
-          console.log(response.data);
-          if (response.data.success === true) {
-            _this.getFlags();
-            _this.pageControl.visible = false;
-            // console.log("成功");
-          } else {
-            // console.log("失败");
-          }
-        })
-        // this.pageControl.visible = false;
-      },
-      getFlags() {
-        let _userId = '1';
-        // const _passwd = this.user.password;
-        const _this = this;
-        axios.get('api/api/flag/queryFlags', {
-          params: {
-            userId: _userId,
-            // passwd: _passwd
-          }
-        }).then(function (response) {
-          // console.log(response.data);
-          // console.log(response.data.data);
-          _this.pageData = response.data.data;
-          // response.d
-          // debugger;
-        })
-
-      },
-      getType(row) {
-        let flagType='';
-        switch (row.type) {
-          case '1':
-            flagType = "FLAG";
-            break;
-          case '2':
-            flagType = "习惯";
-            break;
-        }
-        return flagType;
-      },
-      getPriority(row) {
-        let flagPriority='';
-        switch (row.priority) {
-          case '1':
-            flagPriority = "普通";
-            break;
-          case '2':
-            flagPriority = "重要";
-            break;
-          case '3':
-            flagPriority = "非常重要";
-            break;
-        }
-        return flagPriority;
-      },
-      getStatus(row) {
-        let flagStatus='';
-        switch (row.status) {
-          case '1':
-            flagStatus = "未开始";
-            break;
-          case '2':
-            flagStatus = "进行中";
-            break;
-          case '3':
-            flagStatus = "已完成";
-            break;
-          case '4':
-            flagStatus = "暂停";
-            break;
-        }
-        return flagStatus;
       }
     }
+  },
+  created: function () {
+    this.getFlags()
+  },
+  methods: {
+    handleClick (row) {
+      console.log(row)
+    },
+    queryDetail (row) {
+      const _id = row.flagId
+      const _this = this
+      _this.$router.push({path: `/flagdetail/${_id}` })
+      // console.log(row);
+    },
+    complete (row) {
+      console.log(row)
+      this.$confirm('确认已完成？')
+        .then(_ => {
+          this.done()
+        })
+        .catch(_ => {})
+    },
+    newFlag () {
+      console.log(this.pageControl.name)
+      const _this = this
+      axios.post('api/api/flag/addFlag', {
+        flagName: _this.pageControl.name
+      }).then(function (response) {
+        console.log(response.data)
+        if (response.data.success === true) {
+          _this.getFlags()
+          _this.pageControl.visible = false
+          // console.log("成功");
+        } else {
+          // console.log("失败");
+        }
+      })
+      // this.pageControl.visible = false;
+    },
+    getFlags () {
+      let _userId = '1'
+      // const _passwd = this.user.password;
+      const _this = this
+      axios.get('api/api/flag/queryFlags', {
+        params: {
+          userId: _userId
+          // passwd: _passwd
+        }
+      }).then(function (response) {
+        // console.log(response.data);
+        // console.log(response.data.data);
+        _this.pageData = response.data.data
+        // response.d
+        // debugger;
+      })
+    },
+    getType (row) {
+      let flagType = ''
+      switch (row.type) {
+        case '1':
+          flagType = 'FLAG'
+          break
+        case '2':
+          flagType = '习惯'
+          break
+      }
+      return flagType
+    },
+    getPriority (row) {
+      let flagPriority = ''
+      switch (row.priority) {
+        case '1':
+          flagPriority = '普通'
+          break
+        case '2':
+          flagPriority = '重要'
+          break
+        case '3':
+          flagPriority = '非常重要'
+          break
+      }
+      return flagPriority
+    },
+    getStatus (row) {
+      let flagStatus = ''
+      switch (row.status) {
+        case '1':
+          flagStatus = '未开始'
+          break
+        case '2':
+          flagStatus = '进行中'
+          break
+        case '3':
+          flagStatus = '已完成'
+          break
+        case '4':
+          flagStatus = '暂停'
+          break
+      }
+      return flagStatus
+    }
   }
+}
 </script>
 
 <style scoped>

@@ -73,59 +73,59 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        flagForm: {
-          flagID: "test",
-          flagName: "",
-          type: "",
-          startDate: "",
-          endDate: "",
-          priority: "",
-          description: "",
-          expected: "",
-          actual: "",
-          date: "2020-10-17",
-          table: [
-            {
-              taskID: "test2",
-              taskName: "",
-              description: "",
-              point: "",
-              cycle: "",
-            }
-          ]
-        },
-        pageControl: {
-          options: [
-            {
-              value: "1",
-              label: "一般"
-            },
-            {
-              value: "2",
-              label: "重要"
-            },
-            {
-              value: "3",
-              label: "非常重要"
-            },
-          ]
-        }
-      }
-    },
-    created:function () {
-      queryDetail(1);
-    },
-    methods: {
-      queryDetail(e) {
-        let _id = this.$route.params.id;
-        console.info("输出路由id"+_id);
-        console.info("输出行内容"+e.taskID);
+export default {
+  data () {
+    return {
+      flagForm: {
+        flagID: 'test',
+        flagName: '',
+        type: '',
+        startDate: '',
+        endDate: '',
+        priority: '',
+        description: '',
+        expected: '',
+        actual: '',
+        date: '2020-10-17',
+        table: [
+          {
+            taskID: 'test2',
+            taskName: '',
+            description: '',
+            point: '',
+            cycle: ''
+          }
+        ]
+      },
+      pageControl: {
+        options: [
+          {
+            value: '1',
+            label: '一般'
+          },
+          {
+            value: '2',
+            label: '重要'
+          },
+          {
+            value: '3',
+            label: '非常重要'
+          }
+        ]
       }
     }
+  },
+  created: function () {
+    this.queryDetail(1)
+  },
+  methods: {
+    queryDetail (e) {
+      let _id = this.$route.params.id
+      console.info('输出路由id' + _id)
+      console.info('输出行内容' + e.taskID)
+    }
   }
+}
 </script>
 
 <style scoped>
