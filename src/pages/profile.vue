@@ -28,7 +28,7 @@
       <div>积分</div>
       <div>可用积分：99999</div>
       <div>使用、去商城</div>
-      <div v-for="item in 20">使用记录{{item}}：<br/>某时购买某某使用XX积分</div>
+      <div v-for="item in 20" :key="item">使用记录{{item}}：<br/>某时购买某某使用XX积分</div>
     </el-main>
   </el-container>
 </template>

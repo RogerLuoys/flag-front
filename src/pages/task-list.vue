@@ -7,7 +7,7 @@
           <el-tooltip  placement="left-start" effect="light">
 
             <template #content>
-              <div v-for="item in tasks">
+              <div v-for="item in tasks" :key="item">
                 <div v-if="item.date === data.day">
                   {{item.taskTopic}}
                 </div>
@@ -33,7 +33,7 @@
     </el-calendar>
     <el-dialog title="今日任务" :visible.sync="pageControl.dialogVisible">
       <el-collapse accordion>
-        <div v-for="(item) in tasks">
+        <div v-for="item in tasks" :key="item">
           <div v-if="item.date === pageControl.selectDay">
             <el-collapse-item>
               <template #title>

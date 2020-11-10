@@ -70,10 +70,10 @@ export default {
         description: '--',
         witnessID: '--',
         witnessName: '--',
-        type: '--',
+        type: '1',
         priority: '--',
         endDate: '--',
-        status: '--'
+        status: '2'
       }],
       pageControl: {
         visible: false,
@@ -95,7 +95,7 @@ export default {
     queryDetail (row) {
       const _id = row.flagId
       const _this = this
-      _this.$router.push({path: `/flagdetail/${_id}` })
+      _this.$router.push({path: `/flagdetail/${_id}`})
       // console.log(row);
     },
     complete (row) {
