@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-container>
-      <el-header height="60px" style="background-color: lightsteelblue">
+      <el-header height="60px" style="background-color: lightsteelblu;">
         <el-col :span="20">
           <el-menu class="el-menu-vertical-demo" mode="horizontal" default-active="1" @open="handleOpen" @close="handleClose" style="background-color: lightsteelblue">
 
@@ -68,7 +68,7 @@
         </el-col>
 
       </el-header>
-      <el-main style="height: 500px; background-color: whitesmoke">
+      <el-main style="min-height: 500px; background-color: whitesmoke">
         <el-card style="min-height: 99%">
           <router-view></router-view>
         </el-card>
@@ -109,4 +109,21 @@ export default {
     /*text-align: center;*/
     color: #2c3e50;
   }
+  .el-header {
+    /*position: relative;*/
+    /*width: 100%;*/
+    /*height: 60px;*/
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 999999;
+    background-color: #FFFFFF;
+  }
+  /*.el-main {*/
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*top: 60px;*/
+    /*bottom: 0;*/
+    /*overflow-y: scroll;*/
+  /*}*/
 </style>
