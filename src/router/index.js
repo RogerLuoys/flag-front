@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import flaglist from '@/pages/flag-list'
-import flagdetail from '@/pages/flag-detail'
-import tasklist from '@/pages/task-list'
-import templatelist from '@/pages/template-list'
-import messagelist from '@/pages/message-list'
-import profile from '@/pages/profile'
-import login from '@/pages/login'
+import flag from '@/pages/flag/index'
+import flagDetail from '@/pages/flag/flag-detail'
+import task from '@/pages/task/index'
+import report from '@/pages/report/index'
+import message from '@/pages/message/index'
+import profile from '@/pages/profile/index'
+import login from '@/pages/login/index'
 
 Vue.use(Router)
 
@@ -23,39 +23,34 @@ export default new Router({
       component: login
     },
     {
-      path: '/flaglist',
-      name: 'flaglist',
-      component: flaglist
+      path: '/flag',
+      name: 'flag',
+      component: flag
     },
     {
-      path: '/flagdetail/:id',
-      name: 'flagdetail',
-      component: flagdetail
+      path: '/flagDetail/:id',
+      name: 'flagDetail',
+      component: flagDetail
     },
     {
-      path: '/tasklist',
-      name: 'tasklist',
-      component: tasklist
+      path: '/task',
+      name: 'task',
+      component: task
     },
     {
-      path: '/templatelist',
-      name: 'templatelist',
-      component: templatelist
+      path: '/report',
+      name: 'report',
+      component: report
     },
     {
-      path: '/messagelist',
-      name: 'messagelist',
-      component: messagelist
+      path: '/message',
+      name: 'message',
+      component: message
     },
     {
       path: '/profile',
       name: 'profile',
       component: profile
     }
-    // {
-    //   path: '/calendar',
-    //   name: 'calendar',
-    //   component: calendar
-    // }
   ]
 })

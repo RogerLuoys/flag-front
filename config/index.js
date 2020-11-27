@@ -19,7 +19,8 @@ module.exports = {
         changeOrigin: true,//是否允许跨越
         pathRewrite: {
           // '^/api': 'http://118.24.117.181:9000',//重写,
-          '^/api': 'http://10.200.7.96:9001',//本地
+          // '^/api': 'http://10.200.7.96:9001',//本地
+          '^/api': 'http://www.myflag.com',//本地
         }
       }
     },

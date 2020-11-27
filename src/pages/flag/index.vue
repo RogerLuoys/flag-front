@@ -1,10 +1,16 @@
 <template>
-
+  <div>
+    <flag-list></flag-list>
+  </div>
 </template>
 
 <script>
+import flagList from './flag-list'
+
 export default {
-    name: "index"
+  name: 'index',
+  components: {flagList}
+
 }
 </script>
 

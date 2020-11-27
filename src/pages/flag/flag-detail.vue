@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="$router.push('/flaglist')" content="FLAG详情" title="返回列表">
+    <el-page-header @back="$router.push('/flag')" content="FLAG详情" title="返回列表">
     </el-page-header>
 
     <el-divider>任务A</el-divider>

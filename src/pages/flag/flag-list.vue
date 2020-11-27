@@ -41,7 +41,7 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="90">
           <template #default="scope">
-            <el-button @click="$router.push(`flagdetail/${scope.row.flagId}`)" type="text" size="small">查看</el-button>
+            <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">查看</el-button>
             <el-button @click="complete(scope.row)" type="text" size="small">完成</el-button>
           </template>
         </el-table-column>
@@ -95,7 +95,7 @@ export default {
     queryDetail (row) {
       const _id = row.flagId
       const _this = this
-      _this.$router.push({path: `/flagdetail/${_id}`})
+      _this.$router.push({path: `/flagDetail/${_id}`})
       // console.log(row);
     },
     complete (row) {

@@ -5,19 +5,19 @@
         <el-col :span="20">
           <el-menu class="el-menu-vertical-demo" mode="horizontal" default-active="1" @open="handleOpen" @close="handleClose" style="background-color: lightsteelblue">
 
-            <el-menu-item index="1" @click="$router.push('/flaglist')">
+            <el-menu-item index="1" @click="$router.push('/flag')">
               <i class="el-icon-s-flag"></i>
               <span slot="title">Flag</span>
             </el-menu-item>
-            <el-menu-item index="2" @click="$router.push('/tasklist')">
+            <el-menu-item index="2" @click="$router.push('/task')">
               <i class="el-icon-date"></i>
               <span slot="title">任务</span>
             </el-menu-item>
-            <el-menu-item index="3" @click="$router.push('/templatelist')">
+            <el-menu-item index="3" @click="$router.push('/report')">
               <i class="el-icon-document-copy"></i>
-              <span slot="title">模板</span>
+              <span slot="title">报表</span>
             </el-menu-item>
-            <el-menu-item index="4" @click="$router.push('/messagelist')">
+            <el-menu-item index="4" @click="$router.push('/message')">
               <i class="el-icon-message"></i>
               <span slot="title">消息</span>
             </el-menu-item>
