@@ -60,6 +60,7 @@
 
 <script>
 import axios from 'axios'
+import {queryFlagList} from '@/api/flag'
 
 export default {
   data () {
@@ -127,18 +128,23 @@ export default {
       let _userId = '1'
       // const _passwd = this.user.password;
       const _this = this
-      axios.get('api/api/flag/queryFlags', {
-        params: {
-          userId: _userId
-          // passwd: _passwd
-        }
+      queryFlagList({
+        userId: '1'
       }).then(function (response) {
-        // console.log(response.data);
-        // console.log(response.data.data);
         _this.pageData = response.data.data
-        // response.d
-        // debugger;
       })
+      // axios.get('api/api/flag/queryFlags', {
+      //   params: {
+      //     userId: _userId
+      //     // passwd: _passwd
+      //   }
+      // }).then(function (response) {
+      //   // console.log(response.data);
+      //   // console.log(response.data.data);
+      //   _this.pageData = response.data.data
+      //   // response.d
+      //   // debugger;
+      // })
     },
     getType (row) {
       let flagType = ''
