@@ -8,13 +8,13 @@ import api from './axios'
 
 export function queryFlagList(data) {
   return api({
-    url: 'api/api/flag/queryFlagList',
+    url: 'api/flag/queryFlagList',
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
     },
     data: {
-      userId: '1',
+      ownerId: '1',
       pageIndex: 1
     }
   })
