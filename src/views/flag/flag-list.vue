@@ -6,6 +6,8 @@
         <el-option key="2" label="习惯" value="2"></el-option>
       </el-select>
       <el-input placeholder="请输入内容" suffix-icon="el-icon-search" size="mini" v-model="pageControl.search.name" style="width:200px; float:left"></el-input>
+      <el-button type="primary" @click="getFlags" size="mini">查询Flag</el-button>
+
       <el-button type="primary" @click="pageControl.visible = true" size="mini" style="float:right">新增Flag</el-button>
       <el-dialog title="新增Flag" :visible.sync="pageControl.visible">
         <div>
@@ -60,7 +62,7 @@
 
 <script>
 import axios from 'axios'
-import {queryFlagList} from '@/api/flag'
+import {queryFlagList, queryFlagList2} from '@/api/flag'
 
 export default {
   data () {
@@ -110,7 +112,7 @@ export default {
     newFlag () {
       console.log(this.pageControl.name)
       const _this = this
-      axios.post('api/api/flag/addFlag', {
+      axios.post('api/api/flag/new', {
         flagName: _this.pageControl.name
       }).then(function (response) {
         console.log(response.data)
@@ -128,9 +130,7 @@ export default {
       let _userId = '1'
       // const _passwd = this.user.password;
       const _this = this
-      queryFlagList({
-        userId: '1'
-      }).then(function (response) {
+      queryFlagList().then(function (response) {
         _this.pageData = response.data.data
       })
       // axios.get('api/api/flag/queryFlags', {

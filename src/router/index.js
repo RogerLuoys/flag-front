@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import flag from '@/pages/flag/index'
-import flagDetail from '@/pages/flag/flag-detail'
-import task from '@/pages/task/index'
-import report from '@/pages/report/index'
-import message from '@/pages/message/index'
-import profile from '@/pages/profile/index'
-import login from '@/pages/login/index'
+import flag from '@/views/flag/index'
+import flagDetail from '@/views/flag/flag-detail'
+import task from '@/views/task/index'
+import report from '@/views/report/index'
+import message from '@/views/message/index'
+import profile from '@/views/profile/index'
+import login from '@/views/login/index'
 
 Vue.use(Router)
 

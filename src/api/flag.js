@@ -1,15 +1,25 @@
 import api from './axios'
 
-export default {
-  // 查看flag列表
-  apiGetFlagList: params => api.get('/flag/list', { params }),
-  apiNewFlag: data => api.post('', {data})
-}
+// export default {
+//   // 查看flag列表
+//   apiGetFlagList: params => api.get('/flag/list', { params }),
+//   apiNewFlag: data => api.post('', {data})
+// }
 
 export function queryFlagList(data) {
   return api({
-    url: 'api/api/flag/addFlag',
+    url: 'api/api/flag/queryFlagList',
     method: 'post',
-    data: data
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: {
+      userId: '1',
+      pageIndex: 1
+    }
   })
 }
+
+// export function queryFlagList2() {
+//   return api.get('api/api/flag/queryFlagList', {userId: '1', pageIndex: 1})
+// }

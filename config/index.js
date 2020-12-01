@@ -15,12 +15,12 @@ module.exports = {
       '/api': {
         // target: 'http://118.24.117.181:9000',//后端接口地址
         // target: 'http://10.200.7.96:9001', //本地
-        target: 'http://192.200.217.246:9001', //本地
+        target: 'http://10.200.78.104:9001', //公司本地
         changeOrigin: true,//是否允许跨越
         pathRewrite: {
           // '^/api': 'http://118.24.117.181:9000',//重写,
-          // '^/api': 'http://10.200.7.96:9001',//本地
-          '^/api': 'http://www.myflag.com',//本地
+          '^/api': 'http://10.200.78.104:9001',//公司本地
+          // '^/api': 'http://www.myflag.com',//本地
         }
       }
     },
