@@ -79,6 +79,7 @@ export default {
         status: '2'
       }],
       pageControl: {
+        pageIndex: 1,
         visible: false,
         name: '',
         search: {
@@ -95,12 +96,12 @@ export default {
     handleClick (row) {
       console.log(row)
     },
-    queryDetail (row) {
-      const _id = row.flagId
-      const _this = this
-      _this.$router.push({path: `/flagDetail/${_id}`})
-      // console.log(row);
-    },
+    // queryDetail (row) {
+    //   const _id = row.flagId
+    //   const _this = this
+    //   _this.$router.push({path: `/flagDetail/${_id}`})
+    //   // console.log(row);
+    // },
     complete (row) {
       console.log(row)
       this.$confirm('确认已完成？')
@@ -127,24 +128,12 @@ export default {
       // this.pageControl.visible = false;
     },
     getFlags () {
-      let _userId = '1'
-      // const _passwd = this.user.password;
-      const _this = this
-      queryFlagList().then(function (response) {
-        _this.pageData = response.data.data
-      })
-      // axios.get('api/api/flag/queryFlags', {
-      //   params: {
-      //     userId: _userId
-      //     // passwd: _passwd
-      //   }
-      // }).then(function (response) {
-      //   // console.log(response.data);
-      //   // console.log(response.data.data);
-      //   _this.pageData = response.data.data
-      //   // response.d
-      //   // debugger;
-      // })
+      queryFlagList({
+        ownerId: '1',
+        pageIndex: this.pageControl.pageIndex
+      }).then(
+        response => (this.pageData = response.data.data)
+      )
     },
     getType (row) {
       let flagType = ''

@@ -13,10 +13,7 @@ export function queryFlagList(data) {
     headers: {
       'Content-Type': 'application/json'
     },
-    data: {
-      ownerId: '1',
-      pageIndex: 1
-    }
+    data: data
   })
 }
 
