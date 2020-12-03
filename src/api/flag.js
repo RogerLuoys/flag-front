@@ -6,7 +6,7 @@ import api from './axios'
 //   apiNewFlag: data => api.post('', {data})
 // }
 
-export function queryFlagList(data) {
+export function queryFlagListAPI(data) {
   return api({
     url: 'api/flag/queryFlagList',
     method: 'post',

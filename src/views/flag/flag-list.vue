@@ -62,7 +62,7 @@
 
 <script>
 import axios from 'axios'
-import {queryFlagList, queryFlagList2} from '@/api/flag'
+import {queryFlagListAPI} from '@/api/flag'
 
 export default {
   data () {
@@ -128,7 +128,7 @@ export default {
       // this.pageControl.visible = false;
     },
     getFlags () {
-      queryFlagList({
+      queryFlagListAPI({
         ownerId: '1',
         pageIndex: this.pageControl.pageIndex
       }).then(
