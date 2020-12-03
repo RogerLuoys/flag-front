@@ -1,11 +1,13 @@
 import axios from 'axios'
 import cookie from 'js-cookie'
 
+axios.defaults.withCredentials = true
+
 const api = axios.create({
   baseURL: 'http://192.168.10.106:9001/',
   // baseURL: 'api/',
   timeout: 10000,
-  withCredentials: true
+  // withCredentials: true
   // headers: {'X-Custom-Header': 'foobar'}
 })
 

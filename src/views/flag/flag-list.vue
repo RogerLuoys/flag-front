@@ -5,8 +5,8 @@
         <el-option key="1" label="Flag" value="1"></el-option>
         <el-option key="2" label="习惯" value="2"></el-option>
       </el-select>
-      <el-input placeholder="请输入内容" suffix-icon="el-icon-search" size="mini" v-model="pageControl.search.name" style="width:200px; float:left"></el-input>
-      <el-button type="primary" @click="getFlags" size="mini">查询Flag</el-button>
+      <el-input placeholder="请输入Flag名称" size="mini" v-model="pageControl.search.name" style="width:200px; float:left"></el-input>
+      <el-button icon="el-icon-search" type="primary" @click="queryFlagList" size="mini"></el-button>
 
       <el-button type="primary" @click="pageControl.visible = true" size="mini" style="float:right">新增Flag</el-button>
       <el-dialog title="新增Flag" :visible.sync="pageControl.visible">
@@ -62,7 +62,7 @@
 
 <script>
 import axios from 'axios'
-import {queryFlagListAPI} from '@/api/flag'
+import {queryFlagListAPI, newFlagAPI} from '@/api/flag'
 
 export default {
   data () {
@@ -90,7 +90,7 @@ export default {
     }
   },
   created: function () {
-    this.getFlags()
+    this.queryFlagList()
   },
   methods: {
     handleClick (row) {
@@ -111,29 +111,36 @@ export default {
         .catch(_ => {})
     },
     newFlag () {
-      console.log(this.pageControl.name)
-      const _this = this
-      axios.post('api/api/flag/new', {
-        flagName: _this.pageControl.name
-      }).then(function (response) {
-        console.log(response.data)
+      newFlagAPI({
+        flagName: this.pageControl.name
+      }).then(response => {
         if (response.data.success === true) {
-          _this.getFlags()
-          _this.pageControl.visible = false
-          // console.log("成功");
+          this.getFlags()
+          this.pageControl.visible = false
         } else {
-          // console.log("失败");
+          console.info('添加失败')
         }
       })
-      // this.pageControl.visible = false;
+      // axios.post('api/api/flag/new', {
+      //   flagName: _this.pageControl.name
+      // }).then(function (response) {
+      //   console.log(response.data)
+      //   if (response.data.success === true) {
+      //     _this.getFlags()
+      //     _this.pageControl.visible = false
+      //     // console.log("成功");
+      //   } else {
+      //     // console.log("失败");
+      //   }
+      // })
     },
-    getFlags () {
+    queryFlagList () {
       queryFlagListAPI({
         ownerId: '1',
         pageIndex: this.pageControl.pageIndex
-      }).then(
-        response => (this.pageData = response.data.data)
-      )
+      }).then(response => {
+        this.pageData = response.data.data
+      })
     },
     getType (row) {
       let flagType = ''

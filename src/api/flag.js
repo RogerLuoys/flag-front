@@ -17,6 +17,16 @@ export function queryFlagListAPI(data) {
   })
 }
 
+export function newFlagAPI(data) {
+  return api({
+    url: 'api/flag/new',
+    method: 'post',
+    // headers: {
+    //   'Content-Type': 'application/json'
+    // },
+    data: data
+  })
+}
 // export function queryFlagList2() {
 //   return api.get('api/api/flag/queryFlagList', {userId: '1', pageIndex: 1})
 // }
