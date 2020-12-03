@@ -136,7 +136,6 @@ export default {
     },
     queryFlagList () {
       queryFlagListAPI({
-        ownerId: '1',
         pageIndex: this.pageControl.pageIndex
       }).then(response => {
         this.pageData = response.data.data

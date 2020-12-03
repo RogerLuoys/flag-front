@@ -11,7 +11,8 @@ export function queryFlagListAPI(data) {
     url: 'api/flag/queryFlagList',
     method: 'post',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      // 'Cookie': 'userId=101'
     },
     data: data
   })

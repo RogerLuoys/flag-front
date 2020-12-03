@@ -1,13 +1,13 @@
 import axios from 'axios'
 import cookie from 'js-cookie'
 
-axios.defaults.withCredentials = true
+// axios.defaults.withCredentials = true
 
 const api = axios.create({
   baseURL: 'http://192.168.10.106:9001/',
   // baseURL: 'api/',
   timeout: 10000,
-  // withCredentials: true
+  withCredentials: false
   // headers: {'X-Custom-Header': 'foobar'}
 })
 
@@ -17,10 +17,10 @@ api.interceptors.request.use(function (config) {
   let userId = cookie.get('userId')
   if (userId) {
     console.info('有cookie' + userId)
-    config.headers['Cookie'] = 'userId=' + userId
+    config.headers.UserId = userId
   } else {
     console.info('无cookie' + userId)
-    config.headers['Cookie'] = 'userId=101'
+    config.headers.UserId = '101'
   }
   return config
 }, function (error) {
