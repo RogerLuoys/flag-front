@@ -44,7 +44,11 @@
         <el-table-column fixed="right" label="操作" width="90">
           <template #default="scope">
             <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">查看</el-button>
-            <el-button @click="complete(scope.row)" type="text" size="small">完成</el-button>
+            <el-popconfirm title="确定Flag已完成吗？" @confirm="completeFlag(scope.row)">
+              <template #reference>
+                <el-button type="text" size="small">完成</el-button>
+              </template>
+            </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>
@@ -62,7 +66,7 @@
 
 <script>
 import axios from 'axios'
-import {queryFlagListAPI, newFlagAPI} from '@/api/flag'
+import {queryFlagListAPI, newFlagAPI, modifyFlagStatusAPI} from '@/api/flag'
 
 export default {
   data () {
@@ -94,7 +98,8 @@ export default {
   },
   methods: {
     handleClick (row) {
-      console.log(row)
+      console.info(row)
+      console.info('test')
     },
     // queryDetail (row) {
     //   const _id = row.flagId
@@ -102,20 +107,22 @@ export default {
     //   _this.$router.push({path: `/flagDetail/${_id}`})
     //   // console.log(row);
     // },
-    complete (row) {
-      console.log(row)
-      this.$confirm('确认已完成？')
-        .then(_ => {
-          this.done()
-        })
-        .catch(_ => {})
+    completeFlag (row) {
+      modifyFlagStatusAPI({
+        flagId: row.flagId,
+        status: '2'
+      }).then(response => {
+        if (response.data.success === true) {
+          this.pageData[1].status = '2'
+        }
+      })
     },
     newFlag () {
       newFlagAPI({
         flagName: this.pageControl.name
       }).then(response => {
         if (response.data.success === true) {
-          this.getFlags()
+          this.queryFlagList()
           this.pageControl.visible = false
         } else {
           console.info('添加失败')

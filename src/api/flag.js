@@ -20,12 +20,17 @@ export function queryFlagListAPI(data) {
 
 export function newFlagAPI(data) {
   return api({
-    url: 'api/flag/new',
+    url: 'api/flag/newFlag',
     method: 'post',
-    // headers: {
-    //   'Content-Type': 'application/json'
-    // },
     data: data
+  })
+}
+
+export function modifyFlagStatusAPI(params) {
+  return api({
+    url: 'api/flag/modifyFlagStatus',
+    method: 'put',
+    params: params
   })
 }
 // export function queryFlagList2() {
