@@ -62,7 +62,7 @@
         <el-table-column prop="cycle" label="周期" width="150"></el-table-column>
         <el-table-column label="操作" width="150">
           <template v-slot="scope">
-            <el-button @click="queryDetail(scope.row)" type="text" size="small">查看</el-button>
+            <el-button @click="queryFlagDetail(scope.row)" type="text" size="small">查看</el-button>
             <el-button @click="complete(scope.row)" type="text" size="small">完成</el-button>
           </template>
         </el-table-column>
@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import {queryFlagDetailAPI} from '@/api/flag'
+
 export default {
   data () {
     return {
@@ -116,13 +118,15 @@ export default {
     }
   },
   created: function () {
-    this.queryDetail(1)
+    this.queryFlagDetail()
   },
   methods: {
-    queryDetail (e) {
-      let _id = this.$route.params.id
-      console.info('输出路由id' + _id)
-      console.info('输出行内容' + e.taskID)
+    queryFlagDetail () {
+      queryFlagDetailAPI(
+        this.$route.params.id
+      ).then(response => {
+        this.pageData = response.data.data
+      })
     }
   }
 }

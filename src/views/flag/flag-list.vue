@@ -13,10 +13,12 @@
         <div>
           <el-input placeholder="请输入Flag名称" suffix-icon="el-icon-s-flag" v-model="pageControl.name"></el-input>
         </div>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="pageControl.visible = false">取 消</el-button>
-          <el-button type="primary" @click="newFlag()">确 定</el-button>
-        </div>
+        <template #footer class="dialog-footer">
+          <div>
+            <el-button @click="pageControl.visible = false">取 消</el-button>
+            <el-button type="primary" @click="newFlag">确 定</el-button>
+          </div>
+        </template>
       </el-dialog>
     </el-row>
     <el-row>
@@ -101,16 +103,10 @@ export default {
       console.info(row)
       console.info('test')
     },
-    // queryDetail (row) {
-    //   const _id = row.flagId
-    //   const _this = this
-    //   _this.$router.push({path: `/flagDetail/${_id}`})
-    //   // console.log(row);
-    // },
     completeFlag (row) {
       modifyFlagStatusAPI({
         flagId: row.flagId,
-        status: '2'
+        status: '3'
       }).then(response => {
         if (response.data.success === true) {
           this.pageData[1].status = '2'
@@ -128,18 +124,6 @@ export default {
           console.info('添加失败')
         }
       })
-      // axios.post('api/api/flag/new', {
-      //   flagName: _this.pageControl.name
-      // }).then(function (response) {
-      //   console.log(response.data)
-      //   if (response.data.success === true) {
-      //     _this.getFlags()
-      //     _this.pageControl.visible = false
-      //     // console.log("成功");
-      //   } else {
-      //     // console.log("失败");
-      //   }
-      // })
     },
     queryFlagList () {
       queryFlagListAPI({

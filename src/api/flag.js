@@ -33,6 +33,11 @@ export function modifyFlagStatusAPI(params) {
     params: params
   })
 }
-// export function queryFlagList2() {
-//   return api.get('api/api/flag/queryFlagList', {userId: '1', pageIndex: 1})
-// }
+
+
+export function queryFlagDetailAPI(params) {
+  return api({
+    url: `api/flag/queryFlagDetail/${params}`,
+    method: 'get',
+  })
+}
