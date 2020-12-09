@@ -4,8 +4,10 @@ import cookie from 'js-cookie'
 // axios.defaults.withCredentials = true
 
 const api = axios.create({
-  baseURL: 'http://192.168.10.106:9001/',
-  // baseURL: 'api/',
+  // 我的电脑
+  // baseURL: 'http://192.168.10.106:9001/',
+  // 办公电脑
+  baseURL: 'http://10.200.78.104:9001/',
   timeout: 10000,
   withCredentials: false
   // headers: {'X-Custom-Header': 'foobar'}

@@ -1,13 +1,14 @@
 <template>
   <div>
     <el-row>
+      <!--搜索-->
       <el-select v-model="pageControl.search.type" size="mini" placeholder="请选择" style="width:100px; float:left">
         <el-option key="1" label="Flag" value="1"></el-option>
         <el-option key="2" label="习惯" value="2"></el-option>
       </el-select>
       <el-input placeholder="请输入Flag名称" size="mini" v-model="pageControl.search.name" style="width:200px; float:left"></el-input>
       <el-button icon="el-icon-search" type="primary" @click="queryFlagList" size="mini"></el-button>
-
+      <!--新增-->
       <el-button type="primary" @click="pageControl.visible = true" size="mini" style="float:right">新增Flag</el-button>
       <el-dialog title="新增Flag" :visible.sync="pageControl.visible">
         <div>
@@ -22,6 +23,7 @@
       </el-dialog>
     </el-row>
     <el-row>
+      <!--列表-->
       <el-table :data="pageData" border size="mini" style="width: 100%">
         <el-table-column prop="flagId" label="业务ID" width="150"></el-table-column>
         <el-table-column prop="flagName" label="名称" width="150"></el-table-column>
@@ -46,15 +48,33 @@
         <el-table-column fixed="right" label="操作" width="90">
           <template #default="scope">
             <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">查看</el-button>
-            <el-popconfirm title="确定Flag已完成吗？" @confirm="completeFlag(scope.row)">
+            <span v-if="scope.row.type === '1'">
+              <el-popconfirm title="确定删除Flag吗？" @confirm="removeFlag(scope.row)">
+              <template #reference>
+                <el-button type="text" size="small">删除</el-button>
+              </template>
+            </el-popconfirm>
+            </span>
+            <span v-else-if="scope.row.type === '2'">
+              <el-popconfirm title="确定Flag已完成吗？" @confirm="completeFlag(scope.row)">
               <template #reference>
                 <el-button type="text" size="small">完成</el-button>
               </template>
             </el-popconfirm>
+            </span>
+            <span v-else-if="scope.row.type === '3'"></span>
+            <span v-else-if="scope.row.type === '4'">
+              <el-popconfirm title="确定恢复Flag吗？" @confirm="restoreFlag(scope.row)">
+              <template #reference>
+                <el-button type="text" size="small">恢复</el-button>
+              </template>
+            </el-popconfirm>
+            </span>
           </template>
         </el-table-column>
       </el-table>
     </el-row>
+    <!--分页-->
     <el-pagination
       background
       layout="prev, pager, next"
@@ -67,7 +87,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import {queryFlagListAPI, newFlagAPI, modifyFlagStatusAPI} from '@/api/flag'
 
 export default {
@@ -99,7 +118,11 @@ export default {
     this.queryFlagList()
   },
   methods: {
-    handleClick (row) {
+    removeFlag (row) {
+      console.info(row)
+      console.info('test')
+    },
+    restoreFlag (row) {
       console.info(row)
       console.info('test')
     },
@@ -109,7 +132,7 @@ export default {
         status: '3'
       }).then(response => {
         if (response.data.success === true) {
-          this.pageData[1].status = '2'
+          this.queryFlagList()
         }
       })
     },

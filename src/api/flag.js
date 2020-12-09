@@ -34,10 +34,17 @@ export function modifyFlagStatusAPI(params) {
   })
 }
 
-
 export function queryFlagDetailAPI(params) {
   return api({
     url: `api/flag/queryFlagDetail/${params}`,
-    method: 'get',
+    method: 'get'
+  })
+}
+
+export function modifyFlagBasicAPI(data) {
+  return api({
+    url: `api/flag/modifyFlagBasic`,
+    method: 'post',
+    data: data
   })
 }
