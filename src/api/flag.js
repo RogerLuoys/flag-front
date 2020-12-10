@@ -44,7 +44,7 @@ export function queryFlagDetailAPI(params) {
 export function modifyFlagBasicAPI(data) {
   return api({
     url: `api/flag/modifyFlagBasic`,
-    method: 'post',
+    method: 'put',
     data: data
   })
 }

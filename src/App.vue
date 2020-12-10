@@ -14,12 +14,12 @@
               <span slot="title">任务</span>
             </el-menu-item>
             <el-menu-item index="3" @click="$router.push('/report')">
-              <i class="el-icon-document-copy"></i>
-              <span slot="title">报表</span>
+              <i class="el-icon-notebook-1"></i>
+              <span slot="title">成长轨迹</span>
             </el-menu-item>
             <el-menu-item index="4" @click="$router.push('/message')">
-              <i class="el-icon-message"></i>
-              <span slot="title">消息</span>
+              <i class="el-icon-trophy"></i>
+              <span slot="title">排行榜</span>
             </el-menu-item>
             <el-menu-item index="5" @click="$router.push('/profile')">
               <i class="el-icon-user"></i>
