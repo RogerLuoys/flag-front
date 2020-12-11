@@ -23,3 +23,11 @@ export function modifyTaskAPI(data) {
     data: data
   })
 }
+
+export function queryTaskAPI(params) {
+  return api({
+    url: `api/task/queryTaskByTaskId`,
+    method: 'get',
+    params: params
+  })
+}

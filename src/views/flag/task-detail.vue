@@ -28,12 +28,18 @@
 </template>
 
 <script>
-import {newTaskAPI, modifyTaskAPI} from '@/api/task'
+import {newTaskAPI, modifyTaskAPI, queryTaskAPI} from '@/api/task'
 
 export default {
   props: {
-    flagId: String,
-    taskId: String
+    flagId: {
+      type: String,
+      default: '0'
+    },
+    taskId: {
+      type: String,
+      default: '0'
+    }
   },
   data () {
     return {
@@ -51,6 +57,11 @@ export default {
   },
   created: function () {
     console.info(this.flagId)
+    if (this.taskId === '0') {
+      this.restoreData()
+    } else {
+      this.queryTask()
+    }
   },
   methods: {
     onSubmit () {
@@ -85,30 +96,22 @@ export default {
       console.info('taskId' + this.taskId)
     }
   },
-  modifyTask () {
-    console.info('修改')
-    newTaskAPI({
-      taskId: this.taskId,
-      taskName: this.pageData.taskName,
-      description: this.pageData.description,
-      point: this.pageData.point,
-      type: this.pageData.type,
-      cycle: this.pageData.cycle
+  queryTask () {
+    queryTaskAPI({
+      taskId: this.taskId
     }).then(response => {
       if (response.data.success === true) {
-        console.info('新增任务成功')
+        this.pageData = response.data.data
+        console.info('查询成功')
       }
     })
   },
-  newTask () {
-    console.info('新增')
-    newTaskAPI(
-      this.pageData
-    ).then(response => {
-      if (response.data.success === true) {
-        console.info('新增任务成功')
-      }
-    })
+  restoreData () {
+    this.pageData.taskName = ''
+    this.pageData.description = ''
+    this.pageData.point = 0
+    this.pageData.type = 2
+    this.pageData.cycle = 'Mon'
   },
   createDailyTask () {
     console.info('创建每日任务')

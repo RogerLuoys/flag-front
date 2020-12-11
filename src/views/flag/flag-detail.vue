@@ -71,12 +71,12 @@
     </el-collapse>
     <template v-if="pageControl.isNewTask">
       <el-dialog title="新增任务" :visible.sync="pageControl.dialogVisible">
-        <task-detail :flagId="pageData.flagId" :taskId="pageControl.taskIdProp"></task-detail>
+        <task-detail :flagId="pageData.flagId"></task-detail>
       </el-dialog>
     </template>
     <template v-else>
       <el-dialog title="编辑任务" :visible.sync="pageControl.dialogVisible">
-        <task-detail :flagId="pageData.flagId" :task-id="pageControl.taskIdProp"></task-detail>
+        <task-detail :flagId="pageData.flagId" :taskId="pageControl.taskIdProp"></task-detail>
       </el-dialog>
     </template>
   </div>
@@ -85,9 +85,10 @@
 <script>
 import {queryFlagDetailAPI, modifyFlagBasicAPI} from '@/api/flag'
 import taskDetail from './task-detail'
+import taskDialog from './task-dialog'
 
 export default {
-  components: {taskDetail},
+  components: {taskDialog, taskDetail},
   data () {
     return {
       pageData: {
@@ -146,9 +147,10 @@ export default {
       this.pageControl.taskIdProp = taskId
       this.pageControl.isNewTask = false
       this.pageControl.dialogVisible = true
+      console.info(this.pageControl.dialogVisible)
     },
     newTask () {
-      this.pageControl.taskIdProp = '0'
+      // this.pageControl.taskIdProp = '0'
       this.pageControl.isNewTask = true
       this.pageControl.dialogVisible = true
     },
