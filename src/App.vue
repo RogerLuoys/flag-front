@@ -68,7 +68,7 @@
         </el-col>
 
       </el-header>
-      <el-main style="min-height: 500px; background-color: whitesmoke">
+      <el-main style="min-height: 10cm; background-color: whitesmoke">
         <el-card style="min-height: 99%">
           <router-view></router-view>
         </el-card>
