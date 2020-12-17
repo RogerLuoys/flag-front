@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import flag from '@/views/flag/index'
 import flagDetail from '@/views/flag/flag-detail'
-import task from '@/views/task/index'
+import taskDaily from '@/views/task-daily/index'
 import report from '@/views/report/index'
 import message from '@/views/message/index'
 import profile from '@/views/profile/index'
@@ -33,9 +33,9 @@ export default new Router({
       component: flagDetail
     },
     {
-      path: '/task',
-      name: 'task',
-      component: task
+      path: '/taskDaily',
+      name: 'taskDaily',
+      component: taskDaily
     },
     {
       path: '/report',

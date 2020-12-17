@@ -30,7 +30,7 @@
         </div>
       </template>
     </el-calendar>
-    <el-dialog title="今日任务" :visible.sync="pageControl.dialogVisible">
+    <el-dialog title="今日任务" :visible.sync="pageControl.listDialogVisible">
       <el-collapse accordion>
         <div v-for="item in tasks" :key="item">
           <div v-if="item.date === pageControl.selectDay">
@@ -53,36 +53,41 @@
         </div>
 
       </el-collapse>
-
       <div slot="footer" class="dialog-footer">
-        <el-button @click="pageControl.dialogVisible = false" type="primary" plain>知道了</el-button>
+        <el-button @click="pageControl.listDialogVisible = false" type="primary" plain>知道了</el-button>
         <!--<el-button type="primary" @click="pageControl.dialogVisible = false">确 定</el-button>-->
       </div>
+    </el-dialog>
+    <el-dialog title="新增临时任务" :visible.sync="pageControl.newDialogVisible" :selectedDay="pageControl.selectDay">
+      <task-daily-detail></task-daily-detail>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import taskDailyDetail from './task-daily-detail'
+
 export default {
+  components: {taskDailyDetail},
   data () {
     return {
       tasks: [
         {
-          date: '2020-10-13',
+          date: '2020-12-13',
           taskTopic: '喝热水',
           description: '每天早上喝一大杯热水',
           type: 1,
           status: 1
         },
         {
-          date: '2020-10-13',
+          date: '2020-12-13',
           taskTopic: '发呆',
           description: '每天晚上发呆自省',
           type: 2,
           status: 2
         },
         {
-          date: '2020-10-14',
+          date: '2020-12-14',
           taskTopic: '冥想',
           description: '修仙ing',
           type: 2,
@@ -90,7 +95,8 @@ export default {
         }
       ],
       pageControl: {
-        dialogVisible: false,
+        listDialogVisible: false,
+        newDialogVisible: false,
         disable: false,
         selectDay: '2020-10-13',
         activeName: '-1'
@@ -115,10 +121,12 @@ export default {
       return dates
     },
     callDialog (selectedDay) {
-      this.pageControl.dialogVisible = true
+      this.pageControl.listDialogVisible = true
       this.pageControl.selectDay = selectedDay
     },
     newTask (selectedDay) {
+      this.pageControl.selectDay = selectedDay
+      this.pageControl.newDialogVisible = true
       console.info('新增任务' + selectedDay)
     }
   }

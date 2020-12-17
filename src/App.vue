@@ -9,9 +9,9 @@
               <i class="el-icon-s-flag"></i>
               <span slot="title">Flag</span>
             </el-menu-item>
-            <el-menu-item index="2" @click="$router.push('/task')">
+            <el-menu-item index="2" @click="$router.push('/taskDaily')">
               <i class="el-icon-date"></i>
-              <span slot="title">任务</span>
+              <span slot="title">每日任务</span>
             </el-menu-item>
             <el-menu-item index="3" @click="$router.push('/report')">
               <i class="el-icon-notebook-1"></i>
@@ -25,27 +25,6 @@
               <i class="el-icon-user"></i>
               <span slot="title">我的</span>
             </el-menu-item>
-            <el-submenu index="8">
-              <template slot="title">
-                <i class="el-icon-setting"></i>
-                <span slot="title">测试</span>
-              </template>
-              <el-menu-item index="8-1">
-                <div @click="$router.push('/myflag')">列表</div>
-              </el-menu-item>
-              <el-menu-item index="8-2">
-                <div @click="$router.push('/flagdetail')">新建</div>
-              </el-menu-item>
-              <el-menu-item index="8-3">
-                <div @click="$router.push('/mycreateflag')">新建任务</div>
-              </el-menu-item>
-              <el-menu-item index="8-4">
-                <div @click="$router.push('/mycreateflag')">任务列表</div>
-              </el-menu-item>
-              <el-menu-item index="8-5">
-                <div @click="$router.push('/mycreateflag')">任务日历</div>
-              </el-menu-item>
-            </el-submenu>
             <el-submenu index="9">
               <template slot="title">
                 <i class="el-icon-setting"></i>
