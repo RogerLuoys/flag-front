@@ -16,6 +16,7 @@
     </el-form>
     <div style="text-align: center">
       <el-button type="primary" @click="onSubmit"  size="small">保存</el-button>
+      <el-button type="primary" @click="test1()"  size="small">test</el-button>
     </div>
   </div>
 </template>
@@ -26,7 +27,8 @@ import {newTaskDailyAPI} from '@/api/taskDaily'
 export default {
   props: {
     selectedDay: {
-      type: Date
+      type: String,
+      default: '1970-01-01'
     }
   },
   data () {
@@ -36,7 +38,7 @@ export default {
         taskDailyName: 'taskDailyName',
         description: 'description',
         point: 0,
-        startTime: null,
+        startTime: Date,
         endTime: null
       },
       pageControl: {
@@ -49,25 +51,34 @@ export default {
   },
   methods: {
     onSubmit () {
+      let day = new Date(this.selectedDay);
       console.info('新增')
-      newTaskDailyAPI(
-        this.pageData
-      ).then(response => {
+      newTaskDailyAPI({
+        flagId: this.pageData.flagId,
+        taskDailyName: this.pageData.taskDailyName,
+        description: this.pageData.description,
+        point: this.pageData.point,
+        startTime: day,
+        endTime: this.selectedDay
+      }).then(response => {
         if (response.data.success === true) {
           console.info('新增任务成功')
         }
       })
+    },
+    restoreData () {
+      this.pageData.flagId = ''
+      this.pageData.taskDailyName = ''
+      this.pageData.description = ''
+      this.pageData.point = 0
+      this.pageData.startTime = ''
+      this.pageData.endTime = ''
+    },
+    test1 () {
+      let d = new Date('2020-12-01')
+      console.info('测试' + d)
+      console.info('选中日期' + this.selectedDay)
     }
-  },
-  restoreData () {
-    this.pageData.taskName = ''
-    this.pageData.description = ''
-    this.pageData.point = 0
-    this.pageData.type = 2
-    this.pageData.cycle = 'Mon'
-  },
-  createDailyTask () {
-    console.info('创建每日任务')
   }
 }
 </script>

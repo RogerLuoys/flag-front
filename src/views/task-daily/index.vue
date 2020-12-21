@@ -6,7 +6,7 @@
           <el-tooltip  placement="left-start" effect="light">
 
             <template #content>
-              <div v-for="item in tasks" :key="item">
+              <div v-for="(item, index) in tasks" :key="index">
                 <div v-if="item.date === data.day">
                   {{item.taskTopic}}
                 </div>
@@ -24,7 +24,6 @@
             {{ data.day.split('-').slice(2).join('-') }}
           </div>
           <div v-if="data.isSelected === true">
-            <el-link type="info" :underline="false">今日无事</el-link>
             <el-link type="primary" @click="newTask(data.day)">新增当日任务</el-link>
           </div>
         </div>
@@ -32,7 +31,7 @@
     </el-calendar>
     <el-dialog title="今日任务" :visible.sync="pageControl.listDialogVisible">
       <el-collapse accordion>
-        <div v-for="item in tasks" :key="item">
+        <div v-for="(item, index) in tasks" :key="index">
           <div v-if="item.date === pageControl.selectDay">
             <el-collapse-item>
               <template #title>
@@ -58,8 +57,8 @@
         <!--<el-button type="primary" @click="pageControl.dialogVisible = false">确 定</el-button>-->
       </div>
     </el-dialog>
-    <el-dialog title="新增临时任务" :visible.sync="pageControl.newDialogVisible" :selectedDay="pageControl.selectDay">
-      <task-daily-detail></task-daily-detail>
+    <el-dialog title="新增临时任务" :visible.sync="pageControl.newDialogVisible">
+      <task-daily-detail :selectedDay="pageControl.selectedDay"></task-daily-detail>
     </el-dialog>
   </div>
 </template>
@@ -98,7 +97,7 @@ export default {
         listDialogVisible: false,
         newDialogVisible: false,
         disable: false,
-        selectDay: '2020-10-13',
+        selectedDay: '',
         activeName: '-1'
       }
     }
@@ -111,23 +110,20 @@ export default {
     getAllDates () {
       let dates = ''
       let mytask = this.tasks
-      // console.info('取个日期'+this.tasks[0].date);
       for (let i = 0; i < mytask.length; i++) {
-        // dates.push(item.date);
         dates = dates + ' ' + mytask[i].date
-        // console.info('单个日期'+ mytask[i].date);
       }
       console.info('所有日期' + dates)
       return dates
     },
     callDialog (selectedDay) {
       this.pageControl.listDialogVisible = true
-      this.pageControl.selectDay = selectedDay
+      this.pageControl.selectedDay = selectedDay
     },
     newTask (selectedDay) {
-      this.pageControl.selectDay = selectedDay
+      this.pageControl.selectedDay = selectedDay
       this.pageControl.newDialogVisible = true
-      console.info('新增任务' + selectedDay)
+      // console.info('新增任务' + selectedDay)
     }
   }
 }

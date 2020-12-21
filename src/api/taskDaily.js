@@ -2,7 +2,7 @@ import api from './axios'
 
 export function newTaskDailyAPI(data) {
   return api({
-    url: 'api/task/newTask',
+    url: 'api/taskDaily/newTaskDaily',
     method: 'post',
     data: data
   })
