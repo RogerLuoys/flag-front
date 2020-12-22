@@ -6,9 +6,9 @@
           <el-tooltip  placement="left-start" effect="light">
 
             <template #content>
-              <div v-for="(item, index) in tasks" :key="index">
+              <div v-for="(item, index) in pageData.tasks" :key="index">
                 <div v-if="item.date === data.day">
-                  {{item.taskTopic}}
+                  {{item.taskDailyName}}
                 </div>
               </div>
             </template>
@@ -31,11 +31,11 @@
     </el-calendar>
     <el-dialog title="今日任务" :visible.sync="pageControl.listDialogVisible">
       <el-collapse accordion>
-        <div v-for="(item, index) in tasks" :key="index">
-          <div v-if="item.date === pageControl.selectDay">
+        <div v-for="(item, index) in pageData.tasks" :key="index">
+          <div v-if="item.date === pageControl.selectedDay">
             <el-collapse-item>
               <template #title>
-                {{item.taskTopic}}<i class="header-icon el-icon-info"></i>
+                {{item.taskDailyName}}<i class="header-icon el-icon-info"></i>
               </template>
               <div>简介：{{item.description}}</div>
               <div>状态：{{item.status}}</div>
@@ -50,7 +50,6 @@
             </el-collapse-item>
           </div>
         </div>
-
       </el-collapse>
       <div slot="footer" class="dialog-footer">
         <el-button @click="pageControl.listDialogVisible = false" type="primary" plain>知道了</el-button>
@@ -65,34 +64,37 @@
 
 <script>
 import taskDailyDetail from './task-daily-detail'
+import {queryTaskDailyAPI} from '@/api/taskDaily'
 
 export default {
   components: {taskDailyDetail},
   data () {
     return {
-      tasks: [
-        {
-          date: '2020-12-13',
-          taskTopic: '喝热水',
-          description: '每天早上喝一大杯热水',
-          type: 1,
-          status: 1
-        },
-        {
-          date: '2020-12-13',
-          taskTopic: '发呆',
-          description: '每天晚上发呆自省',
-          type: 2,
-          status: 2
-        },
-        {
-          date: '2020-12-14',
-          taskTopic: '冥想',
-          description: '修仙ing',
-          type: 2,
-          status: 1
-        }
-      ],
+      pageData: {
+        tasks: [
+          {
+            date: '2020-12-13',
+            taskDailyName: '喝热水',
+            description: '每天早上喝一大杯热水',
+            type: 1,
+            status: 1
+          },
+          {
+            date: '2020-12-13',
+            taskDailyName: '发呆',
+            description: '每天晚上发呆自省',
+            type: 2,
+            status: 2
+          },
+          {
+            date: '2020-12-14',
+            taskDailyName: '冥想',
+            description: '修仙ing',
+            type: 2,
+            status: 1
+          }
+        ]
+      },
       pageControl: {
         listDialogVisible: false,
         newDialogVisible: false,
@@ -103,15 +105,25 @@ export default {
     }
   },
   created: function () {
-    // let test = ''+this.getAllDates().toString();
-    // console.info(test)
+    this.queryTaskDaily()
   },
   methods: {
+    queryTaskDaily () {
+      let today = new Date()
+      queryTaskDailyAPI({
+        currentYear: today.getFullYear()
+      }).then(response => {
+        if (response.data.success === true) {
+          this.pageData = response.data.data
+          console.info('查询任务成功')
+        }
+      })
+    },
     getAllDates () {
       let dates = ''
-      let mytask = this.tasks
-      for (let i = 0; i < mytask.length; i++) {
-        dates = dates + ' ' + mytask[i].date
+      let myTask = this.pageData.tasks
+      for (let i = 0; i < myTask.length; i++) {
+        dates = dates + ' ' + myTask[i].date
       }
       console.info('所有日期' + dates)
       return dates

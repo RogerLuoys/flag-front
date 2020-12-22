@@ -7,6 +7,15 @@ export function newTaskDailyAPI(data) {
     data: data
   })
 }
+
+export function queryTaskDailyAPI(data) {
+  return api({
+    url: 'api/taskDaily/queryTaskDaily',
+    method: 'get',
+    params: data
+  })
+}
+
 //
 // export function modifyTaskStatusAPI(params) {
 //   return api({
