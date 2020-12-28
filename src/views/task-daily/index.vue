@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-button @click="queryTaskDailyList">test</el-button>
     <el-calendar>
       <template #dateCell="{data}">
         <div v-if="getAllDates().indexOf(data.day) !== -1">
@@ -40,10 +41,10 @@
               <div>简介：{{item.description}}</div>
               <div>状态：{{item.status}}</div>
               <div v-if="item.status === 2">已完成</div>
-              <div v-else-if="item.status === 1 && item.type === 1">
+              <div v-else-if="item.status === 1 && item.bindType === 1">
                 <el-button type="primary" size="mini" plain>完成</el-button>
               </div>
-              <div v-else-if="item.status === 1 && item.type === 2">
+              <div v-else-if="item.status === 1 && item.bindType === 2">
                 <el-button type="primary" size="mini" plain>提醒</el-button>
               </div>
               <div v-else>异常状态</div>
@@ -64,7 +65,7 @@
 
 <script>
 import taskDailyDetail from './task-daily-detail'
-import {queryTaskDailyAPI} from '@/api/taskDaily'
+import {queryTaskDailyListAPI} from '@/api/taskDaily'
 
 export default {
   components: {taskDailyDetail},
@@ -76,21 +77,21 @@ export default {
             date: '2020-12-13',
             taskDailyName: '喝热水',
             description: '每天早上喝一大杯热水',
-            type: 1,
+            bindType: 1,
             status: 1
           },
           {
             date: '2020-12-13',
             taskDailyName: '发呆',
             description: '每天晚上发呆自省',
-            type: 2,
+            bindType: 2,
             status: 2
           },
           {
             date: '2020-12-14',
             taskDailyName: '冥想',
             description: '修仙ing',
-            type: 2,
+            bindType: 2,
             status: 1
           }
         ]
@@ -105,12 +106,12 @@ export default {
     }
   },
   created: function () {
-    this.queryTaskDaily()
+    this.queryTaskDailyList()
   },
   methods: {
-    queryTaskDaily () {
+    queryTaskDailyList () {
       let today = new Date()
-      queryTaskDailyAPI({
+      queryTaskDailyListAPI({
         currentYear: today.getFullYear()
       }).then(response => {
         if (response.data.success === true) {

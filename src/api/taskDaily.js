@@ -8,11 +8,11 @@ export function newTaskDailyAPI(data) {
   })
 }
 
-export function queryTaskDailyAPI(data) {
+export function queryTaskDailyListAPI(data) {
   return api({
-    url: 'api/taskDaily/queryTaskDaily',
-    method: 'get',
-    params: data
+    url: 'api/taskDaily/queryTaskDailyList',
+    method: 'post',
+    data: data
   })
 }
 
