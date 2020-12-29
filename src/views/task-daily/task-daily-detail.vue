@@ -62,7 +62,9 @@ export default {
         endTime: this.selectedDay
       }).then(response => {
         if (response.data.success === true) {
-          console.info('新增任务成功')
+          this.$message.success('新增任务成功，点X关闭弹窗')
+        } else {
+          this.$message.success('新增任务成功，点X关闭弹窗')
         }
       })
     },
@@ -77,6 +79,7 @@ export default {
     test1 () {
       let d = new Date('2020-12-01')
       console.info('测试' + d)
+      this.$message.error('错了哦，这是一条错误消息')
       console.info('选中日期' + this.selectedDay)
     }
   }

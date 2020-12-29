@@ -92,10 +92,10 @@ export default {
     /*position: relative;*/
     /*width: 100%;*/
     /*height: 60px;*/
-    left: 0;
-    top: 0;
-    right: 0;
-    z-index: 999999;
+    /*left: 0;*/
+    /*top: 0;*/
+    /*right: 0;*/
+    /*z-index: 999999;*/
     background-color: #FFFFFF;
   }
   /*.el-main {*/

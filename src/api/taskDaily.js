@@ -16,14 +16,13 @@ export function queryTaskDailyListAPI(data) {
   })
 }
 
-//
-// export function modifyTaskStatusAPI(params) {
-//   return api({
-//     url: 'api/task/modifyTaskStatus',
-//     method: 'put',
-//     params: params
-//   })
-// }
+export function modifyTaskDailyStatusAPI(params) {
+  return api({
+    url: 'api/taskDaily/modifyTaskDailyStatus',
+    method: 'put',
+    params: params
+  })
+}
 //
 // export function modifyTaskAPI(data) {
 //   return api({

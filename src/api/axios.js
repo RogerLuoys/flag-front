@@ -1,5 +1,6 @@
 import axios from 'axios'
 import cookie from 'js-cookie'
+import {Message} from 'element-ui'
 
 // axios.defaults.withCredentials = true
 
@@ -36,6 +37,8 @@ api.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   // 对响应错误做点什么
+  console.info('接口调用失败')
+  Message.error('未知系统错误，请稍后重试，或联系管理员')
   return Promise.reject(error)
 })
 
