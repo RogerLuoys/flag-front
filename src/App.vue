@@ -22,8 +22,8 @@
               <span slot="title">排行榜</span>
             </el-menu-item>
             <el-menu-item index="5" @click="$router.push('/profile')">
-              <i class="el-icon-user"></i>
-              <span slot="title">我的</span>
+              <i class="el-icon-present"></i>
+              <span slot="title">积分</span>
             </el-menu-item>
             <!--<el-submenu index="9">-->
               <!--<template slot="title">-->
@@ -43,11 +43,11 @@
           </el-menu>
         </el-col>
         <el-col :span="4"  style="text-align: right; background-color: lightsteelblue; height: 60px">
-          <el-button type="text" @click="$router.push('/login')">登录/注册</el-button>
+          <el-button type="text" @click="$router.push('/login')" icon="el-icon-user">登录/注册</el-button>
         </el-col>
 
       </el-header>
-      <el-main style="min-height: 10cm; background-color: whitesmoke">
+      <el-main style="height: 13cm; background-color: whitesmoke">
         <el-card style="min-height: 99%">
           <router-view></router-view>
         </el-card>

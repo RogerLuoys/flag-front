@@ -1,66 +1,60 @@
 <template>
   <el-container>
     <el-aside>
-      <div v-for="(item, index) in 10" :key="index">
-        <el-card class="box-card">
-          <template #header class="clearfix">
-            <span>FLAG名称{{item}}</span>
-          </template>
-          <div class="text item">
-            获得总积分：***
-          </div>
-          <div class="text item">
-            完成总任务：***
-          </div>
-        </el-card>
+      <div v-for="(item, index) in pageData" :key="index">
+        <el-row>
+          <el-card class="box-card">
+            <template #header class="clearfix">
+              <el-button type="text" @click="changeSelectedFlagId(item.flagId)">{{item.flagName}}</el-button>
+              <el-tag>已完成</el-tag>
+            </template>
+            <div class="text item">
+              获得总积分：{{item.totalPoint}}
+            </div>
+            <div class="text item">
+              完成总任务：{{item.totalTaskDaily}}
+            </div>
+          </el-card>
+        </el-row>
       </div>
     </el-aside>
     <el-main>
       <div>FlagA</div>
-      <el-divider>基本信息</el-divider>
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="预期目标">
-          <span>****</span>
-        </el-form-item>
-        <el-form-item label="实际成果">
-          <span>****</span>
-        </el-form-item>
-        <el-form-item label="见证人">
-          <span>****</span>
-        </el-form-item>
-      </el-form>
-      <el-divider>任务日记</el-divider>
-      <el-timeline :reverse="true">
-        <el-timeline-item
-          v-for="(activity, index) in pageControl.reportDetail.taskDailyList"
-          :key="index"
-          :timestamp="activity.timestamp">
-          {{activity.taskDailyName}} {{activity.comment}}
-        </el-timeline-item>
-      </el-timeline>
+      <report-detail :flag-id="pageControl.selectedFlagId"></report-detail>
     </el-main>
   </el-container>
 </template>
 
 <script>
+import reportDetail from './report-detail'
+
 export default {
+  components: {reportDetail},
   data () {
     return {
-      pageData: [],
+      pageData: [{
+        flagId: 'flagId123',
+        flagName: 'flagName',
+        totalPoint: 0,
+        totalTaskDaily: 0
+      },
+      {
+        flagId: 'flagId321',
+        flagName: 'flagName',
+        totalPoint: 0,
+        totalTaskDaily: 0
+      }
+      ],
       pageControl: {
-        listDialogVisible: false,
-        newDialogVisible: false,
-        disable: false,
-        selectedDay: '',
-        activeName: '-1',
+        selectedFlagId: '',
         reportDetail: {
           flagId: '2',
-          flagName: '--',
-          description: '--',
+          flagName: 'flagName',
+          description: 'description',
+          expected: 'expected',
+          actual: 'actual',
           witnessID: '--',
-          witnessName: '--',
-          type: '1',
-          priority: '--',
+          witnessName: 'witnessName',
           startDate: '',
           endDate: '--',
           taskDailyList: [{
@@ -70,6 +64,18 @@ export default {
           }]
         }
       }
+    }
+  },
+  created: function () {
+    this.queryReportList()
+  },
+  methods: {
+    queryReportList () {
+      console.info('查询列表')
+    },
+    changeSelectedFlagId (flagId) {
+      this.pageControl.selectedFlagId = flagId
+      console.info('查询详情' + this.pageControl.selectedFlagId)
     }
   }
 }
@@ -94,6 +100,6 @@ export default {
   }
 
   .box-card {
-    width: 300px;
+    width: 270px;
   }
 </style>
