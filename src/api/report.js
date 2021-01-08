@@ -1,9 +1,16 @@
 import api from './axios'
 
-export function queryTaskDailyListAPI(data) {
+export function queryReportListAPI() {
   return api({
-    url: 'api/taskDaily/queryTaskDailyList',
-    method: 'post',
-    data: data
+    url: 'api/report/queryReportList',
+    method: 'get'
+  })
+}
+
+export function queryReportDetailAPI(params) {
+  return api({
+    url: 'api/report/queryReportDetail',
+    method: 'get',
+    params: params
   })
 }
