@@ -8,7 +8,11 @@ const api = axios.create({
   // 我的电脑
   // baseURL: 'http://192.168.10.106:9001/',
   // 办公电脑
-  baseURL: 'http://10.201.10.183:9001/',
+  // baseURL: 'http://10.201.10.183:9001/',
+  // 我的云主机
+  // baseURL: 'http://118.24.117.181:9001/',
+  // 本地
+  baseURL: 'http://localhost:9001/',
   timeout: 10000,
   withCredentials: false
   // headers: {'X-Custom-Header': 'foobar'}
