@@ -4,6 +4,7 @@ import flag from '@/views/flag/index'
 import flagDetail from '@/views/flag/flag-detail'
 import taskDaily from '@/views/task-daily/index'
 import report from '@/views/report/index'
+import point from '@/views/point/index'
 import message from '@/views/message/index'
 import profile from '@/views/profile/index'
 import login from '@/views/login/index'
@@ -41,6 +42,11 @@ export default new Router({
       path: '/report',
       name: 'report',
       component: report
+    },
+    {
+      path: '/point',
+      name: 'point',
+      component: point
     },
     {
       path: '/message',

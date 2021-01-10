@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <el-container>
-      <el-header height="60px" style="background-color: lightsteelblu;">
+    <el-container style="background-color: whitesmoke">
+      <el-header height="60px" style="background-color: whitesmoke">
         <el-col :span="20">
           <el-menu class="el-menu-vertical-demo" mode="horizontal" default-active="1" @open="handleOpen" @close="handleClose" style="background-color: lightsteelblue">
 
@@ -21,25 +21,10 @@
               <i class="el-icon-trophy"></i>
               <span slot="title">排行榜</span>
             </el-menu-item>
-            <el-menu-item index="5" @click="$router.push('/profile')">
+            <el-menu-item index="5" @click="$router.push('/point')">
               <i class="el-icon-present"></i>
               <span slot="title">积分</span>
             </el-menu-item>
-            <!--<el-submenu index="9">-->
-              <!--<template slot="title">-->
-                <!--<i class="el-icon-setting"></i>-->
-                <!--<span slot="title">其它</span>-->
-              <!--</template>-->
-              <!--<el-menu-item-group>-->
-                <!--<span slot="title">工具集</span>-->
-                <!--<el-menu-item index="9-1">用例分析</el-menu-item>-->
-                <!--<el-menu-item index="9-2">环境管理</el-menu-item>-->
-              <!--</el-menu-item-group>-->
-              <!--<el-menu-item-group title="代账会员">-->
-                <!--<el-menu-item index="9-3">代账管理</el-menu-item>-->
-                <!--<el-menu-item index="9-4">会员管理</el-menu-item>-->
-              <!--</el-menu-item-group>-->
-            <!--</el-submenu>-->
           </el-menu>
         </el-col>
         <el-col :span="4"  style="text-align: right; background-color: lightsteelblue; height: 60px">
