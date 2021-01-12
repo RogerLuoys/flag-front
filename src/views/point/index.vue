@@ -35,34 +35,21 @@
     <el-drawer title="做点什么奖励自己吧，劳逸结合才是正道" :visible.sync="pageControl.drawerVisible" size="35%">
       <div class="block">
         <span class="demonstration">幻灯片</span>
-        <el-carousel height="150px" :autoplay="false" trigger="click" type="card" arrow="never">
+        <el-carousel height="120px" :autoplay="false" trigger="click" type="card" arrow="never">
           <el-carousel-item @click="pageControl.innerDrawerVisible = true" style="background-color: #42b983">
-            购物
+            <el-image :src="pageControl.shopping" :fit="pageControl.fit"></el-image>
           </el-carousel-item>
           <el-carousel-item @click="pageControl.innerDrawerVisible = true" style="background-color: blue">
-            <img src="../../assets/travel.jpg">
+            <el-image :src="pageControl.travel" :fit="pageControl.fit"></el-image>
           </el-carousel-item>
           <el-carousel-item @click="pageControl.innerDrawerVisible = true" style="background-color: orange">
-            自定义
+            <el-image :src="pageControl.customize" :fit="pageControl.fit"></el-image>
           </el-carousel-item>
         </el-carousel>
       </div>
       <div>
-        <el-button @click="pageControl.innerDrawerVisible = true">购物</el-button>
-        <el-button @click="pageControl.innerDrawerVisible = true">看片</el-button>
-        <el-button @click="pageControl.innerDrawerVisible = true">游戏</el-button>
-        <el-button @click="pageControl.innerDrawerVisible = true">旅行</el-button>
-        <el-button @click="pageControl.innerDrawerVisible = true">自定义</el-button>
-        <el-row @row-click="pageControl.innerDrawerVisible = true" style="background-color: aqua">test</el-row>
-        <el-image :src="1"></el-image>
-        <img src="../../assets/travel.jpg">
-        <el-drawer
-          title="我是里面的"
-          :append-to-body="true"
-          :before-close="handleClose"
-          :visible.sync="pageControl.innerDrawerVisible">
-          <p>_(:зゝ∠)_</p>
-        </el-drawer>
+
+
       </div>
     </el-drawer>
 
@@ -91,9 +78,11 @@ export default {
       pageControl: {
         drawerVisible: false,
         innerDrawerVisible: false,
-        url: '/src/assets/travel.jpg',
-        fit: 'fill',
-        travel: '../../assets/logo.png'
+        fit: 'fit',
+        travel: 'http://118.24.117.181/images/travel.jpg',
+        shopping: 'http://118.24.117.181/images/shopping.jpg',
+        game: 'http://118.24.117.181/images/game.jpg',
+        customize: 'http://118.24.117.181/images/customize.jpg'
       }
     }
   }
