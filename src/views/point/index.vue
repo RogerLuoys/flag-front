@@ -40,7 +40,7 @@
             购物
           </el-carousel-item>
           <el-carousel-item @click="pageControl.innerDrawerVisible = true" style="background-color: blue">
-            旅行
+            <img src="../../assets/travel.jpg">
           </el-carousel-item>
           <el-carousel-item @click="pageControl.innerDrawerVisible = true" style="background-color: orange">
             自定义
@@ -53,6 +53,9 @@
         <el-button @click="pageControl.innerDrawerVisible = true">游戏</el-button>
         <el-button @click="pageControl.innerDrawerVisible = true">旅行</el-button>
         <el-button @click="pageControl.innerDrawerVisible = true">自定义</el-button>
+        <el-row @row-click="pageControl.innerDrawerVisible = true" style="background-color: aqua">test</el-row>
+        <el-image :src="1"></el-image>
+        <img src="../../assets/travel.jpg">
         <el-drawer
           title="我是里面的"
           :append-to-body="true"
@@ -68,6 +71,7 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
@@ -78,15 +82,18 @@ export default {
           freezePoint: 0
         },
         pointList: [{
-          description: "description",
+          description: 'description',
           point: 1,
-          date: "date",
-          comment: "comment"
+          date: 'date',
+          comment: 'comment',
         }]
       },
       pageControl: {
         drawerVisible: false,
-        innerDrawerVisible: false
+        innerDrawerVisible: false,
+        url: '/src/assets/travel.jpg',
+        fit: 'fill',
+        travel: '../../assets/logo.png'
       }
     }
   }
