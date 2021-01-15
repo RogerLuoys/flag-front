@@ -32,21 +32,38 @@
     </el-tabs>
 
 
-    <el-drawer title="做点什么奖励自己吧，劳逸结合才是正道" :visible.sync="pageControl.drawerVisible" size="35%">
+    <el-drawer :title="pageControl.title" :visible.sync="pageControl.drawerVisible" size="35%">
       <div class="block">
         <el-carousel height="120px" :autoplay="false" trigger="click" type="card" arrow="never">
+          <el-carousel-item @click="pageControl.innerDrawerVisible = true">
+            <el-image :src="pageControl.customize" :fit="pageControl.fit" @click="changeCarousel(0)"></el-image>
+          </el-carousel-item>
           <el-carousel-item @click="pageControl.innerDrawerVisible = true">
             <el-image :src="pageControl.shopping" :fit="pageControl.fit" @click="changeCarousel(1)"></el-image>
           </el-carousel-item>
           <el-carousel-item @click="pageControl.innerDrawerVisible = true">
             <el-image :src="pageControl.travel" :fit="pageControl.fit" @click="changeCarousel(2)"></el-image>
           </el-carousel-item>
-          <el-carousel-item @click="pageControl.innerDrawerVisible = true">
-            <el-image :src="pageControl.customize" :fit="pageControl.fit" @click="changeCarousel(3)"></el-image>
-          </el-carousel-item>
         </el-carousel>
       </div>
-      <div v-if="pageControl.selectedCarousel === 1">
+      <div v-if="pageControl.selectedCarousel === 0">
+        <el-form ref="pageData" :model="pageData" label-width="2cm">
+          <el-form-item label="简介">
+            <el-input v-model="pageData.expected" type="textarea" maxlength="200" style="width: 9cm"></el-input>
+          </el-form-item>
+          <el-form-item label="备注">
+            <el-input v-model="pageData.expected" type="textarea" maxlength="200" style="width: 9cm"></el-input>
+          </el-form-item>
+          <el-form-item label="积分">
+            <el-input-number size="mini" v-model="pageControl.point"></el-input-number>
+          </el-form-item>
+          <div style="text-align: center">
+            <el-button type="primary" size="small">确定</el-button>
+          </div>
+        </el-form>
+      </div>
+      <div v-else-if="pageControl.selectedCarousel === 1">
+        <div>待实现</div>
         <div>
           <el-link type="success">天猫商城</el-link>
           <el-input-number size="mini" v-model="pageControl.point"></el-input-number>
@@ -59,10 +76,7 @@
         <el-link type="success">线下商场</el-link>
       </div>
       <div v-else-if="pageControl.selectedCarousel === 2">
-        把心事留在书山学海，带身躯飘向碧水蓝天
-      </div>
-      <div v-else-if="pageControl.selectedCarousel === 3">
-        你的积分你做主
+        待实现
       </div>
       <div v-else>
         页面异常，请联系管理员
@@ -94,7 +108,8 @@ export default {
       pageControl: {
         drawerVisible: false,
         innerDrawerVisible: false,
-        selectedCarousel: 1,
+        title: '劳逸结合，你的积分你做主',
+        selectedCarousel: 0,
         point: 1,
         fit: 'fit',
         travel: 'http://118.24.117.181/images/travel.jpg',
@@ -106,6 +121,17 @@ export default {
   },
   methods: {
     changeCarousel (item) {
+      switch (item) {
+        case 0:
+          this.pageControl.title = '劳逸结合，你的积分你做主'
+          break
+        case 1:
+          this.pageControl.title = '不用剁手的买买买'
+          break
+        case 2:
+          this.pageControl.title = '把心事留在书山学海，带身躯飘向碧水蓝天'
+          break
+      }
       this.pageControl.selectedCarousel = item
       console.info('点击成功' + this.pageControl.selectedCarousel)
     }
