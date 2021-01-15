@@ -1,6 +1,6 @@
 import api from './axios'
 
-export function newPointAPI(data) {
+export function newPointLogAPI (data) {
   return api({
     url: 'api/taskDaily/newTaskDaily',
     method: 'post',
@@ -8,7 +8,7 @@ export function newPointAPI(data) {
   })
 }
 
-export function queryTotalPointAPI(params) {
+export function queryTotalPointAPI (params) {
   return api({
     url: 'api/taskDaily/queryTaskDailyList',
     method: 'get',

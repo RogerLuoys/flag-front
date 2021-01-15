@@ -1,0 +1,52 @@
+<template>
+  <el-form ref="pageData" :model="pageData" label-width="2cm">
+    <el-form-item label="简介">
+      <el-input v-model="pageData.description" type="textarea" maxlength="200" style="width: 9cm"></el-input>
+    </el-form-item>
+    <el-form-item label="备注">
+      <el-input v-model="pageData.comment" type="textarea" maxlength="200" style="width: 9cm"></el-input>
+    </el-form-item>
+    <el-form-item label="积分">
+      <el-input-number size="mini" v-model="pageData.point"></el-input-number>
+    </el-form-item>
+    <div style="text-align: center">
+      <el-button type="primary" size="small" @click="newPointLog">确定</el-button>
+    </div>
+  </el-form>
+</template>
+
+<script>
+import {newPointLogAPI} from '@/api/point'
+
+export default {
+  data () {
+    return {
+      pageData: {
+        description: '',
+        comment: '',
+        point: 0
+      }
+    }
+  },
+  methods: {
+    newPointLog () {
+      newPointLogAPI({
+        description: this.pageData.description,
+        comment: this.pageData.comment,
+        point: this.pageData.point
+      }).then(response => {
+        if (response.data.success === true) {
+          this.$message.success('新增使用记录成功')
+        } else {
+          this.$message.error('新增使用记录失败')
+        }
+      })
+      this.$message.success('记录成功，放飞自我去吧')
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

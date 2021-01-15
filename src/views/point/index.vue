@@ -1,33 +1,35 @@
 <template>
   <div>
     <div>
-      <sapn>可用积分：{{pageData.pointSummary.usablePoint}}；  冻结积分：{{pageData.pointSummary.freezePoint}}</sapn>
+      <sapn>今年积分总收入：{{pageData.pointSummary.totalPoint}}；    可用积分：{{pageData.pointSummary.usablePoint}}</sapn>
       <el-button @click="pageControl.drawerVisible=true">使用积分</el-button>
     </div>
     <el-tabs tab-position="left">
-      <el-tab-pane label="积分收入">
-        <el-table :data="pageData.pointList" style="width: 100%">
-          <el-table-column prop="description" label="收入来源" width="180">
-          </el-table-column>
-          <el-table-column prop="point" label="积分变化" width="180">
-          </el-table-column>
-          <el-table-column prop="date" label="日期">
-          </el-table-column>
-          <el-table-column prop="comment" label="备注">
-          </el-table-column>
-        </el-table>
+      <el-tab-pane label="积分收入" @tab-click="pageControl.pointUseType = 1">
+        <point-list :point-list="pageData.pointList" :type="1"></point-list>
+<!--        <el-table :data="pageData.pointList" style="width: 100%">-->
+<!--          <el-table-column prop="description" label="收入来源" width="180">-->
+<!--          </el-table-column>-->
+<!--          <el-table-column prop="point" label="积分变化" width="180">-->
+<!--          </el-table-column>-->
+<!--          <el-table-column prop="date" label="日期">-->
+<!--          </el-table-column>-->
+<!--          <el-table-column prop="comment" label="备注">-->
+<!--          </el-table-column>-->
+<!--        </el-table>-->
       </el-tab-pane>
-      <el-tab-pane label="积分使用">
-        <el-table :data="pageData.pointList" style="width: 100%">
-          <el-table-column prop="description" label="使用去向" width="180">
-          </el-table-column>
-          <el-table-column prop="point" label="积分变化" width="180">
-          </el-table-column>
-          <el-table-column prop="date" label="日期">
-          </el-table-column>
-          <el-table-column prop="comment" label="备注">
-          </el-table-column>
-        </el-table>
+      <el-tab-pane label="积分使用" @tab-click="pageControl.pointUseType = 2">
+        <point-list :point-list="pageData.pointList" :type="2"></point-list>
+<!--        <el-table :data="pageData.pointList" style="width: 100%">-->
+<!--          <el-table-column prop="description" label="使用去向" width="180">-->
+<!--          </el-table-column>-->
+<!--          <el-table-column prop="point" label="积分变化" width="180">-->
+<!--          </el-table-column>-->
+<!--          <el-table-column prop="date" label="日期">-->
+<!--          </el-table-column>-->
+<!--          <el-table-column prop="comment" label="备注">-->
+<!--          </el-table-column>-->
+<!--        </el-table>-->
       </el-tab-pane>
     </el-tabs>
 
@@ -47,20 +49,7 @@
         </el-carousel>
       </div>
       <div v-if="pageControl.selectedCarousel === 0">
-        <el-form ref="pageData" :model="pageData" label-width="2cm">
-          <el-form-item label="简介">
-            <el-input v-model="pageData.expected" type="textarea" maxlength="200" style="width: 9cm"></el-input>
-          </el-form-item>
-          <el-form-item label="备注">
-            <el-input v-model="pageData.expected" type="textarea" maxlength="200" style="width: 9cm"></el-input>
-          </el-form-item>
-          <el-form-item label="积分">
-            <el-input-number size="mini" v-model="pageControl.point"></el-input-number>
-          </el-form-item>
-          <div style="text-align: center">
-            <el-button type="primary" size="small">确定</el-button>
-          </div>
-        </el-form>
+        <customize-point></customize-point>
       </div>
       <div v-else-if="pageControl.selectedCarousel === 1">
         <div>待实现</div>
@@ -88,15 +77,18 @@
 </template>
 
 <script>
+import customizePoint from './customize-point'
+import pointList from './point-list'
 
 export default {
+  components: {customizePoint, pointList},
   data () {
     return {
       pageData: {
         pointSummary: {
           pointId: '',
-          usablePoint: 100,
-          freezePoint: 0
+          totalPoint: 100,
+          usablePoint: 100
         },
         pointList: [{
           description: 'description',
@@ -108,6 +100,7 @@ export default {
       pageControl: {
         drawerVisible: false,
         innerDrawerVisible: false,
+        pointUseType: 1,
         title: '劳逸结合，你的积分你做主',
         selectedCarousel: 0,
         point: 1,
