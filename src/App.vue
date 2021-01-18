@@ -17,11 +17,11 @@
               <i class="el-icon-notebook-1"></i>
               <span slot="title">成长轨迹</span>
             </el-menu-item>
-            <el-menu-item index="4" @click="$router.push('/message')">
-              <i class="el-icon-trophy"></i>
-              <span slot="title">排行榜</span>
-            </el-menu-item>
-            <el-menu-item index="5" @click="$router.push('/point')">
+<!--            <el-menu-item index="4" @click="$router.push('/message')">-->
+<!--              <i class="el-icon-trophy"></i>-->
+<!--              <span slot="title">排行榜</span>-->
+<!--            </el-menu-item>-->
+            <el-menu-item index="4" @click="$router.push('/point')">
               <i class="el-icon-present"></i>
               <span slot="title">积分</span>
             </el-menu-item>
