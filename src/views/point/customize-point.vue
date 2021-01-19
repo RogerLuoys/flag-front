@@ -19,6 +19,12 @@
 import {newPointLogAPI} from '@/api/point'
 
 export default {
+  props: {
+    pointId: {
+      type: String,
+      default: '0'
+    }
+  },
   data () {
     return {
       pageData: {
@@ -31,9 +37,11 @@ export default {
   methods: {
     newPointLog () {
       newPointLogAPI({
+        pointId: this.pointId,
         description: this.pageData.description,
         comment: this.pageData.comment,
-        point: this.pageData.point
+        point: this.pageData.point,
+        type: 2
       }).then(response => {
         if (response.data.success === true) {
           this.$message.success('新增使用记录成功')
@@ -41,7 +49,7 @@ export default {
           this.$message.error('新增使用记录失败')
         }
       })
-      this.$message.success('记录成功，放飞自我去吧')
+      // this.$message.success('记录成功，放飞自我去吧')
     }
   }
 }

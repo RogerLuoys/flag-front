@@ -4,32 +4,12 @@
       <sapn>今年积分总收入：{{pageData.pointSummary.totalPoint}}；    可用积分：{{pageData.pointSummary.usablePoint}}</sapn>
       <el-button @click="pageControl.drawerVisible=true">使用积分</el-button>
     </div>
-    <el-tabs tab-position="left">
-      <el-tab-pane label="积分收入" @tab-click="pageControl.pointUseType = 1">
+    <el-tabs tab-position="left" v-model="pageControl.activateName" @tab-click="queryPointLogList">
+      <el-tab-pane label="积分收入" name="income">
         <point-list :point-list="pageData.pointList" :type="1"></point-list>
-<!--        <el-table :data="pageData.pointList" style="width: 100%">-->
-<!--          <el-table-column prop="description" label="收入来源" width="180">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column prop="point" label="积分变化" width="180">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column prop="date" label="日期">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column prop="comment" label="备注">-->
-<!--          </el-table-column>-->
-<!--        </el-table>-->
       </el-tab-pane>
-      <el-tab-pane label="积分使用" @tab-click="pageControl.pointUseType = 2">
+      <el-tab-pane label="积分使用" name="expend">
         <point-list :point-list="pageData.pointList" :type="2"></point-list>
-<!--        <el-table :data="pageData.pointList" style="width: 100%">-->
-<!--          <el-table-column prop="description" label="使用去向" width="180">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column prop="point" label="积分变化" width="180">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column prop="date" label="日期">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column prop="comment" label="备注">-->
-<!--          </el-table-column>-->
-<!--        </el-table>-->
       </el-tab-pane>
     </el-tabs>
 
@@ -49,7 +29,7 @@
         </el-carousel>
       </div>
       <div v-if="pageControl.selectedCarousel === 0">
-        <customize-point></customize-point>
+        <customize-point :point-id="this.pageData.pointSummary.pointId"></customize-point>
       </div>
       <div v-else-if="pageControl.selectedCarousel === 1">
         <div>待实现</div>
@@ -79,6 +59,7 @@
 <script>
 import customizePoint from './customize-point'
 import pointList from './point-list'
+import {queryPointSummaryAPI, queryPointLogListAPI} from '@/api/point'
 
 export default {
   components: {customizePoint, pointList},
@@ -93,13 +74,13 @@ export default {
         pointList: [{
           description: 'description',
           point: 1,
-          date: 'date',
+          recordTime: 'date',
           comment: 'comment'
         }]
       },
       pageControl: {
         drawerVisible: false,
-        innerDrawerVisible: false,
+        activateName: 'income',
         pointUseType: 1,
         title: '劳逸结合，你的积分你做主',
         selectedCarousel: 0,
@@ -111,6 +92,9 @@ export default {
         customize: 'http://118.24.117.181/images/customize.jpg'
       }
     }
+  },
+  created: function () {
+    this.queryPointSummary()
   },
   methods: {
     changeCarousel (item) {
@@ -127,6 +111,29 @@ export default {
       }
       this.pageControl.selectedCarousel = item
       console.info('点击成功' + this.pageControl.selectedCarousel)
+    },
+    queryPointSummary () {
+      queryPointSummaryAPI().then(response => {
+        if (response.data.success === true) {
+          this.pageData.pointSummary = response.data.data
+        }
+      })
+    },
+    queryPointLogList () {
+      if (this.pageControl.activateName === 'income') {
+        this.pageControl.pointUseType = 1
+      } else if (this.pageControl.activateName === 'expend') {
+        this.pageControl.pointUseType = 2
+      }
+      console.info(this.pageControl.activateName)
+      queryPointLogListAPI({
+        pointId: this.pageData.pointSummary.pointId,
+        type: this.pageControl.pointUseType
+      }).then(response => {
+        if (response.data.success === true) {
+          this.pageData.pointList = response.data.data
+        }
+      })
     }
   }
 }

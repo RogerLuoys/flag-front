@@ -10,7 +10,7 @@
     </template>
     <el-table-column prop="point" label="积分变化" width="180">
     </el-table-column>
-    <el-table-column prop="date" label="日期">
+    <el-table-column prop="recordTime" label="日期">
     </el-table-column>
     <el-table-column prop="comment" label="备注">
     </el-table-column>

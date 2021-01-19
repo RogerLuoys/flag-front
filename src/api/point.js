@@ -2,29 +2,29 @@ import api from './axios'
 
 export function newPointLogAPI (data) {
   return api({
-    url: 'api/taskDaily/newTaskDaily',
+    url: 'api/point/newPointLog',
     method: 'post',
     data: data
   })
 }
 
-export function queryTotalPointAPI (params) {
+export function queryPointSummaryAPI (params) {
   return api({
-    url: 'api/taskDaily/queryTaskDailyList',
+    url: 'api/point/queryPointSummary',
     method: 'get',
     params: params
   })
 }
 
-export function queryPointListAPI(params) {
+export function queryPointLogListAPI (params) {
   return api({
-    url: 'api/taskDaily/queryTaskDailyList',
+    url: 'api/point/queryPointLogList',
     method: 'get',
     params: params
   })
 }
 
-export function modifyTaskDailyStatusAPI(params) {
+export function modifyTaskDailyStatusAPI (params) {
   return api({
     url: 'api/taskDaily/modifyTaskDailyStatus',
     method: 'put',
