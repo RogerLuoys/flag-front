@@ -24,55 +24,17 @@
     </el-row>
     <el-row>
       <!--列表-->
-      <el-table :data="pageData" border size="mini" style="width: 100%">
-        <el-table-column prop="flagId" label="业务ID" width="150"></el-table-column>
-        <el-table-column prop="flagName" label="名称" width="150"></el-table-column>
-        <el-table-column prop="description" label="简介" width="300"></el-table-column>
-        <el-table-column prop="witnessName" label="见证人" width="100"></el-table-column>
-        <el-table-column label="类型" width="100">
-          <template #default="scope">
-            {{getType(scope.row)}}
-          </template>
-        </el-table-column>
-        <el-table-column label="优先级" width="100">
-          <template #default="scope">
-            {{getPriority(scope.row)}}
-          </template>
-        </el-table-column>
-        <el-table-column prop="endDate" label="结束时间" width="150"></el-table-column>
-        <el-table-column label="状态" width="100">
-          <template #default="scope">
-            {{getStatus(scope.row)}}
-          </template>
-        </el-table-column>
-        <el-table-column fixed="right" label="操作" width="90">
-          <template #default="scope">
-            <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">编辑</el-button>
-            <span v-if="scope.row.type === '1'">
-              <el-popconfirm title="确定删除Flag吗？" @confirm="removeFlag(scope.row)">
-              <template #reference>
-                <el-button type="text" size="small">删除</el-button>
-              </template>
-            </el-popconfirm>
-            </span>
-            <span v-else-if="scope.row.type === '2'">
-              <el-popconfirm title="确定Flag已完成吗？" @confirm="completeFlag(scope.row)">
-              <template #reference>
-                <el-button type="text" size="small">完成</el-button>
-              </template>
-            </el-popconfirm>
-            </span>
-            <span v-else-if="scope.row.type === '3'"></span>
-            <span v-else-if="scope.row.type === '4'">
-              <el-popconfirm title="确定恢复Flag吗？" @confirm="restoreFlag(scope.row)">
-              <template #reference>
-                <el-button type="text" size="small">恢复</el-button>
-              </template>
-            </el-popconfirm>
-            </span>
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-tabs tab-position="left" v-model="pageControl.activateName" @tab-click="queryFlagList">
+        <el-tab-pane label="年度flag" name="flag">
+          <flag-list :flag-list="pageData" :type="1"></flag-list>
+        </el-tab-pane>
+        <el-tab-pane label="终身flag" name="habit">
+          <flag-list :flag-list="pageData" :type="2"></flag-list>
+        </el-tab-pane>
+        <el-tab-pane label="flag模板" name="template">
+          <template-list :template-list="pageData" :type="3"></template-list>
+        </el-tab-pane>
+      </el-tabs>
     </el-row>
     <!--分页-->
     <el-pagination
@@ -88,8 +50,11 @@
 
 <script>
 import {queryFlagListAPI, newFlagAPI, modifyFlagStatusAPI} from '@/api/flag'
+import flagList from './flag-list'
+import templateList from './template-list'
 
 export default {
+  components: {flagList, templateList},
   data () {
     return {
       pageData: [{
@@ -101,11 +66,14 @@ export default {
         type: '1',
         priority: '--',
         endDate: '--',
+        expected: '--',
         status: '2'
       }],
       pageControl: {
         pageIndex: 1,
         visible: false,
+        activateName: 'flag',
+        flagType: 1,
         name: '',
         search: {
           type: '',
@@ -149,7 +117,13 @@ export default {
       })
     },
     queryFlagList () {
+      if (this.pageControl.activateName === 'flag') {
+        this.pageControl.flagType = 1
+      } else if (this.pageControl.activateName === 'habit') {
+        this.pageControl.flagType = 2
+      }
       queryFlagListAPI({
+        type: this.pageControl.flagType,
         pageIndex: this.pageControl.pageIndex
       }).then(response => {
         this.pageData = response.data.data
