@@ -1,25 +1,25 @@
 <template>
   <el-table :data="flagList" border size="mini">
-    <el-table-column prop="flagName" label="名称" width="150"></el-table-column>
-    <el-table-column prop="description" label="简介" width="300"></el-table-column>
+    <el-table-column label="状态" width="80">
+      <template #default="scope">
+        <el-tag :type="getTagType(scope.row)">{{ getStatus(scope.row) }}</el-tag>
+      </template>
+    </el-table-column>
+    <el-table-column prop="flagName" label="名称" width="150" show-overflow-tooltip></el-table-column>
+    <el-table-column prop="description" label="简介" width="200" show-overflow-tooltip></el-table-column>
     <el-table-column prop="witnessName" label="见证人" width="100"></el-table-column>
-<!--    <el-table-column label="类型" width="100">-->
-<!--      <template #default="scope">-->
-<!--        {{getType(scope.row)}}-->
-<!--      </template>-->
-<!--    </el-table-column>-->
+    <!--    <el-table-column label="类型" width="100">-->
+    <!--      <template #default="scope">-->
+    <!--        {{getType(scope.row)}}-->
+    <!--      </template>-->
+    <!--    </el-table-column>-->
     <el-table-column label="优先级" width="100">
       <template #default="scope">
-        {{getPriority(scope.row)}}
+        {{ getPriority(scope.row) }}
       </template>
     </el-table-column>
     <el-table-column prop="endDate" label="结束时间" width="150"></el-table-column>
-    <el-table-column label="状态" width="100">
-      <template #default="scope">
-        {{getStatus(scope.row)}}
-      </template>
-    </el-table-column>
-    <el-table-column prop="description" label="预期结果"></el-table-column>
+    <el-table-column prop="expected" label="预期结果"></el-table-column>
     <el-table-column fixed="right" label="操作" width="90">
       <template #default="scope">
         <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">编辑</el-button>
@@ -29,14 +29,14 @@
                 <el-button type="text" size="small">删除</el-button>
               </template>
             </el-popconfirm>
-            </span>
+        </span>
         <span v-else-if="scope.row.type === '2'">
               <el-popconfirm title="确定Flag已完成吗？" @confirm="completeFlag(scope.row)">
               <template #reference>
                 <el-button type="text" size="small">完成</el-button>
               </template>
             </el-popconfirm>
-            </span>
+        </span>
         <span v-else-if="scope.row.type === '3'"></span>
         <span v-else-if="scope.row.type === '4'">
               <el-popconfirm title="确定恢复Flag吗？" @confirm="restoreFlag(scope.row)">
@@ -44,7 +44,7 @@
                 <el-button type="text" size="small">恢复</el-button>
               </template>
             </el-popconfirm>
-            </span>
+        </span>
       </template>
     </el-table-column>
   </el-table>
@@ -64,23 +64,21 @@ export default {
       default: 1
     }
   },
-  data () {
+  data() {
     return {
-      pageData: {
-
-      }
+      pageData: {}
     }
   },
   methods: {
-    removeFlag (row) {
+    removeFlag(row) {
       console.info(row)
       console.info('test')
     },
-    restoreFlag (row) {
+    restoreFlag(row) {
       console.info(row)
       console.info('test')
     },
-    completeFlag (row) {
+    completeFlag(row) {
       modifyFlagStatusAPI({
         flagId: row.flagId,
         status: '3'
@@ -90,7 +88,7 @@ export default {
         }
       })
     },
-    getType (row) {
+    getType(row) {
       let flagType = ''
       switch (row.type) {
         case '1':
@@ -102,7 +100,7 @@ export default {
       }
       return flagType
     },
-    getPriority (row) {
+    getPriority(row) {
       let flagPriority = ''
       switch (row.priority) {
         case '1':
@@ -117,7 +115,7 @@ export default {
       }
       return flagPriority
     },
-    getStatus (row) {
+    getStatus(row) {
       let flagStatus = ''
       switch (row.status) {
         case '1':
@@ -134,6 +132,28 @@ export default {
           break
       }
       return flagStatus
+    },
+    getTagType(row) {
+      let tagType = ''
+      switch (row.status) {
+        case '1':
+          // 未开始
+          tagType = 'info'
+          break
+        case '2':
+          // 进行中
+          tagType = '-'
+          break
+        case '3':
+          // 已完成
+          tagType = 'success'
+          break
+        case '4':
+          // 暂时
+          tagType = 'warning'
+          break
+      }
+      return tagType
     }
   }
 }

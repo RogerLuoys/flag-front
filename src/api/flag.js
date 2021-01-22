@@ -6,7 +6,7 @@ import api from './axios'
 //   apiNewFlag: data => api.post('', {data})
 // }
 
-export function queryFlagListAPI(data) {
+export function queryFlagListAPI (data) {
   return api({
     url: 'api/flag/queryFlagList',
     method: 'post',
@@ -18,7 +18,7 @@ export function queryFlagListAPI(data) {
   })
 }
 
-export function newFlagAPI(data) {
+export function newFlagAPI (data) {
   return api({
     url: 'api/flag/newFlag',
     method: 'post',
@@ -26,7 +26,7 @@ export function newFlagAPI(data) {
   })
 }
 
-export function modifyFlagStatusAPI(params) {
+export function modifyFlagStatusAPI (params) {
   return api({
     url: 'api/flag/modifyFlagStatus',
     method: 'put',
@@ -34,14 +34,14 @@ export function modifyFlagStatusAPI(params) {
   })
 }
 
-export function queryFlagDetailAPI(params) {
+export function queryFlagDetailAPI (params) {
   return api({
     url: `api/flag/queryFlagDetail/${params}`,
     method: 'get'
   })
 }
 
-export function modifyFlagBasicAPI(data) {
+export function modifyFlagBasicAPI (data) {
   return api({
     url: `api/flag/modifyFlagBasic`,
     method: 'put',

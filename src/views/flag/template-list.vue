@@ -1,15 +1,15 @@
 <template>
   <div>
-    <el-table :data="templateList" border size="mini" style="width: 100%">
-      <el-table-column prop="flagName" label="推荐" width="100"></el-table-column>
+    <el-table :data="pageData" border size="mini" style="width: 100%">
       <el-table-column prop="flagName" label="名称" width="150"></el-table-column>
+      <el-table-column prop="useCount" label="使用度" width="100"></el-table-column>
       <el-table-column label="类型" width="100">
         <template #default="scope">
           {{getType(scope.row)}}
         </template>
       </el-table-column>
       <el-table-column prop="description" label="简介" width="300"></el-table-column>
-      <el-table-column prop="description" label="预期结果"></el-table-column>
+      <el-table-column prop="expected" label="预期结果"></el-table-column>
       <el-table-column fixed="right" label="操作" width="90">
         <template #default="scope">
           <el-button @click="lookTemplate" type="text" size="small">查看</el-button>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import {queryFlagTemplateListAPI} from '@/api/template'
+
 export default {
   props: {
     templateList: {
@@ -39,23 +41,32 @@ export default {
   data () {
     return {
       pageData: [{
-        flagId: '2',
+        flagTemplateId: '2',
         flagName: '--',
+        useCount: '1',
         description: '--',
-        witnessID: '--',
-        witnessName: '--',
         type: '1',
-        priority: '--',
-        endDate: '--',
         expected: '--',
-        status: '2'
-      }]
+      }],
+      pageControl: {
+        search: {
+          name: null
+        }
+      }
     }
   },
   created: function () {
     console.info('test template')
+    this.queryFlagTemplateList()
   },
   methods: {
+    queryFlagTemplateList () {
+      queryFlagTemplateListAPI({
+        flagName: this.pageControl.flagType
+      }).then(response => {
+        this.pageData = response.data.data
+      })
+    },
     lookTemplate (row) {
       console.info(row)
       console.info('test look')
