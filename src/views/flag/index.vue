@@ -32,7 +32,7 @@
           <flag-list :flag-list="pageData" :type="2"></flag-list>
         </el-tab-pane>
         <el-tab-pane label="flag模板" name="template">
-          <template-list :template-list="pageData" :type="3"></template-list>
+          <template-list></template-list>
         </el-tab-pane>
       </el-tabs>
     </el-row>

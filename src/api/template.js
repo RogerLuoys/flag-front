@@ -2,9 +2,8 @@ import api from './axios'
 
 export function queryFlagTemplateDetailAPI (params) {
   return api({
-    url: 'api/template/queryFlagTemplateDetail',
-    method: 'get',
-    params: params
+    url: `api/template/queryFlagTemplateDetail/${params}`,
+    method: 'get'
   })
 }
 

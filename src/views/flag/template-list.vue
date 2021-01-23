@@ -12,7 +12,7 @@
       <el-table-column prop="expected" label="预期结果"></el-table-column>
       <el-table-column fixed="right" label="操作" width="90">
         <template #default="scope">
-          <el-button @click="lookTemplate" type="text" size="small">查看</el-button>
+          <el-button @click="$router.push(`templateDetail/${scope.row.flagTemplateId}`)"  type="text" size="small" >查看</el-button>
           <el-popconfirm title="将使用该模板创建Flag，确定吗？" @confirm="useTemplate">
             <template #reference>
               <el-button type="text" size="small">使用</el-button>
@@ -28,16 +28,16 @@
 import {queryFlagTemplateListAPI} from '@/api/template'
 
 export default {
-  props: {
-    templateList: {
-      type: Array,
-      default: () => []
-    },
-    type: {
-      type: Number,
-      default: 1
-    }
-  },
+  // props: {
+  //   templateList: {
+  //     type: Array,
+  //     default: () => []
+  //   },
+  //   type: {
+  //     type: Number,
+  //     default: 1
+  //   }
+  // },
   data () {
     return {
       pageData: [{
@@ -46,7 +46,7 @@ export default {
         useCount: '1',
         description: '--',
         type: '1',
-        expected: '--',
+        expected: '--'
       }],
       pageControl: {
         search: {

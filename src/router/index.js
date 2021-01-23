@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import flag from '@/views/flag/index'
 import flagDetail from '@/views/flag/flag-detail'
+import templateDetail from '@/views/flag/template-detail'
 import taskDaily from '@/views/task-daily/index'
 import report from '@/views/report/index'
 import point from '@/views/point/index'
@@ -32,6 +33,11 @@ export default new Router({
       path: '/flagDetail/:id',
       name: 'flagDetail',
       component: flagDetail
+    },
+    {
+      path: '/templateDetail/:id',
+      name: 'templateDetail',
+      component: templateDetail
     },
     {
       path: '/taskDaily',
