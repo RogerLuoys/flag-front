@@ -1,38 +1,51 @@
 <template>
   <div>
-    <el-button @click="queryTaskDailyList">test</el-button>
     <el-calendar>
       <template #dateCell="{data}">
-        <!--判断当前日是否有任务-->
-        <div v-if="getAllDates().indexOf(data.day) !== -1">
-          <!--按日期展示任务-->
-          <el-tooltip  placement="left-start" effect="light">
-            <template #content>
-              <div v-for="(item, index) in pageData.tasks" :key="index">
-                <div v-if="item.startTime === data.day">
-                  {{item.taskDailyName}}
+        <!--先判断是否当前显示月份-->
+        <div v-if="data.type === 'current-month'">
+          <!--判断当前日是否有任务-->
+          <div v-if="getAllDates().indexOf(data.day) !== -1">
+            <!--按日期展示任务-->
+            <el-tooltip  placement="left-start" effect="light">
+              <template #content>
+                <div v-for="(item, index) in pageData.tasks" :key="index">
+                  <div v-if="item.startTime === data.day">
+                    {{item.taskDailyName}}
+                  </div>
                 </div>
+              </template>
+              <div>
+                <!--判断日期是否晚于大前天-->
+                <div v-if="checkIsPastDate(data.day) === false">
+                  <el-link @click="newTask(data.day)">
+                    {{ data.day.split('-').slice(2).join('-') }}
+                  </el-link>
+                </div>
+                <div v-else>
+                  {{ data.day.split('-').slice(2).join('-') }}
+                </div>
+                <br/>
+                <el-link type="primary" @click="callDialog(data.day)">今日有任务</el-link>
               </div>
-            </template>
-            <div>
-              <el-link @click="newTask(data.day)">
-                {{ data.day.split('-').slice(2).join('-') }}
-              </el-link>
-              <br/>
-              <el-link type="primary" @click="callDialog(data.day)">今日有任务</el-link>
+            </el-tooltip>
+          </div>
+          <div v-else>
+            <!--判断日期是否晚于大前天-->
+            <div v-if="checkIsPastDate(data.day) === false">
+              <el-tooltip content="点我新增临时任务" placement="right" effect="light">
+                <el-link @click="newTask(data.day)">
+                  {{ data.day.split('-').slice(2).join('-') }}
+                </el-link>
+              </el-tooltip>
             </div>
-          </el-tooltip>
+            <div v-else>
+              {{ data.day.split('-').slice(2).join('-') }}
+            </div>
+          </div>
         </div>
         <div v-else>
-          <div>
-            <el-link @click="newTask(data.day)">
-              {{ data.day.split('-').slice(2).join('-') }}
-            </el-link>
-            <span v-if="data.isSelected === true">
-              <br/>
-              <span>点日期新增当日任务</span>
-            </span>
-          </div>
+          {{ data.day.split('-').slice(2).join('-') }}
         </div>
       </template>
     </el-calendar>
@@ -116,6 +129,23 @@ export default {
     this.queryTaskDailyList()
   },
   methods: {
+    testM (data) {
+      console.info(data)
+      // debugger
+      console.info(data.type)
+      console.info(data.isSelected)
+      console.info(data.day)
+    },
+    checkIsPastDate (day) {
+      let today = new Date()
+      let yesterday = today.setTime(today.getTime() - 24 * 60 * 60 * 1000 * 3)
+      let dateCellDay = new Date(day)
+      if (dateCellDay < yesterday) {
+        return true
+      } else {
+        return false
+      }
+    },
     completeTaskDaily (taskDailyId) {
       modifyTaskDailyStatusAPI({
         taskDailyId: taskDailyId,
@@ -134,12 +164,6 @@ export default {
         if (response.data.success === true) {
           this.pageData.tasks = response.data.data
           console.info('查询任务成功' + this.pageData.tasks)
-          this.$message({
-            message: '恭喜你，这是一条成功消息',
-            type: 'success'
-          })
-        } else {
-          this.$message.error('错了哦，这是一条错误消息')
         }
       })
     },
