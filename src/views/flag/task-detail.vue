@@ -48,7 +48,7 @@ export default {
         description: 'description',
         point: 0,
         type: 2,
-        cycle: 'Mon'
+        cycle: '1'
       },
       pageControl: {
         isCreateDailyTask: false
