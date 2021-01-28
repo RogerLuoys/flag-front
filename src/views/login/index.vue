@@ -19,7 +19,9 @@
           </el-row>
           <el-row>
             <el-button style="width: 360px" type="primary" @click="doLogin">登录</el-button>
+            <el-button type="primary" @click="testMethod">测试</el-button>
           </el-row>
+          <div>测试数据：{{pageControl.testValue}}</div>
         </div>
 
       </el-card>
@@ -29,6 +31,7 @@
 
 <script>
 import axios from 'axios'
+// import store from "../../store/test-vuex";
 
 export default {
   data () {
@@ -38,11 +41,17 @@ export default {
         password: '123456'
       },
       pageControl: {
-        remember: true
+        remember: true,
+        testValue: 0
       }
     }
   },
   methods: {
+    testMethod () {
+      // this.$store.
+      console.info('测试vuex' + this.$store.state.count)
+      console.info('test vuex' + this.$store.state.dialogDisable)
+    },
     doLogin () {
       const _username = this.user.username
       const _passwd = this.user.password
