@@ -10,9 +10,9 @@ const api = axios.create({
   // 办公电脑
   // baseURL: 'http://10.201.10.183:9001/',
   // 我的云主机
-  baseURL: 'http://118.24.117.181:9001/',
+  // baseURL: 'http://118.24.117.181:9001/',
   // 本地
-  // baseURL: 'http://localhost:9001/',
+  baseURL: 'http://localhost:9001/',
   timeout: 10000,
   withCredentials: false
   // headers: {'X-Custom-Header': 'foobar'}
@@ -41,7 +41,6 @@ api.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   // 对响应错误做点什么
-  console.info('接口调用失败')
   Message.error('未知系统错误，请稍后重试，或联系管理员')
   return Promise.reject(error)
 })

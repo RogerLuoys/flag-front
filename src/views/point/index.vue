@@ -2,7 +2,7 @@
   <div>
     <div>
       <sapn>今年积分总收入：{{pageData.pointSummary.totalPoint}}；    可用积分：{{pageData.pointSummary.usablePoint}}</sapn>
-      <el-button @click="pageControl.drawerVisible=true">使用积分</el-button>
+      <el-button type="primary" size="mini" @click="pageControl.drawerVisible=true" style="float:right">使用积分</el-button>
     </div>
     <el-tabs tab-position="left" v-model="pageControl.activateName" @tab-click="queryPointLogList">
       <el-tab-pane label="积分收入" name="income">
