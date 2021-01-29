@@ -175,6 +175,7 @@ export default {
       }).then(response => {
         if (response.data.success === true) {
           console.info('更新基本信息成功')
+          this.$message.success("更新基本信息成功")
         }
       })
     }
