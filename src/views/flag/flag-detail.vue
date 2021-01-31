@@ -70,12 +70,12 @@
       </el-collapse-item>
     </el-collapse>
     <template v-if="pageControl.isNewTask">
-      <el-dialog title="新增任务" :visible.sync="pageControl.dialogVisible">
+      <el-dialog title="新增任务" :visible.sync="$store.state.flag.isTaskVisible">
         <task-detail :flagId="pageData.flagId"></task-detail>
       </el-dialog>
     </template>
     <template v-else>
-      <el-dialog title="编辑任务" :visible.sync="pageControl.dialogVisible">
+      <el-dialog title="编辑任务" :visible.sync="$store.state.flag.isTaskVisible">
         <task-detail :flagId="pageData.flagId" :taskId="pageControl.taskIdProp"></task-detail>
       </el-dialog>
     </template>
@@ -85,10 +85,10 @@
 <script>
 import {queryFlagDetailAPI, modifyFlagBasicAPI} from '@/api/flag'
 import taskDetail from './task-detail'
-import taskDialog from './task-dialog'
+// import taskDialog from './task-dialog'
 
 export default {
-  components: {taskDialog, taskDetail},
+  components: {taskDetail},
   data () {
     return {
       pageData: {
@@ -118,7 +118,6 @@ export default {
         ]
       },
       pageControl: {
-        dialogVisible: false,
         isNewTask: false,
         taskIdProp: '0',
         activeNames: ['1'],
@@ -146,13 +145,12 @@ export default {
     modifyTask (taskId) {
       this.pageControl.taskIdProp = taskId
       this.pageControl.isNewTask = false
-      this.pageControl.dialogVisible = true
+      this.$store.commit('setTaskVisible', true)
       console.info(this.pageControl.dialogVisible)
     },
     newTask () {
-      // this.pageControl.taskIdProp = '0'
       this.pageControl.isNewTask = true
-      this.pageControl.dialogVisible = true
+      this.$store.commit('setTaskVisible', true)
     },
     queryFlagDetail () {
       queryFlagDetailAPI(

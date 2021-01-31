@@ -1,13 +1,15 @@
 <template>
   <div>
     <!--搜索-->
-    <el-select v-model="pageControl.search.status" clearable size="mini" placeholder="请选择状态" style="width:110px; float:left">
+    <el-select v-model="pageControl.search.status" clearable size="mini" placeholder="请选择状态"
+               style="width:110px; float:left">
       <el-option key="1" label="未开始" value="1"></el-option>
       <el-option key="2" label="进行中" value="2"></el-option>
       <el-option key="3" label="已完成" value="3"></el-option>
       <el-option key="4" label="已撤销" value="4"></el-option>
     </el-select>
-    <el-input placeholder="请输入名称" clearable size="mini" v-model="pageControl.search.name" style="width:200px; float:left"></el-input>
+    <el-input placeholder="请输入名称" clearable size="mini" v-model="pageControl.search.name"
+              style="width:200px; float:left"></el-input>
     <el-button icon="el-icon-search" type="primary" @click="queryFlagList(1)" size="mini"></el-button>
     <!--新增-->
     <el-button type="primary" @click="pageControl.visible = true" size="mini" style="float:right">
@@ -31,7 +33,7 @@
     <el-table :data="pageData" border size="mini">
       <el-table-column label="状态" width="80">
         <template #default="scope">
-          <el-tag :type="getTagType(scope.row)">{{ getStatus(scope.row) }}</el-tag>
+          <el-tag size="small" :type="getTagType(scope.row)">{{ getStatus(scope.row) }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="flagName" label="名称" width="150" show-overflow-tooltip></el-table-column>
@@ -48,31 +50,38 @@
         <template #default="scope">
           <!--1=未开始，2=进行中，3=已完成，4=已撤销-->
           <span v-if="scope.row.status === 1">
-          <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">编辑</el-button>
-          <el-popconfirm title="确定删除Flag吗？" @confirm="removeFlag(scope.row)">
-            <template #reference>
-              <el-button type="text" size="small">删除</el-button>
-            </template>
-          </el-popconfirm>
-        </span>
-          <span v-else-if="scope.row.status === 2">
-          <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">编辑</el-button>
-          <el-popconfirm title="确定Flag已完成吗？" @confirm="completeFlag(scope.row)">
+            <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">编辑</el-button>
+            <el-popconfirm title="确定删除Flag吗？" @confirm="removeFlag(scope.row)">
               <template #reference>
-                <el-button type="text" size="small">完成</el-button>
+                <el-button type="text" size="small">删除</el-button>
               </template>
-          </el-popconfirm>
-        </span>
+            </el-popconfirm>
+          </span>
+          <span v-else-if="scope.row.status === 2">
+            <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">编辑</el-button>
+            <el-popconfirm title="确定Flag已完成吗？" @confirm="completeFlag(scope.row)">
+                <template #reference>
+                  <el-button type="text" size="small">完成</el-button>
+                </template>
+            </el-popconfirm>
+          </span>
           <span v-else-if="scope.row.status === 3">
-          <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">查看</el-button>
-        </span>
+            <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">查看</el-button>
+          </span>
           <span v-else-if="scope.row.status === 4">
-          <el-popconfirm title="确定恢复Flag吗？" @confirm="restoreFlag(scope.row)">
-            <template #reference>
-              <el-button type="text" size="small">恢复</el-button>
-            </template>
-          </el-popconfirm>
-        </span>
+            <el-popconfirm title="确定恢复Flag吗？" @confirm="restoreFlag(scope.row)">
+              <template #reference>
+                <el-button type="text" size="small">恢复</el-button>
+              </template>
+            </el-popconfirm>
+          </span>
+          <span v-else>
+            <el-popconfirm title="确定删除Flag吗？" @confirm="removeFlag(scope.row)">
+              <template #reference>
+                <el-button type="text" size="small">删除</el-button>
+              </template>
+            </el-popconfirm>
+          </span>
         </template>
       </el-table-column>
     </el-table>
@@ -113,13 +122,13 @@ export default {
     this.queryFlagList(1)
   },
   methods: {
-    changeCurrentPage (val) {
+    changeCurrentPage(val) {
       this.pageControl.pageIndex = val
       this.queryFlagList()
       // console.info('this page=' + this.pageControl.currentPage)
       console.info('this page2=' + val)
     },
-    newFlag () {
+    newFlag() {
       newFlagAPI({
         flagName: this.pageControl.newFlagName,
         type: this.flagType
@@ -133,7 +142,7 @@ export default {
         }
       })
     },
-    queryFlagList (currentPage) {
+    queryFlagList(currentPage) {
       this.pageControl.pageIndex = currentPage
       queryFlagListAPI({
         flagName: this.pageControl.search.name,
@@ -145,11 +154,11 @@ export default {
         }
       })
     },
-    removeFlag (row) {
+    removeFlag(row) {
       console.info(row)
       console.info('test' + this.pageData.length)
     },
-    restoreFlag (row) {
+    restoreFlag(row) {
       modifyFlagStatusAPI({
         flagId: row.flagId,
         status: 4
@@ -159,7 +168,7 @@ export default {
         }
       })
     },
-    completeFlag (row) {
+    completeFlag(row) {
       modifyFlagStatusAPI({
         flagId: row.flagId,
         status: 3
@@ -169,7 +178,7 @@ export default {
         }
       })
     },
-    getType (row) {
+    getType(row) {
       let flagType = ''
       switch (row.type) {
         case 1:
@@ -181,7 +190,7 @@ export default {
       }
       return flagType
     },
-    getPriority (row) {
+    getPriority(row) {
       let flagPriority = ''
       switch (row.priority) {
         case 1:
