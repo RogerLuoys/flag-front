@@ -2,7 +2,7 @@
   <div>
     <el-calendar>
       <template #dateCell="{data}">
-        <!--先判断是否当前显示月份-->
+        <!--先判断是否当前选中月份-->
         <div v-if="data.type === 'current-month'">
           <!--判断当前日是否有任务-->
           <div v-if="getAllDates().indexOf(data.day) !== -1">
@@ -16,9 +16,9 @@
                 </div>
               </template>
               <div>
-                <!--判断日期是否晚于大前天-->
+                <!--判断日期是否晚于大前天，是则不能加临时任务-->
                 <div v-if="checkIsPastDate(data.day) === false">
-                  <el-link @click="newTask(data.day)">
+                  <el-link @click="newTaskDaily(data.day)">
                     {{ data.day.split('-').slice(2).join('-') }}
                   </el-link>
                 </div>
@@ -34,7 +34,7 @@
             <!--判断日期是否晚于大前天-->
             <div v-if="checkIsPastDate(data.day) === false">
               <el-tooltip content="点我新增临时任务" placement="right" effect="light">
-                <el-link @click="newTask(data.day)">
+                <el-link @click="newTaskDaily(data.day)">
                   {{ data.day.split('-').slice(2).join('-') }}
                 </el-link>
               </el-tooltip>
@@ -77,7 +77,7 @@
         <!--<el-button type="primary" @click="pageControl.dialogVisible = false">确 定</el-button>-->
       </div>
     </el-dialog>
-    <el-dialog title="新增临时任务" :visible.sync="pageControl.newDialogVisible">
+    <el-dialog title="新增临时任务" :visible.sync="$store.state.taskDaily.isTaskDailyVisible">
       <task-daily-detail :selectedDay="pageControl.selectedDay"></task-daily-detail>
     </el-dialog>
   </div>
@@ -118,7 +118,7 @@ export default {
       },
       pageControl: {
         listDialogVisible: false,
-        newDialogVisible: false,
+        // newDialogVisible: false,
         disable: false,
         selectedDay: '',
         activeName: '-1'
@@ -180,10 +180,11 @@ export default {
       this.pageControl.listDialogVisible = true
       this.pageControl.selectedDay = selectedDay
     },
-    newTask (selectedDay) {
+    newTaskDaily (selectedDay) {
       this.pageControl.selectedDay = selectedDay
-      this.pageControl.newDialogVisible = true
-      // console.info('新增任务' + selectedDay)
+      // this.pageControl.newDialogVisible = true
+      this.$store.commit('setTaskDailyVisible', true)
+      console.info('test vuex ' + this.$store.state.taskDaily.isTaskDailyVisible)
     }
   }
 }

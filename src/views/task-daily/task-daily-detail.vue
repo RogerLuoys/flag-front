@@ -62,9 +62,10 @@ export default {
         endTime: this.selectedDay
       }).then(response => {
         if (response.data.success === true) {
-          this.$message.success('新增任务成功，点X关闭弹窗')
+          this.$message.success('新增任务成功')
+          this.$store.commit('setTaskDailyVisible', false)
         } else {
-          this.$message.success('新增任务成功，点X关闭弹窗')
+          this.$message.success('新增任务失败')
         }
       })
     },

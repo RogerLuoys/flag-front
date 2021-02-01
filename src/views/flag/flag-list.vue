@@ -87,7 +87,7 @@
     </el-table>
     <!--分页-->
     <el-pagination layout="prev, pager, next" @current-change="queryFlagList" :current-page="pageControl.pageIndex"
-                   :total="1000" style="float: right">
+                   :total="pageControl.totalCount" style="float: right">
     </el-pagination>
   </div>
 
@@ -103,10 +103,11 @@ export default {
       default: 1
     }
   },
-  data() {
+  data () {
     return {
       pageData: [],
       pageControl: {
+        totalCount: 1,
         pageIndex: 1,
         visible: false,
         newFlagName: '',
@@ -122,13 +123,13 @@ export default {
     this.queryFlagList(1)
   },
   methods: {
-    changeCurrentPage(val) {
+    changeCurrentPage (val) {
       this.pageControl.pageIndex = val
       this.queryFlagList()
       // console.info('this page=' + this.pageControl.currentPage)
       console.info('this page2=' + val)
     },
-    newFlag() {
+    newFlag () {
       newFlagAPI({
         flagName: this.pageControl.newFlagName,
         type: this.flagType
@@ -142,7 +143,7 @@ export default {
         }
       })
     },
-    queryFlagList(currentPage) {
+    queryFlagList (currentPage) {
       this.pageControl.pageIndex = currentPage
       queryFlagListAPI({
         flagName: this.pageControl.search.name,
@@ -150,7 +151,8 @@ export default {
         pageIndex: this.pageControl.pageIndex
       }).then(response => {
         if (response.data.success === true) {
-          this.pageData = response.data.data
+          this.pageData = response.data.data.list
+          this.pageControl.totalCount = response.data.data.total
         }
       })
     },
