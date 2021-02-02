@@ -1,9 +1,11 @@
 <template>
   <div>
+    <!--总览-->
     <div>
       <sapn>今年积分总收入：{{pageData.pointSummary.totalPoint}}；    可用积分：{{pageData.pointSummary.usablePoint}}</sapn>
       <el-button type="primary" size="mini" @click="pageControl.drawerVisible=true" style="float:right">使用积分</el-button>
     </div>
+    <el-divider></el-divider>
     <el-tabs tab-position="left" v-model="pageControl.activateName" @tab-click="queryPointLogList">
       <el-tab-pane label="积分收入" name="income">
         <point-list :point-list="pageData.pointList" :type="1"></point-list>
@@ -12,8 +14,7 @@
         <point-list :point-list="pageData.pointList" :type="2"></point-list>
       </el-tab-pane>
     </el-tabs>
-
-
+    <!--右侧展开栏，积分使用方式-->
     <el-drawer :title="pageControl.title" :visible.sync="pageControl.drawerVisible" size="35%">
       <div class="block">
         <el-carousel height="120px" :autoplay="false" trigger="click" type="card" arrow="never">
@@ -32,20 +33,10 @@
         <customize-point :point-id="this.pageData.pointSummary.pointId"></customize-point>
       </div>
       <div v-else-if="pageControl.selectedCarousel === 1">
-        <div>待实现</div>
-        <div>
-          <el-link type="success">天猫商城</el-link>
-          <el-input-number size="mini" v-model="pageControl.point"></el-input-number>
-        </div>
-        <el-link type="success">淘宝商城</el-link>
-        <el-link type="success">京东商城</el-link>
-        <el-link type="success">网易严选</el-link>
-        <el-link type="success">拼多多</el-link>
-        <el-link type="success">唯品会</el-link>
-        <el-link type="success">线下商场</el-link>
+        <shopping-point></shopping-point>
       </div>
       <div v-else-if="pageControl.selectedCarousel === 2">
-        待实现
+        <travel-point></travel-point>
       </div>
       <div v-else>
         页面异常，请联系管理员
@@ -58,11 +49,13 @@
 
 <script>
 import customizePoint from './customize-point'
+import travelPoint from './travel-point'
+import shoppingPoint from './shopping-point'
 import pointList from './point-list'
 import {queryPointSummaryAPI, queryPointLogListAPI} from '@/api/point'
 
 export default {
-  components: {customizePoint, pointList},
+  components: {customizePoint, travelPoint, shoppingPoint, pointList},
   data () {
     return {
       pageData: {

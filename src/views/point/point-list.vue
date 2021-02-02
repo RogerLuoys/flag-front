@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="pointList" style="width: 100%">
+  <el-table border :data="pointList" style="width: 100%">
     <template v-if="type === 1">
       <el-table-column prop="description" label="收入来源" width="180">
       </el-table-column>
