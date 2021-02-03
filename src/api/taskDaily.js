@@ -1,6 +1,6 @@
 import api from './axios'
 
-export function newTaskDailyAPI(data) {
+export function newTaskDailyAPI (data) {
   return api({
     url: 'api/taskDaily/newTaskDaily',
     method: 'post',
@@ -8,7 +8,7 @@ export function newTaskDailyAPI(data) {
   })
 }
 
-export function queryTaskDailyListAPI(data) {
+export function queryTaskDailyListAPI (data) {
   return api({
     url: 'api/taskDaily/queryTaskDailyList',
     method: 'post',
@@ -16,7 +16,7 @@ export function queryTaskDailyListAPI(data) {
   })
 }
 
-export function modifyTaskDailyStatusAPI(params) {
+export function modifyTaskDailyStatusAPI (params) {
   return api({
     url: 'api/taskDaily/modifyTaskDailyStatus',
     method: 'put',

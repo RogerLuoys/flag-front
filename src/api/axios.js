@@ -1,5 +1,5 @@
 import axios from 'axios'
-import cookie from 'js-cookie'
+import VueCookies from 'vue-cookies'
 import {Message} from 'element-ui'
 
 // axios.defaults.withCredentials = true
@@ -15,18 +15,17 @@ const api = axios.create({
   baseURL: 'http://localhost:9001/',
   timeout: 10000,
   withCredentials: false
-  // headers: {'X-Custom-Header': 'foobar'}
 })
 
 // 添加请求拦截器
 api.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
-  let userId = cookie.get('userId')
+  let userId = VueCookies.get('userId')
   if (userId) {
-    console.info('有cookie' + userId)
+    console.info('有cookie ' + userId)
     config.headers.UserId = userId
   } else {
-    console.info('无cookie' + userId)
+    console.info('无cookie，默认使用访客ID' + userId)
     config.headers.UserId = '101'
   }
   return config

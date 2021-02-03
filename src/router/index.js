@@ -7,8 +7,8 @@ import taskDaily from '@/views/task-daily/index'
 import report from '@/views/report/index'
 import point from '@/views/point/index'
 import message from '@/views/message/index'
-import profile from '@/views/profile/index'
-import login from '@/views/login/index'
+import profile from '@/views/user/profile'
+import login from '@/views/user/login'
 
 Vue.use(Router)
 
@@ -16,11 +16,6 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'login',
-      component: login
-    },
-    {
-      path: '/login',
       name: 'login',
       component: login
     },
