@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-container style="background-color: whitesmoke">
-      <el-header height="60px" style="background-color: whitesmoke">
+      <el-header v-if="$store.state.user.isLoginVisible === false" height="60px" style="background-color: whitesmoke">
         <el-col :span="23">
           <el-menu class="el-menu-vertical-demo" mode="horizontal" default-active="1" @open="handleOpen" @close="handleClose"
                    background-color="#545c64"
@@ -35,7 +35,9 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
-
+      </el-header>
+      <el-header v-else height="60px" style="background-color: whitesmoke">
+        <span>欢迎使用，有问题请联系作者</span>
       </el-header>
       <el-main style="height: 13cm; background-color: whitesmoke">
         <el-card style="min-height: 99%">

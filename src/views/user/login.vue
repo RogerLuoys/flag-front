@@ -48,6 +48,12 @@ export default {
       }
     }
   },
+  created: function () {
+    this.$store.commit('setLoginVisible', true)
+  },
+  destroyed: function () {
+    this.$store.commit('setLoginVisible', false)
+  },
   methods: {
     testMethod () {
       // this.$store.

@@ -2,13 +2,15 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import flag from './modules/flag'
 import taskDaily from './modules/task-daily'
+import user from './modules/user'
 
 Vue.use(Vuex)
 
 const store =  new Vuex.Store({
   modules: {
     flag,
-    taskDaily
+    taskDaily,
+    user
   }
 })
 
