@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside width="800px">
+    <el-aside width="700px">
       <div>
         <h1>个人资料</h1>
       </div>

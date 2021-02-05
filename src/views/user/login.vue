@@ -4,7 +4,7 @@
       <el-card style="width: 400px;">
         <template #header>
           <span>请先登录</span>
-          <span style="float: right"><el-button type="text">注册</el-button></span>
+          <span style="float: right"><el-button type="text" @click="pageControl.registerDialogVisible = true">注册</el-button></span>
         </template>
         <div>
           <el-row>
@@ -15,7 +15,7 @@
           </el-row>
           <el-row>
             <el-checkbox v-model="pageControl.remember" disabled>自动登录</el-checkbox>
-            <el-button type="text" size="mini" style="float: right">忘记密码？</el-button>
+            <el-button type="text" size="mini" @click="$message.error('联系作者或再注册一个')" style="float: right">忘记密码？</el-button>
           </el-row>
           <el-row>
             <el-button style="width: 360px" type="primary" @click="doLogin">登录</el-button>
@@ -27,6 +27,19 @@
         </div>
       </el-card>
     </div>
+    <el-dialog title="注册新用户" :visible.sync="pageControl.registerDialogVisible">
+      <el-form :model="pageData" label-width="2cm">
+        <el-form-item label="登录账号">
+          <el-input v-model="pageData.loginName" size="small" maxlength="10" show-word-limit></el-input>
+        </el-form-item>
+        <el-form-item label="登录密码">
+          <el-input v-model="pageData.password" size="small" maxlength="10" show-word-limit></el-input>
+        </el-form-item>
+        <div style="text-align: center">
+          <el-button type="primary" @click="registerUser">注册</el-button>
+        </div>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -43,7 +56,8 @@ export default {
         password: ''
       },
       pageControl: {
-        remember: true,
+        remember: false,
+        registerDialogVisible: false,
         testValue: 0
       }
     }
@@ -60,6 +74,9 @@ export default {
       this.$cookies.set('loginName', this.pageData.loginName)
       this.$cookies.set('password', this.pageData.password)
       this.$cookies.set('userId', '1')
+    },
+    registerUser () {
+      this.pageControl.registerDialogVisible = false
     },
     setUserCookie () {
       this.$cookies.set('loginName', this.pageData.loginName)
