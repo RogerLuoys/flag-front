@@ -2,7 +2,7 @@
 // initial state
 // shape: [{ id, quantity }]
 const state = () => ({
-  isLoginVisible: false
+  isLoginVisible: true
 })
 
 // mutations

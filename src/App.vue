@@ -37,7 +37,7 @@
         </el-col>
       </el-header>
       <el-header v-else height="60px" style="background-color: whitesmoke">
-        <span>欢迎使用，有问题请联系作者</span>
+        <el-image :src="pageControl.headerImage" :fit="pageControl.fit">欢迎使用，有问题请联系作者</el-image>
       </el-header>
       <el-main style="height: 13cm; background-color: whitesmoke">
         <el-card style="min-height: 99%">
@@ -52,7 +52,9 @@
 export default {
   data () {
     return {
-      isCollapse: true
+      pageControl: {
+        headerImage: 'http://118.24.117.181/images/header.png'
+      }
     }
   },
   methods: {
