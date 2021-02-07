@@ -28,7 +28,7 @@
         </el-col>
         <el-col :span="1"  style="background-color: #545c64; height: 60px">
           <el-dropdown @command="dropdownAction">
-            <el-avatar style="cursor: pointer">访客</el-avatar>
+            <el-avatar style="cursor: pointer">{{$store.state.user.userName}}</el-avatar>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="profile">个人设置</el-dropdown-item>
               <el-dropdown-item command="loginOut">退出登录</el-dropdown-item>

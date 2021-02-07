@@ -30,10 +30,10 @@
     <el-dialog title="注册新用户" :visible.sync="pageControl.registerDialogVisible">
       <el-form :model="pageData" label-width="2cm">
         <el-form-item label="登录账号">
-          <el-input v-model="pageData.loginName" size="small" maxlength="10" show-word-limit></el-input>
+          <el-input v-model="pageData.loginName" placeholder="请输入数字或字母" size="small" maxlength="10" show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="登录密码">
-          <el-input v-model="pageData.password" size="small" maxlength="10" show-word-limit></el-input>
+          <el-input v-model="pageData.password" placeholder="请输入数字或字母" size="small" maxlength="10" show-word-limit></el-input>
         </el-form-item>
         <div style="text-align: center">
           <el-button type="primary" @click="registerUser">注册</el-button>
@@ -76,7 +76,17 @@ export default {
       this.$cookies.set('userId', '1')
     },
     registerUser () {
-      this.pageControl.registerDialogVisible = false
+      registerAPI({
+        loginName: this.pageData.loginName,
+        password: this.pageData.password
+      }).then(response => {
+        if (response.data.success === true) {
+          this.$message.success('注册成功')
+          this.pageControl.registerDialogVisible = false
+        } else {
+          this.$message.error(response.data.message)
+        }
+      })
     },
     setUserCookie () {
       this.$cookies.set('loginName', this.pageData.loginName)
@@ -92,6 +102,7 @@ export default {
           console.info('登录成功')
           this.pageData = response.data.data
           this.setUserCookie()
+          this.$store.commit('setUserName', this.pageData.userName)
           this.$router.push('/flag')
         }
       })
@@ -105,9 +116,10 @@ export default {
           console.info('登录成功')
           this.pageData = response.data.data
           this.setUserCookie()
+          this.$store.commit('setUserName', this.pageData.userName)
           this.$router.push('/flag')
         } else {
-          this.$message.error('账号密码不存在')
+          this.$message.error('账号或密码错误')
         }
       })
     }
