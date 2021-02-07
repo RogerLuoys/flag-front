@@ -2,7 +2,7 @@
 // initial state
 // shape: [{ id, quantity }]
 const state = () => ({
-  isLoginVisible: true,
+  isLoginVisible: false,
   userName: '未知啊啊啊啊啊'
 })
 

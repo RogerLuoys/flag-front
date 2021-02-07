@@ -21,7 +21,7 @@
           <el-input v-model="pageData.phone" size="small" maxlength="11"></el-input>
         </el-form-item>
         <div style="text-align: center">
-          <el-button type="primary">保存</el-button>
+          <el-button type="primary">更新</el-button>
         </div>
       </el-form>
     </el-aside>
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import {queryUserProfileAPI} from '@/api/user'
+
 export default {
   data () {
     return {
@@ -62,6 +64,11 @@ export default {
   },
   methods: {
     queryUserProfile () {
+      queryUserProfileAPI().then(response => {
+        if (response.data.success === true) {
+          this.pageData = response.data.data
+        }
+      })
       console.info('profile')
     }
   }

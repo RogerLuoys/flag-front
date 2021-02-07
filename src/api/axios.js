@@ -23,10 +23,10 @@ api.interceptors.request.use(function (config) {
   let userId = VueCookies.get('userId')
   if (userId) {
     console.info('有cookie ' + userId)
-    config.headers.UserId = userId
+    config.headers.userId = userId
   } else {
     console.info('无cookie，默认使用访客ID' + userId)
-    config.headers.UserId = '101'
+    config.headers.userId = '101'
   }
   return config
 }, function (error) {

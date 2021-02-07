@@ -11,6 +11,13 @@ export function loginAPI (params) {
   })
 }
 
+export function queryUserProfileAPI () {
+  return api({
+    url: 'api/user/queryUserProfile',
+    method: 'get'
+  })
+}
+
 export function registerAPI (data) {
   return api({
     url: 'api/user/register',
