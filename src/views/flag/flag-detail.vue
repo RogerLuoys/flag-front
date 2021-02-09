@@ -49,15 +49,21 @@
       <el-collapse-item title="见证人" name="2">
         <div>见证人是：{{pageData.witnessName}}</div>
       </el-collapse-item>
-      <el-collapse-item title="任务列表" name="3">
+      <el-collapse-item title="周期任务" name="3">
         <el-button type="primary" plain size="small" @click="newTask" style="float: right;">新增关联任务</el-button>
-        <el-table :data="pageData.tasks" style="margin-left: 100px">
+        <el-table :data="pageData.taskList" style="margin-left: 100px">
           <el-table-column prop="taskName" label="名称" width="150"></el-table-column>
-          <el-table-column prop="description" label="简介" width="150"></el-table-column>
+          <el-table-column prop="description" label="简介" width="150" show-overflow-tooltip></el-table-column>
           <el-table-column prop="point" label="积分" width="150"></el-table-column>
-          <el-table-column prop="cycle" label="周期" width="150"></el-table-column>
+          <el-table-column label="周期" width="300">
+            <template #default="scope">
+              <el-tag v-for="(item, index) in getTaskCycle(scope.row)" :key="index">
+                {{item}}
+              </el-tag>
+            </template>
+          </el-table-column>
           <el-table-column label="操作" width="150">
-            <template v-slot="scope">
+            <template #default="scope">
               <el-button @click="modifyTask(scope.row.taskId)" type="text" size="small">编辑</el-button>
               <el-popconfirm title="将同时删除未完成的每日任务，确定吗？" @confirm="completeFlag(scope.row)">
                 <template #reference>
@@ -85,7 +91,6 @@
 <script>
 import {queryFlagDetailAPI, modifyFlagBasicAPI} from '@/api/flag'
 import taskDetail from './task-detail'
-// import taskDialog from './task-dialog'
 
 export default {
   components: {taskDetail},
@@ -105,14 +110,14 @@ export default {
         ownerName: 'ownerName',
         witnessId: 'witnessId',
         witnessName: 'witnessName',
-        tasks: [
+        taskList: [
           {
             taskId: 'taskId',
             taskName: 'taskName',
             description: 'description',
             point: 'point',
             type: 'type',
-            cycle: 'cycle',
+            cycleList: [],
             isScanned: 'isScanned'
           }
         ]
@@ -142,11 +147,56 @@ export default {
     this.queryFlagDetail()
   },
   methods: {
+    getTaskCycle (row) {
+      switch (row.type) {
+        case 1:
+          return '临时任务'
+          break
+        case 2:
+          return this.getWeekCycle(row.cycleList)
+        default:
+          return '未知周期'
+      }
+    },
+    getWeekCycle (cycles) {
+      let weekCycle = []
+      for (let i = 0; i < cycles.length; i++) {
+        weekCycle[i] = weekCycle + ' ' + cycles[i]
+        // 转换成文字周期
+        switch (cycles[i]) {
+          case '1':
+            weekCycle[i] = '周一'
+            break
+          case '2':
+            weekCycle[i] = '周二'
+            break
+          case '3':
+            weekCycle[i] = '周三'
+            break
+          case '4':
+            weekCycle[i] = '周四'
+            break
+          case '5':
+            weekCycle[i] = '周五'
+            break
+          case '6':
+            weekCycle[i] = '周六'
+            break
+          case '7':
+            weekCycle[i] = '周日'
+            break
+          default:
+            weekCycle[i] = '未知周期'
+            break
+        }
+      }
+      return weekCycle
+    },
     modifyTask (taskId) {
       this.pageControl.taskIdProp = taskId
       this.pageControl.isNewTask = false
       this.$store.commit('setTaskVisible', true)
-      console.info(this.pageControl.dialogVisible)
+      // console.info(this.pageControl.dialogVisible)
     },
     newTask () {
       this.pageControl.isNewTask = true

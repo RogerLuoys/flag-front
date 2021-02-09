@@ -14,6 +14,17 @@
           <el-radio :label="4" disabled>按年循环</el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="周期">
+        <el-checkbox-group v-model="pageData.cycleList">
+          <el-checkbox label="1">周一</el-checkbox>
+          <el-checkbox label="2">周二</el-checkbox>
+          <el-checkbox label="3">周三</el-checkbox>
+          <el-checkbox label="4">周四</el-checkbox>
+          <el-checkbox label="5">周五</el-checkbox>
+          <el-checkbox label="6">周六</el-checkbox>
+          <el-checkbox label="7">周日</el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
       <el-form-item label="描述">
         <el-input v-model="pageData.description" placeholder="请描述你的任务" type="textarea" maxlength="200" show-word-limit></el-input>
       </el-form-item>
@@ -49,7 +60,7 @@ export default {
         description: '',
         point: 0,
         type: 2,
-        cycle: '1'
+        cycleList: []
       },
       pageControl: {
         isCreateDailyTask: false
@@ -70,9 +81,14 @@ export default {
       if (this.taskId === '0') {
         console.info('新增')
         this.pageData.flagId = this.flagId
-        newTaskAPI(
-          this.pageData
-        ).then(response => {
+        newTaskAPI({
+          flagId: this.pageData.flagId,
+          taskName: this.pageData.taskName,
+          description: this.pageData.description,
+          point: this.pageData.point,
+          type: this.pageData.type,
+          cycleList: this.pageData.cycleList
+        }).then(response => {
           if (response.data.success === true) {
             this.$message.success('新增任务成功')
           } else {
@@ -87,7 +103,7 @@ export default {
           description: this.pageData.description,
           point: this.pageData.point,
           type: this.pageData.type,
-          cycle: this.pageData.cycle
+          cycleList: this.pageData.cycleList
         }).then(response => {
           if (response.data.success === true) {
             this.$message.success('编辑任务成功')
