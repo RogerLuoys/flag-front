@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-container style="background-color: whitesmoke">
-      <el-header v-if="$store.state.user.isLoginVisible === false" height="60px" style="background-color: whitesmoke">
+      <el-header v-if="$store.state.user.isLogin === true" height="60px" style="background-color: whitesmoke">
         <el-col :span="23">
           <el-menu class="el-menu-vertical-demo" mode="horizontal" default-active="1" @open="handleOpen" @close="handleClose"
                    background-color="#545c64"
@@ -37,7 +37,7 @@
         </el-col>
       </el-header>
       <el-header v-else height="60px" style="background-color: whitesmoke">
-        <el-image :src="pageControl.headerImage" :fit="pageControl.fit">欢迎使用，有问题请联系作者</el-image>
+        <el-image src="http://118.24.117.181/images/header.png" fit="fill">欢迎使用，有问题请联系作者</el-image>
       </el-header>
       <el-main style="height: 13cm; background-color: whitesmoke">
         <el-card style="min-height: 99%">
@@ -49,18 +49,59 @@
 </template>
 
 <script>
+import {loginAPI} from '@/api/user'
+
 export default {
-  data () {
-    return {
-      pageControl: {
-        headerImage: 'http://118.24.117.181/images/header.png'
-      }
+  // data () {
+  //   return {
+  //     pageControl: {
+  //       headerImage: 'http://118.24.117.181/images/header.png'
+  //     }
+  //   }
+  // },
+  created: function () {
+    // 如有cookie，则自动登录
+    if (this.$cookies.get('userId') && this.$cookies.get('loginName')) {
+      loginAPI({
+        loginName: this.$cookies.get('loginName'),
+        password: this.$cookies.get('password')
+      }).then(response => {
+        if (response.data.success === true) {
+          this.$store.commit('setUserName', response.data.data.userName)
+          this.$store.commit('setIsLogin', true)
+          this.$router.push('/flag')
+        } else {
+          this.$message.error('账号或密码错误，请重新登录')
+          this.$store.commit('setIsLogin', false)
+          this.$router.push('/')
+        }
+      })
+    } else {
+      this.$message.error('登录过期，请重新登录')
+      this.$store.commit('setIsLogin', false)
+      this.$router.push('/')
     }
   },
   methods: {
     testM (command) {
       console.info('test ' + command)
       this.$router.push('/')
+    },
+    doLogin () {
+      loginAPI({
+        loginName: this.pageData.loginName,
+        password: this.pageData.password
+      }).then(response => {
+        if (response.data.success === true) {
+          console.info('登录成功')
+          this.pageData = response.data.data
+          this.setUserCookie()
+          this.$store.commit('setUserName', this.pageData.userName)
+          this.$router.push('/flag')
+        } else {
+          this.$message.error('账号或密码错误')
+        }
+      })
     },
     dropdownAction (command) {
       switch (command) {

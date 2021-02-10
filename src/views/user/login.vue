@@ -23,7 +23,6 @@
           <el-row>
             <el-button style="width: 360px" @click="guestLogin">使用访客账号</el-button>
           </el-row>
-<!--          <el-button @click="testMethod">test</el-button>-->
         </div>
       </el-card>
     </div>
@@ -56,17 +55,19 @@ export default {
         password: ''
       },
       pageControl: {
-        remember: false,
+        remember: true,
         registerDialogVisible: false,
         testValue: 0
       }
     }
   },
   created: function () {
-    this.$store.commit('setLoginVisible', true)
+    this.$store.commit('setIsLogin', false)
   },
   destroyed: function () {
-    this.$store.commit('setLoginVisible', false)
+    if (this.$cookies.get('userId')) {
+      this.$store.commit('setIsLogin', true)
+    }
   },
   methods: {
     testMethod () {

@@ -25,10 +25,12 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="开始时间">
-            <el-date-picker type="date" placeholder="选择日期" v-model="pageData.startDate"  size="small" style="width: 200px"></el-date-picker>
+            <el-date-picker type="date" placeholder="选择日期" v-model="pageData.startDate"
+                            value-format="yyyy-MM-dd" size="small" style="width: 200px"></el-date-picker>
           </el-form-item>
           <el-form-item label="结束时间">
-            <el-date-picker type="date" placeholder="选择日期" v-model="pageData.endDate"  size="small" style="width: 200px"></el-date-picker>
+            <el-date-picker type="date" placeholder="选择日期" v-model="pageData.endDate"
+                            value-format="yyyy-MM-dd" size="small" style="width: 200px"></el-date-picker>
           </el-form-item>
           <el-form-item label="优先级">
             <el-select v-model="pageData.priority" placeholder="请选择"  size="small" style="width: 200px">
@@ -97,30 +99,20 @@ export default {
   data () {
     return {
       pageData: {
-        flagId: 'flagId',
-        flagName: 'flagName',
+        flagId: '',
+        flagName: '',
         type: 1,
-        startDate: '2020-10-17',
-        endDate: '2021-12-31',
+        startDate: '',
+        endDate: '',
         priority: 1,
-        description: 'description',
-        expected: 'expected',
-        actual: 'actual',
-        ownerId: 'ownerId',
-        ownerName: 'ownerName',
-        witnessId: 'witnessId',
-        witnessName: 'witnessName',
-        taskList: [
-          {
-            taskId: 'taskId',
-            taskName: 'taskName',
-            description: 'description',
-            point: 'point',
-            type: 'type',
-            cycleList: [],
-            isScanned: 'isScanned'
-          }
-        ]
+        description: '',
+        expected: '',
+        actual: '',
+        ownerId: '',
+        ownerName: '',
+        witnessId: '',
+        witnessName: '',
+        taskList: []
       },
       pageControl: {
         isNewTask: false,
@@ -210,6 +202,8 @@ export default {
       })
     },
     modifyFlagBasic () {
+      console.info(this.pageData.startDate)
+      // debugger
       modifyFlagBasicAPI({
         flagId: this.pageData.flagId,
         flagName: this.pageData.flagName,
