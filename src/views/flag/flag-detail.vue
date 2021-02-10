@@ -138,6 +138,13 @@ export default {
   created: function () {
     this.queryFlagDetail()
   },
+  watch: {
+    '$store.state.flag.isTaskVisible': function (newVal, oldVal) {
+      if (newVal === false) {
+        this.queryFlagDetail()
+      }
+    }
+  },
   methods: {
     getTaskCycle (row) {
       switch (row.type) {
