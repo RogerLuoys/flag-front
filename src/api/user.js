@@ -33,3 +33,11 @@ export function modifyUserAPI (data) {
     data: data
   })
 }
+
+export function queryUserInfoAPI (params) {
+  return api({
+    url: 'api/user/queryUserInfo',
+    method: 'get',
+    params: params
+  })
+}

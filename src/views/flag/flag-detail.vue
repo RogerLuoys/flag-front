@@ -10,48 +10,65 @@
     </el-divider>
     <el-collapse v-model="pageControl.activeNames">
       <el-collapse-item title="基本信息" name="1">
-        <el-button type="primary" plain @click="modifyFlagBasic"  size="small" style="float:right">保存基本信息</el-button>
+<!--        <el-button type="primary" plain @click="modifyFlagBasic"  size="small" style="float:right">保存基本信息</el-button>-->
         <el-form ref="pageData" :model="pageData" label-width="5cm" style="max-width: 1000px">
           <el-form-item label="业务ID">
             <el-input v-model="pageData.flagId" size="small" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="名称">
-            <el-input v-model="pageData.flagName" size="small" maxlength="30" show-word-limit></el-input>
+            <el-input v-model="pageData.flagName" @change="modifyFlagBasic" size="small" maxlength="30" show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="类型">
-            <el-radio-group v-model="pageData.type"  size="small">
+            <el-radio-group v-model="pageData.type" @change="modifyFlagBasic" size="small">
               <el-radio :label="1">FLAG</el-radio>
               <el-radio :label="2">习惯</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="开始时间">
             <el-date-picker type="date" placeholder="选择日期" v-model="pageData.startDate"
-                            value-format="yyyy-MM-dd" size="small" style="width: 200px"></el-date-picker>
+                            @change="modifyFlagBasic" value-format="yyyy-MM-dd" size="small" style="width: 200px"></el-date-picker>
           </el-form-item>
           <el-form-item label="结束时间">
             <el-date-picker type="date" placeholder="选择日期" v-model="pageData.endDate"
-                            value-format="yyyy-MM-dd" size="small" style="width: 200px"></el-date-picker>
+                            @change="modifyFlagBasic" value-format="yyyy-MM-dd" size="small" style="width: 200px"></el-date-picker>
           </el-form-item>
           <el-form-item label="优先级">
-            <el-select v-model="pageData.priority" placeholder="请选择"  size="small" style="width: 200px">
+            <el-select v-model="pageData.priority" @change="modifyFlagBasic" placeholder="请选择" size="small" style="width: 200px">
               <el-option v-for="item in pageControl.options" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="描述">
-            <el-input v-model="pageData.description" type="textarea" maxlength="200" show-word-limit></el-input>
+            <el-input v-model="pageData.description" @change="modifyFlagBasic" type="textarea" maxlength="200" show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="期望目标">
-            <el-input v-model="pageData.expected" type="textarea" maxlength="200" show-word-limit></el-input>
+            <el-input v-model="pageData.expected" @change="modifyFlagBasic" type="textarea" maxlength="200" show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="实际成果">
-            <el-input v-model="pageData.actual" type="textarea" maxlength="200" show-word-limit></el-input>
+            <el-input v-model="pageData.actual" @change="modifyFlagBasic" type="textarea" maxlength="200" show-word-limit></el-input>
+          </el-form-item>
+          <el-form-item label="见证人">
+            <el-tag
+              v-if="pageData.witnessName"
+              closable
+              :disable-transitions="false"
+              @close="removeWitness">
+              {{pageData.witnessName}}
+            </el-tag>
+            <el-input
+              v-if="pageControl.isWitnessInputVisible"
+              v-model="pageData.witnessId"
+              ref="saveTagInput"
+              size="small"
+              placeholder="请输入用户编号"
+              @keyup.enter.native="changeWitness"
+              @blur="changeWitness"
+            >
+            </el-input>
+            <el-button v-else size="small" @click="pageControl.isWitnessInputVisible = true">+ 添加见证人</el-button>
           </el-form-item>
         </el-form>
       </el-collapse-item>
-      <el-collapse-item title="见证人" name="2">
-        <div>见证人是：{{pageData.witnessName}}</div>
-      </el-collapse-item>
-      <el-collapse-item title="周期任务" name="3">
+      <el-collapse-item title="周期任务" name="2">
         <el-button type="primary" plain size="small" @click="newTask" style="float: right;">新增关联任务</el-button>
         <el-table :data="pageData.taskList" style="margin-left: 100px">
           <el-table-column prop="taskName" label="名称" width="150"></el-table-column>
@@ -91,7 +108,8 @@
 </template>
 
 <script>
-import {queryFlagDetailAPI, modifyFlagBasicAPI} from '@/api/flag'
+import {queryFlagDetailAPI, modifyFlagBasicAPI, modifyFlagWitnessAPI} from '@/api/flag'
+import {queryUserInfoAPI} from '@/api/user'
 import taskDetail from './task-detail'
 
 export default {
@@ -115,9 +133,10 @@ export default {
         taskList: []
       },
       pageControl: {
+        isWitnessInputVisible: false,
         isNewTask: false,
         taskIdProp: '0',
-        activeNames: ['1'],
+        activeNames: ['1', '2'],
         options: [
           {
             value: 1,
@@ -146,6 +165,50 @@ export default {
     }
   },
   methods: {
+    removeWitness () {
+      console.info("remove")
+      modifyFlagWitnessAPI({
+        witnessId: '',
+        witnessName: '',
+        flagId: this.pageData.flagId
+      }).then(response => {
+        if (response.data.success === true) {
+          this.pageData.witnessId = null
+          this.pageData.witnessName = null
+          this.$message.success('删除见证人成功')
+        }
+      })
+    },
+    changeWitness () {
+      if (this.pageData.witnessId === this.$cookies.get('userId')) {
+        this.$message.error('不能添加自己')
+        return
+      }
+      // 暂时这么实现，后端可以少写点
+      queryUserInfoAPI({
+        userId: this.pageData.witnessId
+      }).then(response => {
+        if (response.data.success === true) {
+          this.pageData.witnessName = response.data.data.userName
+        } else {
+          this.$message.error('该用户不存在，请输入正确的用户编号')
+        }
+      })
+      this.pageControl.isWitnessInputVisible = false
+      if (this.pageData.witnessName === null) {
+        this.$message.error('用户未完善昵称')
+        return
+      }
+      modifyFlagWitnessAPI({
+        witnessId: this.pageData.witnessId,
+        witnessName: this.pageData.witnessName,
+        flagId: this.pageData.flagId
+      }).then(response => {
+        if (response.data.success === true) {
+          this.$message.success('更新见证人成功')
+        }
+      })
+    },
     getTaskCycle (row) {
       switch (row.type) {
         case 1:

@@ -48,3 +48,11 @@ export function modifyFlagBasicAPI (data) {
     data: data
   })
 }
+
+export function modifyFlagWitnessAPI (data) {
+  return api({
+    url: `api/flag/modifyFlagWitness`,
+    method: 'put',
+    data: data
+  })
+}

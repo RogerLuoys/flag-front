@@ -92,29 +92,7 @@ export default {
   data () {
     return {
       pageData: {
-        tasks: [
-          // {
-          //   startTime: '2020-12-13',
-          //   taskDailyName: '喝热水',
-          //   description: '每天早上喝一大杯热水',
-          //   bindType: 1,
-          //   status: 1
-          // },
-          // {
-          //   startTime: '2020-12-13',
-          //   taskDailyName: '发呆',
-          //   description: '每天晚上发呆自省',
-          //   bindType: 2,
-          //   status: 2
-          // },
-          // {
-          //   startTime: '2020-12-14',
-          //   taskDailyName: '冥想',
-          //   description: '修仙ing',
-          //   bindType: 2,
-          //   status: 1
-          // }
-        ]
+        tasks: []
       },
       pageControl: {
         listDialogVisible: false,
@@ -122,6 +100,13 @@ export default {
         disable: false,
         selectedDay: '',
         activeName: '-1'
+      }
+    }
+  },
+  watch: {
+    '$store.state.taskDaily.isTaskDailyVisible': function (newVal, oldVal) {
+      if (newVal === false) {
+        this.queryTaskDailyList()
       }
     }
   },
