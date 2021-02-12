@@ -9,7 +9,7 @@
             <!--按日期展示任务-->
             <el-tooltip  placement="left-start" effect="light">
               <template #content>
-                <div v-for="(item, index) in pageData.tasks" :key="index">
+                <div v-for="(item, index) in pageData" :key="index">
                   <div v-if="item.startTime === data.day">
                     {{item.taskDailyName}}
                   </div>
@@ -49,13 +49,17 @@
         </div>
       </template>
     </el-calendar>
+    <!--单日任务列表弹窗-->
     <el-dialog title="今日任务" :visible.sync="pageControl.listDialogVisible">
       <el-collapse accordion>
-        <div v-for="(item, index) in pageData.tasks" :key="index">
+        <div v-for="(item, index) in pageData" :key="index">
           <div v-if="item.startTime === pageControl.selectedDay">
             <el-collapse-item>
               <template #title>
-                {{item.taskDailyName}}<i class="header-icon el-icon-info"></i>
+                <div>
+                  <span>{{item.taskDailyName}}</span>
+                  <el-tag size="small" :type="getTagType(item.status)">{{getStatus(item.status)}}</el-tag>
+                </div>
               </template>
               <div>简介：{{item.description}}</div>
               <div>状态：{{item.status}}</div>
@@ -91,9 +95,7 @@ export default {
   components: {taskDailyDetail},
   data () {
     return {
-      pageData: {
-        tasks: []
-      },
+      pageData: [],
       pageControl: {
         listDialogVisible: false,
         // newDialogVisible: false,
@@ -121,6 +123,46 @@ export default {
       console.info(data.isSelected)
       console.info(data.day)
     },
+    getStatus (status) {
+      let flagStatus = ''
+      switch (status) {
+        case 1:
+          flagStatus = '进行中'
+          break
+        case 2:
+          flagStatus = '已完成'
+          break
+        case 3:
+          flagStatus = '撤销'
+          break
+        case 4:
+          flagStatus = '暂停'
+          break
+      }
+      return flagStatus
+    },
+    getTagType (status) {
+      let tagType = ''
+      switch (status) {
+        case 1:
+          // 进行中
+          tagType = '-'
+          break
+        case 2:
+          // 已完成
+          tagType = 'success'
+          break
+        case 3:
+          // 撤销
+          tagType = 'info'
+          break
+        case 4:
+          // 暂时
+          tagType = 'warning'
+          break
+      }
+      return tagType
+    },
     checkIsPastDate (day) {
       let today = new Date()
       let yesterday = today.setTime(today.getTime() - 24 * 60 * 60 * 1000 * 3)
@@ -147,14 +189,14 @@ export default {
         currentYear: today.getFullYear()
       }).then(response => {
         if (response.data.success === true) {
-          this.pageData.tasks = response.data.data
-          console.info('查询任务成功' + this.pageData.tasks)
+          this.pageData = response.data.data
+          console.info('查询任务成功' + this.pageData)
         }
       })
     },
     getAllDates () {
       let startTimes = ''
-      let myTask = this.pageData.tasks
+      let myTask = this.pageData
       for (let i = 0; i < myTask.length; i++) {
         startTimes = startTimes + ' ' + myTask[i].startTime
       }

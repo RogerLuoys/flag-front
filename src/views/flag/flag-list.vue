@@ -180,7 +180,7 @@ export default {
         }
       })
     },
-    getType(row) {
+    getType (row) {
       let flagType = ''
       switch (row.type) {
         case 1:
@@ -192,7 +192,7 @@ export default {
       }
       return flagType
     },
-    getPriority(row) {
+    getPriority (row) {
       let flagPriority = ''
       switch (row.priority) {
         case 1:
@@ -207,7 +207,7 @@ export default {
       }
       return flagPriority
     },
-    getStatus(row) {
+    getStatus (row) {
       let flagStatus = ''
       switch (row.status) {
         case 1:
@@ -225,7 +225,7 @@ export default {
       }
       return flagStatus
     },
-    getTagType(row) {
+    getTagType (row) {
       let tagType = ''
       switch (row.status) {
         case 1:
@@ -247,7 +247,7 @@ export default {
       }
       return tagType
     },
-    getCreateTitle() {
+    getCreateTitle () {
       if (this.flagType === 1) {
         return '新增FLAG'
       } else if (this.flagType === 2) {
