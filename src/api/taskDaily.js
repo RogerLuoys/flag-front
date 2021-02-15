@@ -23,6 +23,14 @@ export function modifyTaskDailyStatusAPI (params) {
     params: params
   })
 }
+
+export function modifyTaskDailyCommentAPI (params) {
+  return api({
+    url: 'api/taskDaily/modifyTaskDailyComment',
+    method: 'put',
+    params: params
+  })
+}
 //
 // export function modifyTaskAPI(data) {
 //   return api({

@@ -61,14 +61,38 @@
                   <el-tag size="small" :type="getTagType(item.status)">{{getStatus(item.status)}}</el-tag>
                 </div>
               </template>
-              <div>简介：{{item.description}}</div>
-              <div>状态：{{item.status}}</div>
-              <div v-if="item.status === 2">已完成</div>
-              <div v-else-if="item.status === 1 && item.bindType === 1">
-                <el-button type="primary" size="mini" @click="completeTaskDaily(item.taskDailyId)" plain>完成</el-button>
-                <el-button type="primary" size="mini" plain>撤销</el-button>
+              <el-row>
+                <el-col :span="2" style="text-align: right">简介：</el-col>
+                <el-col :span="22">{{item.description}}</el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="2" style="text-align: right">备注：</el-col>
+                <el-col :span="22">
+                  <el-input
+                    v-if="pageControl.isCommentInputVisible"
+                    v-model="pageControl.selectedComment"
+                    ref="saveTagInput"
+                    type="textarea"
+                    placeholder="请输入备注"
+                    @keyup.enter.native="changeComment(item.taskDailyId)"
+                    @blur="changeComment(item.taskDailyId)"
+                  >
+                  </el-input>
+                  <span v-else>{{item.comment}}</span>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="2" style="text-align: right">积分：</el-col>
+                <el-col :span="22">{{item.point}}</el-col>
+              </el-row>
+              <div v-if="item.status === 2" style="text-align: center">
+                <el-button type="primary" size="mini" @click="selectComment(item.comment)" plain>更改备注</el-button>
               </div>
-              <div v-else-if="item.status === 1 && item.bindType === 2">
+              <div v-else-if="item.status === 1 && item.bindType === 1" style="text-align: center">
+                <el-button type="primary" size="mini" @click="completeTaskDaily(item.taskDailyId)" plain>完成</el-button>
+                <el-button type="primary" size="mini" @click="selectComment(item.comment)" plain>更改备注</el-button>
+              </div>
+              <div v-else-if="item.status === 1 && item.bindType === 2" style="text-align: center">
                 <el-button type="primary" size="mini" plain>提醒</el-button>
               </div>
               <div v-else>异常状态</div>
@@ -89,7 +113,7 @@
 
 <script>
 import taskDailyDetail from './task-daily-detail'
-import {queryTaskDailyListAPI, modifyTaskDailyStatusAPI} from '@/api/taskDaily'
+import {queryTaskDailyListAPI, modifyTaskDailyStatusAPI, modifyTaskDailyCommentAPI} from '@/api/taskDaily'
 
 export default {
   components: {taskDailyDetail},
@@ -97,6 +121,8 @@ export default {
     return {
       pageData: [],
       pageControl: {
+        selectedComment: '',
+        isCommentInputVisible: false,
         listDialogVisible: false,
         // newDialogVisible: false,
         disable: false,
@@ -122,6 +148,29 @@ export default {
       console.info(data.type)
       console.info(data.isSelected)
       console.info(data.day)
+    },
+    changeComment (taskDailyId) {
+      modifyTaskDailyCommentAPI({
+        comment: this.pageControl.selectedComment,
+        taskDailyId: taskDailyId
+      }).then(response => {
+        if (response.data.success === true) {
+          this.queryTaskDailyList()
+          this.$message.success('更新备注成功')
+        } else {
+          this.$message.error('更新备注失败')
+        }
+      })
+      this.pageControl.isCommentInputVisible = false
+    },
+    selectComment (comment) {
+      if (this.pageControl.isCommentInputVisible === false) {
+        this.pageControl.isCommentInputVisible = true
+        this.pageControl.selectedComment = comment
+      } else {
+        this.changeComment()
+        this.pageControl.isCommentInputVisible = false
+      }
     },
     getStatus (status) {
       let flagStatus = ''
