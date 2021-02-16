@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button @click="queryReportDetail">test</el-button>
+    <div>{{pageData.flagName}}</div>
     <el-divider>基本信息</el-divider>
     <el-form ref="form" :model="pageData" label-width="80px">
       <el-form-item label="预期目标">
@@ -16,53 +16,51 @@
     <el-divider>任务日记</el-divider>
     <el-timeline :reverse="true">
       <el-timeline-item
-        v-for="(activity, index) in pageData.taskDailyList"
+        v-for="(item, index) in pageData.reportLogList"
         :key="index"
-        :timestamp="activity.timestamp">
-        {{activity.taskDailyName}} {{activity.comment}}
+        :timestamp="item.endTime">
+        {{item.taskDailyName}} {{item.comment}}
       </el-timeline-item>
     </el-timeline>
   </div>
 </template>
 
 <script>
+import {queryReportDetailAPI} from '@/api/report'
+
 export default {
-  props: {
-    flagId: {
-      type: String
-    }
-  },
   data () {
     return {
       pageData: {
-        flagName: 'flagName',
-        description: 'description',
-        expected: 'expected',
-        actual: 'actual',
+        flagName: '--',
+        description: '--',
+        expected: '--',
+        actual: '--',
         witnessID: '--',
-        witnessName: 'witnessName',
+        witnessName: '--',
         startDate: '',
-        endDate: '--',
-        taskDailyList: [{
-          taskDailyName: '看书',
-          comment: '今天看了三本书，收获很大',
-          timestamp: '2018-04-15'
-        }]
+        endDate: '',
+        reportLogList: []
       }
     }
   },
   created: function () {
     this.queryReportDetail()
   },
-  updated: function () {
-    this.queryReportDetail()
-  },
-  mounted: function () {
-    this.queryReportDetail()
+  watch: {
+    '$store.state.report.selectedFlagId': function (newVal, oldVal) {
+      this.queryReportDetail()
+    }
   },
   methods: {
     queryReportDetail () {
-      console.info('查询详情啊a' + this.flagId)
+      queryReportDetailAPI({
+        flagId: this.$store.state.report.selectedFlagId
+      }).then(response => {
+        if (response.data.success === true) {
+          this.pageData = response.data.data
+        }
+      })
     }
   }
 }

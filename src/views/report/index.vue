@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-aside style="height: 12cm">
-      <div v-for="(item, index) in pageData.reportList" :key="index">
+      <div v-for="(item, index) in pageData" :key="index">
         <el-row>
           <el-card class="box-card">
             <template #header class="clearfix">
@@ -19,72 +19,20 @@
       </div>
     </el-aside>
     <el-main style="height: 12cm">
-      <div>{{pageData.reportDetail.flagName}}</div>
-      <el-divider>基本信息</el-divider>
-      <el-form ref="form" :model="pageData.reportDetail" label-width="80px">
-        <el-form-item label="预期目标">
-          <span>{{pageData.reportDetail.expected}}</span>
-        </el-form-item>
-        <el-form-item label="实际成果">
-          <span>{{pageData.reportDetail.actual}}</span>
-        </el-form-item>
-        <el-form-item label="见证人">
-          <span>{{pageData.reportDetail.witnessName}}</span>
-        </el-form-item>
-      </el-form>
-      <el-divider>任务日记</el-divider>
-      <el-timeline :reverse="true">
-        <el-timeline-item
-          v-for="(activity, index) in pageData.reportDetail.reportLogList"
-          :key="index"
-          :timestamp="activity.endTime">
-          {{activity.taskDailyName}} {{activity.comment}}
-        </el-timeline-item>
-      </el-timeline>
+      <report-detail></report-detail>
     </el-main>
   </el-container>
 </template>
 
 <script>
 import reportDetail from './report-detail'
-import {queryReportListAPI, queryReportDetailAPI} from '@/api/report'
+import {queryReportListAPI} from '@/api/report'
 
 export default {
   components: {reportDetail},
   data () {
     return {
-      pageData: {
-        reportList: [{
-          flagId: 'flagId123',
-          flagName: 'flagName',
-          totalPoint: 0,
-          totalTaskDaily: 0
-        },
-        {
-          flagId: 'flagId321',
-          flagName: 'flagName',
-          totalPoint: 0,
-          totalTaskDaily: 0
-        }],
-        reportDetail: {
-          flagName: 'flagName',
-          description: 'description',
-          expected: 'expected',
-          actual: 'actual',
-          witnessID: '--',
-          witnessName: 'witnessName',
-          startDate: '',
-          endDate: '--',
-          reportLogList: [{
-            taskDailyName: '看书',
-            comment: '今天看了三本书，收获很大',
-            endTime: '2018-04-15'
-          }]
-        }
-      },
-      pageControl: {
-        selectedFlagId: ''
-      }
+      pageData: []
     }
   },
   created: function () {
@@ -92,27 +40,18 @@ export default {
   },
   methods: {
     queryReportList () {
-      console.info('查询列表')
       queryReportListAPI().then(response => {
         if (response.data.success === true) {
-          this.pageData.reportList = response.data.data
+          this.pageData = response.data.data
+          if (this.pageData[0].flagId !== null) {
+            this.$store.commit('setSelectedFlagId', this.pageData[0].flagId)
+          }
         }
       })
     },
     queryReportDetail (flagId) {
-      console.info('查询列表')
-      queryReportDetailAPI({
-        flagId: flagId
-      }).then(response => {
-        if (response.data.success === true) {
-          this.pageData.reportDetail = response.data.data
-        }
-      })
+      this.$store.commit('setSelectedFlagId', flagId)
     }
-    // changeSelectedFlagId (flagId) {
-    //   this.pageControl.selectedFlagId = flagId
-    //   console.info('查询详情' + this.pageControl.selectedFlagId)
-    // }
   }
 }
 </script>

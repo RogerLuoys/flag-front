@@ -28,6 +28,11 @@ export default {
       type: Number,
       default: 1
     }
+  },
+  data () {
+    return {
+      pageData: []
+    }
   }
 }
 </script>
