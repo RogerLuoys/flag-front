@@ -156,11 +156,11 @@ export default {
         }
       })
     },
-    removeFlag(row) {
+    removeFlag (row) {
       console.info(row)
       console.info('test' + this.pageData.length)
     },
-    restoreFlag(row) {
+    restoreFlag (row) {
       modifyFlagStatusAPI({
         flagId: row.flagId,
         status: 4
@@ -170,7 +170,7 @@ export default {
         }
       })
     },
-    completeFlag(row) {
+    completeFlag (row) {
       modifyFlagStatusAPI({
         flagId: row.flagId,
         status: 3

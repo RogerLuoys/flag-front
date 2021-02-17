@@ -10,13 +10,13 @@
     </el-divider>
     <el-collapse v-model="pageControl.activeNames">
       <el-collapse-item title="基本信息" name="1">
-<!--        <el-button type="primary" plain @click="modifyFlagBasic"  size="small" style="float:right">保存基本信息</el-button>-->
         <el-form ref="pageData" :model="pageData" label-width="5cm" style="max-width: 1000px">
           <el-form-item label="业务ID">
             <el-input v-model="pageData.flagId" size="small" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="名称">
-            <el-input v-model="pageData.flagName" @change="modifyFlagBasic" size="small" maxlength="30" show-word-limit></el-input>
+            <el-input v-model="pageData.flagName" @change="modifyFlagBasic" size="small" maxlength="30"
+                      show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="类型">
             <el-radio-group v-model="pageData.type" @change="modifyFlagBasic" size="small">
@@ -26,25 +26,32 @@
           </el-form-item>
           <el-form-item label="开始时间">
             <el-date-picker type="date" placeholder="选择日期" v-model="pageData.startDate"
-                            @change="modifyFlagBasic" value-format="yyyy-MM-dd" size="small" style="width: 200px"></el-date-picker>
+                            @change="modifyFlagBasic" value-format="yyyy-MM-dd" size="small"
+                            style="width: 200px"></el-date-picker>
           </el-form-item>
           <el-form-item label="结束时间">
             <el-date-picker type="date" placeholder="选择日期" v-model="pageData.endDate"
-                            @change="modifyFlagBasic" value-format="yyyy-MM-dd" size="small" style="width: 200px"></el-date-picker>
+                            @change="modifyFlagBasic" value-format="yyyy-MM-dd" size="small"
+                            style="width: 200px"></el-date-picker>
           </el-form-item>
           <el-form-item label="优先级">
-            <el-select v-model="pageData.priority" @change="modifyFlagBasic" placeholder="请选择" size="small" style="width: 200px">
-              <el-option v-for="item in pageControl.options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            <el-select v-model="pageData.priority" @change="modifyFlagBasic" placeholder="请选择" size="small"
+                       style="width: 200px">
+              <el-option v-for="item in pageControl.options" :key="item.value" :label="item.label"
+                         :value="item.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="描述">
-            <el-input v-model="pageData.description" @change="modifyFlagBasic" type="textarea" maxlength="200" show-word-limit></el-input>
+            <el-input v-model="pageData.description" @change="modifyFlagBasic" type="textarea" maxlength="200"
+                      show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="期望目标">
-            <el-input v-model="pageData.expected" @change="modifyFlagBasic" type="textarea" maxlength="200" show-word-limit></el-input>
+            <el-input v-model="pageData.expected" @change="modifyFlagBasic" type="textarea" maxlength="200"
+                      show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="实际成果">
-            <el-input v-model="pageData.actual" @change="modifyFlagBasic" type="textarea" maxlength="200" show-word-limit></el-input>
+            <el-input v-model="pageData.actual" @change="modifyFlagBasic" type="textarea" maxlength="200"
+                      show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="见证人">
             <el-tag
@@ -52,7 +59,7 @@
               closable
               :disable-transitions="false"
               @close="removeWitness">
-              {{pageData.witnessName}}
+              {{ pageData.witnessName }}
             </el-tag>
             <el-input
               v-if="pageControl.isWitnessInputVisible"
@@ -61,8 +68,7 @@
               size="small"
               placeholder="请输入用户编号"
               @keyup.enter.native="changeWitness"
-              @blur="changeWitness"
-            >
+              @blur="changeWitness">
             </el-input>
             <el-button v-else size="small" @click="pageControl.isWitnessInputVisible = true">+ 添加见证人</el-button>
           </el-form-item>
@@ -77,7 +83,7 @@
           <el-table-column label="周期" width="300">
             <template #default="scope">
               <el-tag v-for="(item, index) in getTaskCycle(scope.row)" :key="index">
-                {{item}}
+                {{ item }}
               </el-tag>
             </template>
           </el-table-column>
@@ -166,7 +172,6 @@ export default {
   },
   methods: {
     removeWitness () {
-      console.info("remove")
       modifyFlagWitnessAPI({
         witnessId: '',
         witnessName: '',
@@ -213,7 +218,6 @@ export default {
       switch (row.type) {
         case 1:
           return '临时任务'
-          break
         case 2:
           return this.getWeekCycle(row.cycleList)
         default:
@@ -258,7 +262,6 @@ export default {
       this.pageControl.taskIdProp = taskId
       this.pageControl.isNewTask = false
       this.$store.commit('setTaskVisible', true)
-      // console.info(this.pageControl.dialogVisible)
     },
     newTask () {
       this.pageControl.isNewTask = true
@@ -272,8 +275,6 @@ export default {
       })
     },
     modifyFlagBasic () {
-      console.info(this.pageData.startDate)
-      // debugger
       modifyFlagBasicAPI({
         flagId: this.pageData.flagId,
         flagName: this.pageData.flagName,
@@ -286,8 +287,7 @@ export default {
         actual: this.pageData.actual
       }).then(response => {
         if (response.data.success === true) {
-          console.info('更新基本信息成功')
-          this.$message.success("更新基本信息成功")
+          this.$message.success('更新基本信息成功')
         }
       })
     }
@@ -296,7 +296,7 @@ export default {
 </script>
 
 <style scoped>
-  .el-input {
-    width: 500px;
-  }
+.el-input {
+  width: 500px;
+}
 </style>
