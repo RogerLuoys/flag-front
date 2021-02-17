@@ -2,16 +2,16 @@
   <div>
     <!--总览-->
     <div>
-      <sapn>今年积分总收入：{{pageData.pointSummary.totalPoint}}；    可用积分：{{pageData.pointSummary.usablePoint}}</sapn>
+      <span>今年积分总收入：{{pageData.pointSummary.totalPoint}}；    可用积分：{{pageData.pointSummary.usablePoint}}</span>
       <el-button type="primary" size="mini" @click="pageControl.drawerVisible=true" style="float:right">使用积分</el-button>
     </div>
     <el-divider></el-divider>
-    <el-tabs tab-position="left" v-model="pageControl.activateName" @tab-click="queryPointLogList">
+    <el-tabs tab-position="left" v-model="pageControl.activateName">
       <el-tab-pane label="积分收入" name="income">
-        <point-list :point-list="pageData.pointList" :type="1"></point-list>
+        <point-list :type="1"></point-list>
       </el-tab-pane>
       <el-tab-pane label="积分使用" name="expend">
-        <point-list :point-list="pageData.pointList" :type="2"></point-list>
+        <point-list :type="2"></point-list>
       </el-tab-pane>
     </el-tabs>
     <!--右侧展开栏，积分使用方式-->
@@ -30,7 +30,7 @@
         </el-carousel>
       </div>
       <div v-if="pageControl.selectedCarousel === 0">
-        <customize-point :point-id="this.pageData.pointSummary.pointId"></customize-point>
+        <customize-point :point-id="pageData.pointSummary.pointId"></customize-point>
       </div>
       <div v-else-if="pageControl.selectedCarousel === 1">
         <shopping-point></shopping-point>
@@ -52,7 +52,7 @@ import customizePoint from './customize-point'
 import travelPoint from './travel-point'
 import shoppingPoint from './shopping-point'
 import pointList from './point-list'
-import {queryPointSummaryAPI, queryPointLogListAPI} from '@/api/point'
+import {queryPointSummaryAPI} from '@/api/point'
 
 export default {
   components: {customizePoint, travelPoint, shoppingPoint, pointList},
@@ -74,7 +74,6 @@ export default {
       pageControl: {
         drawerVisible: false,
         activateName: 'income',
-        pointUseType: 1,
         title: '劳逸结合，你的积分你做主',
         selectedCarousel: 0,
         point: 1,
@@ -103,28 +102,12 @@ export default {
           break
       }
       this.pageControl.selectedCarousel = item
-      console.info('点击成功' + this.pageControl.selectedCarousel)
     },
     queryPointSummary () {
       queryPointSummaryAPI().then(response => {
         if (response.data.success === true) {
           this.pageData.pointSummary = response.data.data
-        }
-      })
-    },
-    queryPointLogList () {
-      if (this.pageControl.activateName === 'income') {
-        this.pageControl.pointUseType = 1
-      } else if (this.pageControl.activateName === 'expend') {
-        this.pageControl.pointUseType = 2
-      }
-      console.info(this.pageControl.activateName)
-      queryPointLogListAPI({
-        pointId: this.pageData.pointSummary.pointId,
-        type: this.pageControl.pointUseType
-      }).then(response => {
-        if (response.data.success === true) {
-          this.pageData.pointList = response.data.data
+          this.$store.commit('setPointId', this.pageData.pointSummary.pointId)
         }
       })
     }
