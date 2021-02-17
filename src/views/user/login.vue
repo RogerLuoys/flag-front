@@ -44,6 +44,7 @@
 
 <script>
 import {loginAPI, registerAPI} from '@/api/user'
+import {queryPointSummaryAPI} from '@/api/point'
 
 export default {
   data () {
@@ -94,6 +95,13 @@ export default {
       this.$cookies.set('password', this.pageData.password)
       this.$cookies.set('userId', this.pageData.userId)
     },
+    getPointId () {
+      queryPointSummaryAPI().then(response => {
+        if (response.data.success === true) {
+          this.$store.commit('setPointId', response.data.data.pointId)
+        }
+      })
+    },
     guestLogin () {
       loginAPI({
         loginName: 'guest',
@@ -104,6 +112,7 @@ export default {
           this.pageData = response.data.data
           this.setUserCookie()
           this.$store.commit('setUserName', this.pageData.userName)
+          this.getPointId()
           this.$router.push('/flag')
         }
       })
@@ -118,6 +127,7 @@ export default {
           this.pageData = response.data.data
           this.setUserCookie()
           this.$store.commit('setUserName', this.pageData.userName)
+          this.getPointId()
           this.$router.push('/flag')
         } else {
           this.$message.error('账号或密码错误')

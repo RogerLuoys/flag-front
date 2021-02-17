@@ -50,6 +50,7 @@
 
 <script>
 import {loginAPI} from '@/api/user'
+import {queryPointSummaryAPI} from '@/api/point'
 
 export default {
   // data () {
@@ -69,6 +70,7 @@ export default {
         if (response.data.success === true) {
           this.$store.commit('setUserName', response.data.data.userName)
           this.$store.commit('setIsLogin', true)
+          this.getPointId()
           this.$router.push('/flag')
         } else {
           this.$message.error('账号或密码错误，请重新登录')
@@ -83,9 +85,12 @@ export default {
     }
   },
   methods: {
-    testM (command) {
-      console.info('test ' + command)
-      this.$router.push('/')
+    getPointId () {
+      queryPointSummaryAPI().then(response => {
+        if (response.data.success === true) {
+          this.$store.commit('setPointId', response.data.data.pointId)
+        }
+      })
     },
     doLogin () {
       loginAPI({

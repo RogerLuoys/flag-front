@@ -75,8 +75,7 @@
                     type="textarea"
                     placeholder="请输入备注"
                     @keyup.enter.native="changeComment(item.taskDailyId)"
-                    @blur="changeComment(item.taskDailyId)"
-                  >
+                    @blur="changeComment(item.taskDailyId)">
                   </el-input>
                   <span v-else>{{item.comment}}</span>
                 </el-col>
@@ -124,7 +123,6 @@ export default {
         selectedComment: '',
         isCommentInputVisible: false,
         listDialogVisible: false,
-        // newDialogVisible: false,
         disable: false,
         selectedDay: '',
         activeName: '-1'
@@ -223,8 +221,10 @@ export default {
       }
     },
     completeTaskDaily (taskDailyId) {
+      console.info(this.$store.state.point.pointId)
       modifyTaskDailyStatusAPI({
         taskDailyId: taskDailyId,
+        pointId: this.$store.state.point.pointId,
         status: 2
       }).then(response => {
         if (response.data.success === true) {
