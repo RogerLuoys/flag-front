@@ -56,3 +56,11 @@ export function modifyFlagWitnessAPI (data) {
     data: data
   })
 }
+
+export function removeFlagAPI (params) {
+  return api({
+    url: `api/flag/removeFlag`,
+    method: 'delete',
+    params: params
+  })
+}

@@ -28,8 +28,11 @@
       <el-form-item label="描述">
         <el-input v-model="pageData.description" placeholder="请描述你的任务" type="textarea" maxlength="200" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item v-if="taskId === '0'" label="立即生成">
-        <el-switch v-model="pageControl.isCreateDailyTask"></el-switch>
+      <el-form-item label="状态">
+        <el-radio-group v-model="pageData.status"  size="small">
+          <el-radio :label="1">停用</el-radio>
+          <el-radio :label="2">启用</el-radio>
+        </el-radio-group>
       </el-form-item>
     </el-form>
     <div style="text-align: center">
@@ -60,6 +63,7 @@ export default {
         description: '',
         point: 0,
         type: 2,
+        status: 1,
         cycleList: []
       },
       pageControl: {
@@ -87,6 +91,7 @@ export default {
           description: this.pageData.description,
           point: this.pageData.point,
           type: this.pageData.type,
+          status: this.pageData.status,
           cycleList: this.pageData.cycleList
         }).then(response => {
           if (response.data.success === true) {

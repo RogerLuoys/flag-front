@@ -1,12 +1,61 @@
 <template>
   <div>
-    <el-page-header @back="$router.push('/flag')" content="FLAG详情" title="返回列表"></el-page-header>
+    <el-page-header @back="$router.push('/flag')" title="返回列表">
+      <template #content>
+        <span>{{pageData.flagName}}详情</span>
+        <el-tag size="small" :type="getTagType(pageData.status)">{{ getStatus(pageData.status) }}</el-tag>
+      </template>
+    </el-page-header>
     <el-divider content-position="right">
-      <span>更改Flag状态：</span>
-      <el-button type="text" size="small">完成</el-button>
-      <el-button type="text" size="small">暂停</el-button>
-      <el-button type="text" size="small">删除</el-button>
-      <el-button type="text" size="small">还原</el-button>
+      <span v-if="pageData.status === 1">
+        <span>更改状态：</span>
+        <el-popconfirm title="确定开始执行吗？" @confirm="startFlag(pageData.flagId)">
+          <template #reference>
+            <el-button type="text" size="small">开始</el-button>
+          </template>
+        </el-popconfirm>
+        <el-popconfirm title="确定删除吗？" @confirm="removeFlag(pageData.flagId)">
+          <template #reference>
+            <el-button type="text" size="small">删除</el-button>
+          </template>
+        </el-popconfirm>
+      </span>
+      <span v-else-if="pageData.status === 2">
+        <span>更改状态：</span>
+        <el-popconfirm title="确定已完成吗？" @confirm="completeFlag(pageData.flagId)">
+          <template #reference>
+            <el-button type="text" size="small">完成</el-button>
+          </template>
+        </el-popconfirm>
+        <el-popconfirm title="确定暂停吗？" @confirm="pauseFlag(pageData.flagId)">
+          <template #reference>
+            <el-button type="text" size="small">暂停</el-button>
+          </template>
+        </el-popconfirm>
+      </span>
+      <span v-else-if="pageData.status === 3">
+        <span>很棒，插会腰</span>
+      </span>
+      <span v-else-if="pageData.status === 4">
+        <span>更改状态：</span>
+        <el-popconfirm title="确定恢复吗？" @confirm="restoreFlag(pageData.flagId)">
+          <template #reference>
+            <el-button type="text" size="small">恢复</el-button>
+          </template>
+        </el-popconfirm>
+        <el-popconfirm title="确定删除吗？" @confirm="removeFlag(pageData.flagId)">
+          <template #reference>
+            <el-button type="text" size="small">删除</el-button>
+          </template>
+        </el-popconfirm>
+      </span>
+      <span v-else>
+        <el-popconfirm title="确定删除吗？" @confirm="removeFlag(pageData.flagId)">
+          <template #reference>
+            <el-button type="text" size="small">删除</el-button>
+          </template>
+        </el-popconfirm>
+      </span>
     </el-divider>
     <el-collapse v-model="pageControl.activeNames">
       <el-collapse-item title="基本信息" name="1">
@@ -114,7 +163,7 @@
 </template>
 
 <script>
-import {queryFlagDetailAPI, modifyFlagBasicAPI, modifyFlagWitnessAPI} from '@/api/flag'
+import {queryFlagDetailAPI, modifyFlagBasicAPI, modifyFlagWitnessAPI, modifyFlagStatusAPI, removeFlagAPI} from '@/api/flag'
 import {queryUserInfoAPI} from '@/api/user'
 import taskDetail from './task-detail'
 
@@ -125,10 +174,11 @@ export default {
       pageData: {
         flagId: '',
         flagName: '',
-        type: 1,
+        type: 0,
+        status: 0,
         startDate: '',
         endDate: '',
-        priority: 1,
+        priority: 0,
         description: '',
         expected: '',
         actual: '',
@@ -171,6 +221,110 @@ export default {
     }
   },
   methods: {
+    removeFlag (flagId) {
+      removeFlagAPI({
+        flagId: flagId
+      }).then(response => {
+        if (response.data.success === true) {
+          this.$message.success('删除成功')
+          this.$router.push('/flag')
+        } else {
+          this.$message.error('删除失败')
+        }
+      })
+    },
+    startFlag (flagId) {
+      modifyFlagStatusAPI({
+        flagId: flagId,
+        status: 2
+      }).then(response => {
+        if (response.data.success === true) {
+          this.$message.success('已开始，请注意每日任务')
+          this.pageData.status = 2
+        } else {
+          this.$message.error('开始失败')
+        }
+      })
+    },
+    pauseFlag (flagId) {
+      modifyFlagStatusAPI({
+        flagId: flagId,
+        status: 4
+      }).then(response => {
+        if (response.data.success === true) {
+          this.$message.success('暂停成功')
+          this.pageData.status = 4
+        } else {
+          this.$message.error('暂停失败')
+        }
+      })
+    },
+    restoreFlag (flagId) {
+      modifyFlagStatusAPI({
+        flagId: flagId,
+        status: 2
+      }).then(response => {
+        if (response.data.success === true) {
+          this.$message.success('还原成功')
+          this.pageData.status = 2
+        } else {
+          this.$message.error('还原失败')
+        }
+      })
+    },
+    completeFlag (flagId) {
+      modifyFlagStatusAPI({
+        flagId: flagId,
+        status: 3
+      }).then(response => {
+        if (response.data.success === true) {
+          this.$message.success('已完成')
+          this.pageData.status = 3
+        } else {
+          this.$message.error('完成失败')
+        }
+      })
+    },
+    getStatus (status) {
+      let flagStatus = ''
+      switch (status) {
+        case 1:
+          flagStatus = '未开始'
+          break
+        case 2:
+          flagStatus = '进行中'
+          break
+        case 3:
+          flagStatus = '已完成'
+          break
+        case 4:
+          flagStatus = '暂停'
+          break
+      }
+      return flagStatus
+    },
+    getTagType (status) {
+      let tagType = ''
+      switch (status) {
+        case 1:
+          // 未开始
+          tagType = 'info'
+          break
+        case 2:
+          // 进行中
+          tagType = '-'
+          break
+        case 3:
+          // 已完成
+          tagType = 'success'
+          break
+        case 4:
+          // 暂时
+          tagType = 'warning'
+          break
+      }
+      return tagType
+    },
     removeWitness () {
       modifyFlagWitnessAPI({
         witnessId: '',

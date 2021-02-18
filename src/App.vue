@@ -7,7 +7,6 @@
                    background-color="#545c64"
                    text-color="#fff"
                    active-text-color="#ffd04b">
-
             <el-menu-item index="1" @click="$router.push('/flag')">
               <i class="el-icon-s-flag"></i>
               <span slot="title">Flag</span>

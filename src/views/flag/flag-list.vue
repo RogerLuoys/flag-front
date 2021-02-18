@@ -51,7 +51,7 @@
           <!--1=未开始，2=进行中，3=已完成，4=已撤销-->
           <span v-if="scope.row.status === 1">
             <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">编辑</el-button>
-            <el-popconfirm title="确定删除Flag吗？" @confirm="removeFlag(scope.row)">
+            <el-popconfirm title="确定删除吗？" @confirm="removeFlag(scope.row)">
               <template #reference>
                 <el-button type="text" size="small">删除</el-button>
               </template>
@@ -59,7 +59,7 @@
           </span>
           <span v-else-if="scope.row.status === 2">
             <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">编辑</el-button>
-            <el-popconfirm title="确定Flag已完成吗？" @confirm="completeFlag(scope.row)">
+            <el-popconfirm title="确定已完成吗？" @confirm="completeFlag(scope.row)">
                 <template #reference>
                   <el-button type="text" size="small">完成</el-button>
                 </template>
@@ -69,14 +69,14 @@
             <el-button @click="$router.push(`flagDetail/${scope.row.flagId}`)" type="text" size="small">查看</el-button>
           </span>
           <span v-else-if="scope.row.status === 4">
-            <el-popconfirm title="确定恢复Flag吗？" @confirm="restoreFlag(scope.row)">
+            <el-popconfirm title="确定恢复吗？" @confirm="restoreFlag(scope.row)">
               <template #reference>
                 <el-button type="text" size="small">恢复</el-button>
               </template>
             </el-popconfirm>
           </span>
           <span v-else>
-            <el-popconfirm title="确定删除Flag吗？" @confirm="removeFlag(scope.row)">
+            <el-popconfirm title="确定删除吗？" @confirm="removeFlag(scope.row)">
               <template #reference>
                 <el-button type="text" size="small">删除</el-button>
               </template>
@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import {modifyFlagStatusAPI, queryFlagListAPI, newFlagAPI} from '@/api/flag'
+import {modifyFlagStatusAPI, queryFlagListAPI, newFlagAPI, removeFlagAPI} from '@/api/flag'
 
 export default {
   props: {
@@ -159,6 +159,16 @@ export default {
     removeFlag (row) {
       console.info(row)
       console.info('test' + this.pageData.length)
+      removeFlagAPI({
+        flagId: row.flagId
+      }).then(response => {
+        if (response.data.success === true) {
+          this.$message.success('删除成功')
+          this.queryFlagList()
+        } else {
+          this.$message.error('删除失败')
+        }
+      })
     },
     restoreFlag (row) {
       modifyFlagStatusAPI({
@@ -167,6 +177,7 @@ export default {
       }).then(response => {
         if (response.data.success === true) {
           this.queryFlagList()
+          this.$message.success('还原成功')
         }
       })
     },
@@ -177,6 +188,7 @@ export default {
       }).then(response => {
         if (response.data.success === true) {
           this.queryFlagList()
+          this.$message.success(row.flagName + '已完成')
         }
       })
     },
