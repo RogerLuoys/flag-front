@@ -14,3 +14,11 @@ export function queryFlagTemplateListAPI (params) {
     params: params
   })
 }
+
+export function useFlagTemplateAPI (data) {
+  return api({
+    url: 'api/template/useFlagTemplate',
+    method: 'post',
+    data: data
+  })
+}

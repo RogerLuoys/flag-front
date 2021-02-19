@@ -3,7 +3,7 @@
     <el-page-header @back="$router.push('/flag')" content="FLAG模板" title="返回列表">
       <template #content>
         <div style="text-align: right">
-          <el-popconfirm title="将使用该模板创建Flag，确定吗？" @confirm="useTemplate">
+          <el-popconfirm title="将使用该模板，确定吗？" @confirm="useTemplate">
             <template #reference>
               <el-button size="mini" type="primary">使用该模板</el-button>
             </template>
@@ -52,8 +52,7 @@
 </template>
 
 <script>
-import {queryFlagTemplateDetailAPI} from '@/api/template'
-import {newFlagAPI} from '@/api/flag'
+import {queryFlagTemplateDetailAPI, useFlagTemplateAPI} from '@/api/template'
 
 export default {
   data () {
@@ -65,17 +64,7 @@ export default {
         flagType: 1,
         description: 'description',
         expected: 'expected',
-        taskTemplateList: [
-          {
-            taskTemplateId: 'taskTemplateId',
-            taskName: 'taskName',
-            description: 'description',
-            point: 'point',
-            type: 'type',
-            taskType: 'type',
-            cycle: 'cycle'
-          }
-        ]
+        taskTemplateList: []
       },
       pageControl: {
         activeNames: ['1', '2'],
@@ -101,21 +90,16 @@ export default {
   },
   methods: {
     useTemplate () {
-      newFlagAPI({
-        flagName: this.pageControl.newFlagName,
-        type: this.flagType
-      }).then(response => {
+      useFlagTemplateAPI(this.pageData).then(response => {
         if (response.data.success === true) {
-          this.$message.success('新增成功')
-          this.queryFlagList()
-          this.pageControl.visible = false
+          this.$message.success('模板使用成功，请到对应列表查看')
         } else {
-          this.$message.error('新增失败')
+          this.$message.error('模板使用失败')
         }
       })
     },
     getTaskCycle (row) {
-      switch (row.type) {
+      switch (row.taskType) {
         case 1:
           return '临时任务'
         case 2:
