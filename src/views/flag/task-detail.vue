@@ -81,9 +81,7 @@ export default {
   },
   methods: {
     onSubmit () {
-      console.info(this.flagId)
       if (this.taskId === '0') {
-        console.info('新增')
         this.pageData.flagId = this.flagId
         newTaskAPI({
           flagId: this.pageData.flagId,
@@ -101,7 +99,6 @@ export default {
           }
         })
       } else {
-        console.info('修改')
         modifyTaskAPI({
           taskId: this.taskId,
           taskName: this.pageData.taskName,
@@ -122,7 +119,6 @@ export default {
         this.createDailyTask()
       }
       this.$store.commit('setTaskVisible', false)
-      console.info('taskId' + this.taskId)
     },
     queryTask () {
       queryTaskAPI({
@@ -130,7 +126,6 @@ export default {
       }).then(response => {
         if (response.data.success === true) {
           this.pageData = response.data.data
-          console.info('查询成功')
         }
       })
     },

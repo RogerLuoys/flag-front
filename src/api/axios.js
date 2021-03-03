@@ -2,7 +2,6 @@ import axios from 'axios'
 import VueCookies from 'vue-cookies'
 import {Message} from 'element-ui'
 
-// axios.defaults.withCredentials = true
 
 const api = axios.create({
   // 我的电脑
@@ -19,13 +18,11 @@ const api = axios.create({
 
 // 添加请求拦截器
 api.interceptors.request.use(function (config) {
-  // 在发送请求之前做些什么
+  // 在发送请之前检查cookie，有cookie使用cookie，无cookie使用访客Id
   let userId = VueCookies.get('userId')
   if (userId) {
-    console.info('有cookie ' + userId)
     config.headers.userId = userId
   } else {
-    console.info('无cookie，默认使用访客ID' + userId)
     config.headers.userId = '101'
   }
   return config

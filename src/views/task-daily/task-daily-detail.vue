@@ -16,7 +16,6 @@
     </el-form>
     <div style="text-align: center">
       <el-button type="primary" @click="onSubmit"  size="small">保存</el-button>
-      <el-button type="primary" @click="test1()"  size="small">test</el-button>
     </div>
   </div>
 </template>
@@ -35,8 +34,8 @@ export default {
     return {
       pageData: {
         flagId: '',
-        taskDailyName: 'taskDailyName',
-        description: 'description',
+        taskDailyName: '',
+        description: '',
         point: 0,
         startTime: Date,
         endTime: null
@@ -51,8 +50,7 @@ export default {
   },
   methods: {
     onSubmit () {
-      let day = new Date(this.selectedDay);
-      console.info('新增')
+      let day = new Date(this.selectedDay)
       newTaskDailyAPI({
         flagId: this.pageData.flagId,
         taskDailyName: this.pageData.taskDailyName,
@@ -76,12 +74,6 @@ export default {
       this.pageData.point = 0
       this.pageData.startTime = ''
       this.pageData.endTime = ''
-    },
-    test1 () {
-      let d = new Date('2020-12-01')
-      console.info('测试' + d)
-      this.$message.error('错了哦，这是一条错误消息')
-      console.info('选中日期' + this.selectedDay)
     }
   }
 }

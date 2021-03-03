@@ -71,12 +71,6 @@ export default {
     }
   },
   methods: {
-    testMethod () {
-      // this.$store.
-      this.$cookies.set('loginName', this.pageData.loginName)
-      this.$cookies.set('password', this.pageData.password)
-      this.$cookies.set('userId', '1')
-    },
     registerUser () {
       registerAPI({
         loginName: this.pageData.loginName,
@@ -123,7 +117,6 @@ export default {
         password: this.pageData.password
       }).then(response => {
         if (response.data.success === true) {
-          console.info('登录成功')
           this.pageData = response.data.data
           this.setUserCookie()
           this.$store.commit('setUserName', this.pageData.userName)

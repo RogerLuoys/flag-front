@@ -111,7 +111,6 @@ export default {
         pageIndex: 1,
         visible: false,
         newFlagName: '',
-        // currentPage: 1,
         search: {
           status: '',
           name: null
@@ -126,8 +125,6 @@ export default {
     changeCurrentPage (val) {
       this.pageControl.pageIndex = val
       this.queryFlagList()
-      // console.info('this page=' + this.pageControl.currentPage)
-      console.info('this page2=' + val)
     },
     newFlag () {
       newFlagAPI({
@@ -157,8 +154,6 @@ export default {
       })
     },
     removeFlag (row) {
-      console.info(row)
-      console.info('test' + this.pageData.length)
       removeFlagAPI({
         flagId: row.flagId
       }).then(response => {

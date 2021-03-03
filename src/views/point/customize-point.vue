@@ -54,7 +54,6 @@ export default {
           this.$message.error('新增使用记录失败')
         }
       })
-      // this.$message.success('记录成功，放飞自我去吧')
     }
   }
 }

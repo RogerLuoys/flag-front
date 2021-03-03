@@ -37,7 +37,6 @@ export default {
     }
   },
   created: function () {
-    console.info('point id = ' + this.pointId)
     this.queryPointLogList()
   },
   watch: {

@@ -101,7 +101,6 @@
       </el-collapse>
       <div slot="footer" class="dialog-footer">
         <el-button @click="pageControl.listDialogVisible = false" type="primary" plain>知道了</el-button>
-        <!--<el-button type="primary" @click="pageControl.dialogVisible = false">确 定</el-button>-->
       </div>
     </el-dialog>
     <el-dialog title="新增临时任务" :visible.sync="$store.state.taskDaily.isTaskDailyVisible">
@@ -140,13 +139,6 @@ export default {
     this.queryTaskDailyList()
   },
   methods: {
-    testM (data) {
-      console.info(data)
-      // debugger
-      console.info(data.type)
-      console.info(data.isSelected)
-      console.info(data.day)
-    },
     changeComment (taskDailyId) {
       modifyTaskDailyCommentAPI({
         comment: this.pageControl.selectedComment,
@@ -221,7 +213,6 @@ export default {
       }
     },
     completeTaskDaily (taskDailyId) {
-      console.info(this.$store.state.point.pointId)
       modifyTaskDailyStatusAPI({
         taskDailyId: taskDailyId,
         pointId: this.$store.state.point.pointId,
@@ -239,7 +230,6 @@ export default {
       }).then(response => {
         if (response.data.success === true) {
           this.pageData = response.data.data
-          console.info('查询任务成功' + this.pageData)
         }
       })
     },
@@ -249,7 +239,6 @@ export default {
       for (let i = 0; i < myTask.length; i++) {
         startTimes = startTimes + ' ' + myTask[i].startTime
       }
-      console.info('所有日期' + startTimes)
       return startTimes
     },
     callDialog (selectedDay) {
@@ -258,9 +247,7 @@ export default {
     },
     newTaskDaily (selectedDay) {
       this.pageControl.selectedDay = selectedDay
-      // this.pageControl.newDialogVisible = true
       this.$store.commit('setTaskDailyVisible', true)
-      console.info('test vuex ' + this.$store.state.taskDaily.isTaskDailyVisible)
     }
   }
 }

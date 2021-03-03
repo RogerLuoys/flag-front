@@ -28,16 +28,6 @@
 import {queryFlagTemplateListAPI} from '@/api/template'
 
 export default {
-  // props: {
-  //   templateList: {
-  //     type: Array,
-  //     default: () => []
-  //   },
-  //   type: {
-  //     type: Number,
-  //     default: 1
-  //   }
-  // },
   data () {
     return {
       pageData: [{
@@ -56,7 +46,6 @@ export default {
     }
   },
   created: function () {
-    console.info('test template')
     this.queryFlagTemplateList()
   },
   methods: {
@@ -66,10 +55,6 @@ export default {
       }).then(response => {
         this.pageData = response.data.data
       })
-    },
-    lookTemplate (row) {
-      console.info(row)
-      console.info('test look')
     },
     useTemplate (row) {
       console.info(row)
