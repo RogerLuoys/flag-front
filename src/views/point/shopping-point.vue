@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>待实现</div>
+    <div>待定</div>
     <div>
       <el-link type="success">天猫商城</el-link>
       <el-input-number size="mini"></el-input-number>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "shopping-point"
+  name: 'shopping-point'
 }
 </script>
 

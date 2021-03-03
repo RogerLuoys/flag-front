@@ -1,10 +1,10 @@
 <template>
-  <div>待实现</div>
+  <div>待定</div>
 </template>
 
 <script>
 export default {
-  name: "travel-point"
+  name: 'travel-point'
 }
 </script>
 

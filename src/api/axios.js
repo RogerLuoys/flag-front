@@ -2,7 +2,6 @@ import axios from 'axios'
 import VueCookies from 'vue-cookies'
 import {Message} from 'element-ui'
 
-
 const api = axios.create({
   // 我的电脑
   // baseURL: 'http://192.168.10.106:9001/',

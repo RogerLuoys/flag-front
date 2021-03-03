@@ -10,10 +10,6 @@ export function queryFlagListAPI (data) {
   return api({
     url: 'api/flag/queryFlagList',
     method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-      // 'Cookie': 'userId=101'
-    },
     data: data
   })
 }
