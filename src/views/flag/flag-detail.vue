@@ -351,13 +351,14 @@ export default {
           this.pageData.witnessName = response.data.data.userName
         } else {
           this.$message.error('该用户不存在，请输入正确的用户编号')
+          return
         }
       })
       this.pageControl.isWitnessInputVisible = false
-      if (this.pageData.witnessName === null) {
-        this.$message.error('用户未完善昵称')
-        return
-      }
+      // if (this.pageData.witnessName === null) {
+      //   this.$message.error('用户未完善昵称')
+      //   return
+      // }
       modifyFlagWitnessAPI({
         witnessId: this.pageData.witnessId,
         witnessName: this.pageData.witnessName,
@@ -365,6 +366,8 @@ export default {
       }).then(response => {
         if (response.data.success === true) {
           this.$message.success('更新见证人成功')
+        } else {
+          this.$message.error('更新见证人失败')
         }
       })
     },
