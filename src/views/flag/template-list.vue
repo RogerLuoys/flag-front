@@ -13,7 +13,7 @@
       <el-table-column fixed="right" label="操作" width="90">
         <template #default="scope">
           <el-button @click="$router.push(`templateDetail/${scope.row.flagTemplateId}`)"  type="text" size="small" >查看</el-button>
-          <el-popconfirm title="将使用该模板创建Flag，确定吗？" @confirm="useTemplate">
+          <el-popconfirm title="将使用该模板，确定吗？" @confirm="useTemplate(scope.row.flagTemplateId)">
             <template #reference>
               <el-button type="text" size="small">使用</el-button>
             </template>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {queryFlagTemplateListAPI} from '@/api/template'
+import {queryFlagTemplateListAPI, useFlagTemplateAPI, queryFlagTemplateDetailAPI} from '@/api/template'
 
 export default {
   data () {
@@ -56,17 +56,31 @@ export default {
         this.pageData = response.data.data
       })
     },
-    useTemplate (row) {
-      console.info(row)
-      console.info('test use')
+    useTemplate (templateId) {
+      queryFlagTemplateDetailAPI(
+        templateId
+      ).then(response => {
+        if (response.data.success === true) {
+          let templateDetail = response.data.data
+          useFlagTemplateAPI(templateDetail).then(response => {
+            if (response.data.success === true) {
+              this.$message.success('模板使用成功，请到对应列表查看')
+            } else {
+              this.$message.error('模板使用失败')
+            }
+          })
+        } else {
+          this.$message.error('模板使用失败')
+        }
+      })
     },
     getType (row) {
       let flagType = ''
-      switch (row.type) {
-        case '1':
+      switch (row.flagType) {
+        case 1:
           flagType = 'FLAG'
           break
-        case '2':
+        case 2:
           flagType = '习惯'
           break
       }

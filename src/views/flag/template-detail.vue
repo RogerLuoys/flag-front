@@ -20,7 +20,7 @@
             <el-input v-model="pageData.flagName" size="small" maxlength="30" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="类型">
-            <el-radio-group v-model="pageData.type"  size="small" :disabled="true">
+            <el-radio-group v-model="pageData.flagType"  size="small" :disabled="true">
               <el-radio :label="1">FLAG</el-radio>
               <el-radio :label="2">习惯</el-radio>
             </el-radio-group>

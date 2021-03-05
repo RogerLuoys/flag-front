@@ -61,7 +61,7 @@ export default {
         flagId: '',
         taskName: '',
         description: '',
-        point: 0,
+        point: 1,
         type: 2,
         status: 1,
         cycleList: []
@@ -132,7 +132,7 @@ export default {
     restoreData () {
       this.pageData.taskName = ''
       this.pageData.description = ''
-      this.pageData.point = 0
+      this.pageData.point = 1
       this.pageData.type = 2
       this.pageData.cycle = '1'
     },
