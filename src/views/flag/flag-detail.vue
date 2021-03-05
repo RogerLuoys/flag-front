@@ -116,8 +116,7 @@
               ref="saveTagInput"
               size="small"
               placeholder="请输入用户编号"
-              @keyup.enter.native="changeWitness"
-              @blur="changeWitness">
+              @change="changeWitness">
             </el-input>
             <el-button v-else size="small" @click="pageControl.isWitnessInputVisible = true">+ 添加见证人</el-button>
           </el-form-item>
@@ -349,27 +348,25 @@ export default {
       }).then(response => {
         if (response.data.success === true) {
           this.pageData.witnessName = response.data.data.userName
+          // 不嵌里面见证人取不到，不是按上下顺序执行代码的？
+          modifyFlagWitnessAPI({
+            witnessId: this.pageData.witnessId,
+            witnessName: this.pageData.witnessName,
+            flagId: this.pageData.flagId
+          }).then(response => {
+            if (response.data.success === true) {
+              this.$message.success('更新见证人成功')
+            } else {
+              this.$message.error('更新见证人失败')
+            }
+          })
         } else {
           this.$message.error('该用户不存在，请输入正确的用户编号')
           return
         }
       })
       this.pageControl.isWitnessInputVisible = false
-      // if (this.pageData.witnessName === null) {
-      //   this.$message.error('用户未完善昵称')
-      //   return
-      // }
-      modifyFlagWitnessAPI({
-        witnessId: this.pageData.witnessId,
-        witnessName: this.pageData.witnessName,
-        flagId: this.pageData.flagId
-      }).then(response => {
-        if (response.data.success === true) {
-          this.$message.success('更新见证人成功')
-        } else {
-          this.$message.error('更新见证人失败')
-        }
-      })
+
     },
     getTaskCycle (row) {
       switch (row.type) {
