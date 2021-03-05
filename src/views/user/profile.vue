@@ -21,7 +21,7 @@
           <el-input v-model="pageData.phone" size="small" maxlength="11"></el-input>
         </el-form-item>
         <div style="text-align: center">
-          <el-button type="primary">更新</el-button>
+          <el-button type="primary" disabled>更新</el-button>
         </div>
       </el-form>
     </el-aside>
