@@ -2,7 +2,7 @@
   <div>
     <el-page-header @back="$router.push('/flag')" title="返回列表">
       <template #content>
-        <span>{{pageData.flagName}}详情</span>
+        <span>{{pageData.flagName}}</span>
         <el-tag size="small" :type="getTagType(pageData.status)">{{ getStatus(pageData.status) }}</el-tag>
       </template>
     </el-page-header>
@@ -64,7 +64,7 @@
             <el-input v-model="pageData.flagId" size="small" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="名称">
-            <el-input v-model="pageData.flagName" @change="modifyFlagBasic" size="small" maxlength="30"
+            <el-input v-model="pageData.flagName" @change="modifyFlagBasic" placeholder="输入名称" size="small" maxlength="30"
                       show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="类型">
@@ -74,32 +74,32 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="开始时间">
-            <el-date-picker type="date" placeholder="选择日期" v-model="pageData.startDate"
+            <el-date-picker type="date" placeholder="选择开始日期" v-model="pageData.startDate"
                             @change="modifyFlagBasic" value-format="yyyy-MM-dd" size="small"
                             style="width: 200px"></el-date-picker>
           </el-form-item>
           <el-form-item label="结束时间">
-            <el-date-picker type="date" placeholder="选择日期" v-model="pageData.endDate"
+            <el-date-picker type="date" placeholder="选择结束日期" v-model="pageData.endDate"
                             @change="modifyFlagBasic" value-format="yyyy-MM-dd" size="small"
                             style="width: 200px"></el-date-picker>
           </el-form-item>
           <el-form-item label="优先级">
-            <el-select v-model="pageData.priority" @change="modifyFlagBasic" placeholder="请选择" size="small"
+            <el-select v-model="pageData.priority" @change="modifyFlagBasic" placeholder="选择优先级" size="small"
                        style="width: 200px">
               <el-option v-for="item in pageControl.options" :key="item.value" :label="item.label"
                          :value="item.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="描述">
-            <el-input v-model="pageData.description" @change="modifyFlagBasic" type="textarea" maxlength="200"
+            <el-input v-model="pageData.description" @change="modifyFlagBasic" placeholder="输入描述" type="textarea" maxlength="200"
                       show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="期望目标">
-            <el-input v-model="pageData.expected" @change="modifyFlagBasic" type="textarea" maxlength="200"
+            <el-input v-model="pageData.expected" @change="modifyFlagBasic" placeholder="设定清晰的目标" type="textarea" maxlength="200"
                       show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="实际成果">
-            <el-input v-model="pageData.actual" @change="modifyFlagBasic" type="textarea" maxlength="200"
+            <el-input v-model="pageData.actual" @change="modifyFlagBasic" placeholder="记录实际成果" type="textarea" maxlength="200"
                       show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="见证人">
