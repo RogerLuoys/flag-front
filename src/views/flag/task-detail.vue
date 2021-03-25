@@ -5,7 +5,7 @@
         <el-input v-model="pageData.taskName" placeholder="请输入任务名" size="small" maxlength="30" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="积分">
-        <el-input-number v-model="pageData.point" controls-position="right" size="small" :min="0" :max="100"></el-input-number>
+        <el-input-number v-model="pageData.point" controls-position="right" size="small" :min="1" :max="10000"></el-input-number>
       </el-form-item>
       <el-form-item label="类型">
         <el-radio-group v-model="pageData.type"  size="small">

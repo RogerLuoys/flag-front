@@ -2,16 +2,16 @@
   <div>
     <el-form :model="pageData" label-width="2cm">
       <el-form-item label="任务名">
-        <el-input v-model="pageData.taskDailyName" size="small" maxlength="30" show-word-limit></el-input>
+        <el-input v-model="pageData.taskDailyName" placeholder="请输入任务名" size="small" maxlength="30" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="积分">
-        <el-input-number v-model="pageData.point" controls-position="right" size="small" :min="0" :max="100"></el-input-number>
+        <el-input-number v-model="pageData.point" placeholder="请输入积分" controls-position="right" size="small" :min="1" :max="10000"></el-input-number>
       </el-form-item>
       <el-form-item label="描述">
-        <el-input v-model="pageData.description" type="textarea" maxlength="200" show-word-limit></el-input>
+        <el-input v-model="pageData.description" placeholder="请输入描述" type="textarea" maxlength="200" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="关联Flag">
-        <el-input v-model="pageData.flagId" size="small"></el-input>
+        <el-input v-model="pageData.flagId" placeholder="请输入要关联的flagId" size="small"></el-input>
       </el-form-item>
     </el-form>
     <div style="text-align: center">
@@ -36,7 +36,7 @@ export default {
         flagId: '',
         taskDailyName: '',
         description: '',
-        point: 0,
+        point: 1,
         startTime: Date,
         endTime: null
       },
@@ -45,8 +45,8 @@ export default {
       }
     }
   },
-  created: function () {
-    console.info('新增任务' + this.selectedDay)
+  mounted: function () {
+    this.restoreData()
   },
   methods: {
     onSubmit () {
@@ -71,7 +71,7 @@ export default {
       this.pageData.flagId = ''
       this.pageData.taskDailyName = ''
       this.pageData.description = ''
-      this.pageData.point = 0
+      this.pageData.point = 1
       this.pageData.startTime = ''
       this.pageData.endTime = ''
     }
