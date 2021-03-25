@@ -94,6 +94,7 @@ export default {
         }).then(response => {
           if (response.data.success === true) {
             this.$message.success('新增任务成功')
+            this.$store.commit('setTaskVisible', false)
           } else {
             this.$message.error('新增任务失败')
           }
@@ -109,6 +110,7 @@ export default {
         }).then(response => {
           if (response.data.success === true) {
             this.$message.success('编辑任务成功')
+            this.$store.commit('setTaskVisible', false)
           } else {
             this.$message.error('编辑任务失败')
           }
@@ -118,7 +120,6 @@ export default {
       if (this.pageControl.isCreateDailyTask) {
         this.createDailyTask()
       }
-      this.$store.commit('setTaskVisible', false)
     },
     queryTask () {
       queryTaskAPI({
