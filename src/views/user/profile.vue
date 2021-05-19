@@ -41,6 +41,9 @@
       <div>4、任何问题可直接联系作者</div>
       <div>&emsp;&emsp;微信 13515743614（罗）</div>
       <div>&emsp;&emsp;邮箱 playerroger@163.com（不常用）</div>
+      <div>
+        <el-link href="http://118.24.117.181/images/flagCase.png" target="_blank" type="primary">5、查看测试用例</el-link>
+      </div>
     </el-main>
   </el-container>
 </template>
