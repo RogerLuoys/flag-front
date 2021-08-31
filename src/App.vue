@@ -78,7 +78,6 @@ export default {
         }
       })
     } else {
-      this.$message.error('登录过期，请重新登录')
       this.$store.commit('setIsLogin', false)
       this.$router.push('/')
     }

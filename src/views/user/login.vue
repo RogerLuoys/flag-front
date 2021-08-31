@@ -52,8 +52,8 @@ export default {
       pageData: {
         userId: '',
         userName: '',
-        loginName: '',
-        password: ''
+        loginName: 'guest',
+        password: '123456'
       },
       pageControl: {
         remember: true,
